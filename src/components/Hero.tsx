@@ -147,6 +147,7 @@ const Hero: React.FC = () => {
           />
         ))}
       </div>
+      <br />
 
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
@@ -168,7 +169,7 @@ const Hero: React.FC = () => {
               </span>
               <br />
               <span className="text-transparent bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text">
-                Luis A. Guisado
+                Luis Guisado
               </span>
             </motion.h1>
 

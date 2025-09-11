@@ -23,10 +23,10 @@ const translations = {
     "nav.contact": "Contacto",
 
     // Hero
-    "hero.greeting": "👋🏾 Hola, soy",
+    "hero.greeting": "Hola, soy",
     "hero.role": "Desarrollador Full-Stack",
     "hero.description":
-      'Fundador y CEO del ecommerce más grande de Granma "GolfitoShop", ✨ Graduado en la especialidad de Informática 🖥️. Apasionado al desarrollo de Software 📱⚙️ y a la Solución de problemas. 😊⭐🤖 📧',
+      'Fundador y SEO del Ecommerce más grande de Granma "GolfitoShop", ✨ Graduado en la especialidad de Informática 🖥️. Apasionado al desarrollo de Software 📱⚙️ y a la Solución de problemas. 😊⭐🤖 📧',
     "hero.downloadCV": "Descargar CV",
 
     // Stats
