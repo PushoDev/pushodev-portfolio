@@ -7,6 +7,7 @@ import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useState } from "react";
+import aboutImage from "@/imgs/about.png";
 
 const About: React.FC = () => {
   const { t } = useLanguage();
@@ -83,12 +84,17 @@ const About: React.FC = () => {
             <div className="relative mb-8">
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                className="mx-auto overflow-hidden shadow-2xl w-80 h-80 rounded-2xl shadow-cyan-400/20"
+                className="mx-auto overflow-hidden shadow-2xl w-80 h-96 rounded-2xl shadow-cyan-400/20"
               >
                 <img
-                  src="https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/b498d0eb-02d4-4d35-ac1f-9e2d904966f9.jpg"
+                  src={aboutImage}
                   alt="Luis Alberto - About"
-                  className="object-cover w-full h-full"
+                  className="object-cover object-center w-full h-full"
+                  onError={(e) => {
+                    console.error("Error cargando imagen:", e);
+                    console.log("Ruta intentada:", aboutImage);
+                  }}
+                  onLoad={() => console.log("Imagen cargada correctamente")}
                 />
               </motion.div>
 
@@ -133,7 +139,7 @@ const About: React.FC = () => {
             >
               <div className="p-4 text-center border backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl border-white/20">
                 <div className="text-2xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text">
-                  5+
+                  10+
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">
                   Años de Experiencia
@@ -183,8 +189,15 @@ const About: React.FC = () => {
               </p>
 
               <p>
-                Como graduado en Informática, combino conocimientos académicos
-                sólidos con experiencia práctica real. Me especializo en crear
+                Como graduado en Informática en el antiguo{" "}
+                <span className="font-semibold text-purple-400">
+                  {" "}
+                  'IPI Ruben Bravo'
+                </span>
+                , en el 2008 donde he adquirido una sólida base teórica sobre la
+                ingeniería de software. Sin embargo, combino conocimientos
+                académicos y autodidactas para ofrecer soluciones sólidas con
+                experiencia en práctica real. Me especializo en crear
                 aplicaciones web modernas, APIs robustas y soluciones que no
                 solo funcionan, sino que brindan experiencias excepcionales a
                 los usuarios.
@@ -290,6 +303,8 @@ const About: React.FC = () => {
                         : "bg-gray-400/50 hover:bg-gray-400"
                     }`}
                     data-cursor-hover
+                    aria-label={`Go to testimonial ${index + 1}`}
+                    title={`Testimonial ${index + 1}`}
                   />
                 ))}
               </div>
