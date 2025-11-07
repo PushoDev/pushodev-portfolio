@@ -26,7 +26,7 @@ const translations = {
     "hero.greeting": "Hola, soy",
     "hero.role": "Desarrollador Full-Stack",
     "hero.description":
-      'Fundador y SEO del Ecommerce más grande de Granma "GolfitoShop", ✨ Graduado en la especialidad de Informática 🖥️. Apasionado al desarrollo de Software 📱⚙️ y a la Solución de problemas. 😊⭐🤖 📧',
+      'Fundador y CEO del Ecommerce más grande de Granma "GolfitoShop", ✨ Graduado en la especialidad de Informática 🖥️. Apasionado al desarrollo de Software 📱⚙️ y a la Solución de problemas. 😊⭐🤖 📧',
     "hero.downloadCV": "Descargar CV",
 
     // Stats
@@ -77,7 +77,7 @@ const translations = {
     "hero.greeting": "Hello, I am",
     "hero.role": "Full-Stack Developer",
     "hero.description":
-      'Founder of the largest ecommerce in Granma "GolfitoShop", ✨ Computer Science Graduate 🖥️. Passionate about Software Development 📱⚙️ and Problem Solving. 😊⭐🤖 📧',
+      'Founder and CEO of the largest Ecommerce in Granma "GolfitoShop", ✨ Graduated in the Computer Science specialty 🖥️. Passionate about Software Development 📱⚙️ and Problem Solving. 😊⭐🤖 📧',
     "hero.downloadCV": "Download CV",
 
     // Stats

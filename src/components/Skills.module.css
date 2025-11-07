@@ -1,0 +1,15 @@
+.skillCard {
+  --skill-color: v-bind("skill.color");
+}
+
+.skillCard[data-skill-color] {
+  --skill-color: attr(data-skill-color);
+}
+
+.gradientOverlay {
+  background-color: var(--skill-color);
+}
+
+.glowEffect {
+  background-color: var(--skill-color);
+}
