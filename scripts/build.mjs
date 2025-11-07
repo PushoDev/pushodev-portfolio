@@ -3,6 +3,8 @@ import { rimraf } from 'rimraf'
 import stylePlugin from 'esbuild-style-plugin'
 import autoprefixer from 'autoprefixer'
 import tailwindcss from 'tailwindcss'
+import { copyFileSync, mkdirSync } from 'fs'
+import { join } from 'path'
 
 const args = process.argv.slice(2)
 const isProd = args[0] === '--production'
@@ -27,6 +29,7 @@ const esbuildOpts = {
   loader: {
     '.html': 'copy',
     '.png': 'file',
+    '.svg': 'file',
   },
   plugins: [
     stylePlugin({
@@ -37,10 +40,18 @@ const esbuildOpts = {
   ],
 }
 
+const copyStaticFiles = () => {
+  mkdirSync('dist', { recursive: true })
+  copyFileSync('cuba.svg', join('dist', 'cuba.svg'))
+  copyFileSync('usa.svg', join('dist', 'usa.svg'))
+}
+
 if (isProd) {
   await esbuild.build(esbuildOpts)
+  copyStaticFiles()
 } else {
   const ctx = await esbuild.context(esbuildOpts)
+  copyStaticFiles()
   await ctx.watch()
   const { hosts, port } = await ctx.serve()
   console.log(`Running on:`)

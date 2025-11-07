@@ -3,7 +3,7 @@
  */
 import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { Moon, Sun, Globe, Menu, X } from "lucide-react";
+import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { useLanguage } from "../contexts/LanguageContext";
 import { Button } from "./ui/button";
@@ -94,11 +94,17 @@ const Navbar: React.FC = () => {
                 variant="outline"
                 size="sm"
                 onClick={toggleLanguage}
-                className="bg-transparent border-white/20 hover:bg-white/10 backdrop-blur-sm"
+                className="bg-transparent border-white/20 hover:bg-white/10 backdrop-blur-sm flex items-center space-x-1"
                 data-cursor-hover
               >
-                <Globe className="w-4 h-4 mr-1" />
-                {language.toUpperCase()}
+                <img
+                  src={language === "es" ? "/cuba.svg" : "/usa.svg"}
+                  alt={language === "es" ? "Cuba" : "USA"}
+                  className="w-5 h-4"
+                />
+                <span className="text-xs font-semibold">
+                  {language.toUpperCase()}
+                </span>
               </Button>
 
               {/* Mobile menu button */}

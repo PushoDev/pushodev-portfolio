@@ -8,9 +8,12 @@ import { Button } from "./ui/button";
 import TypewriterEffect from "./TypewriterEffect";
 import CountUp from "./CountUp";
 import { useLanguage } from "../contexts/LanguageContext";
+import heroImage from "@/imgs/hero.png";
+import * as simpleIcons from "simple-icons";
 
 const Hero: React.FC = () => {
   const { t, language } = useLanguage();
+  console.log("Hero image path:", heroImage);
 
   const roles =
     language === "es"
@@ -30,12 +33,12 @@ const Hero: React.FC = () => {
   ];
 
   const technologies = [
-    { name: "React", color: "text-blue-400" },
-    { name: "Laravel", color: "text-red-500" },
-    { name: "Vue", color: "text-green-400" },
-    { name: "Python", color: "text-yellow-400" },
-    { name: "Node.js", color: "text-green-500" },
-    { name: "TypeScript", color: "text-blue-600" },
+    { name: "React", iconKey: "siReact", color: "#61DAFB" },
+    { name: "Laravel", iconKey: "siLaravel", color: "#FF2D20" },
+    { name: "Flutter", iconKey: "siFlutter", color: "#02569B" },
+    { name: "Python", iconKey: "siPython", color: "#3776AB" },
+    { name: "Docker", iconKey: "siDocker", color: "#2496ED" },
+    { name: "TypeScript", iconKey: "siTypescript", color: "#3178C6" },
   ];
 
   const socialLinks = [
@@ -215,13 +218,19 @@ const Hero: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1 }}
             >
-              <Button
-                size="lg"
-                className="px-8 py-3 font-semibold text-white transition-all duration-300 rounded-full shadow-lg bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 hover:shadow-xl"
-                data-cursor-hover
+              <a
+                href="/CV_Luis_Guisado.pdf"
+                download="CV_Luis_Guisado.pdf"
+                className="inline-block"
               >
-                {t("hero.downloadCV")}
-              </Button>
+                <Button
+                  size="lg"
+                  className="px-8 py-3 font-semibold text-white transition-all duration-300 rounded-full shadow-lg bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 hover:shadow-xl"
+                  data-cursor-hover
+                >
+                  {t("hero.downloadCV")}
+                </Button>
+              </a>
             </motion.div>
           </motion.div>
 
@@ -230,49 +239,61 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative flex justify-center"
+            className="relative flex items-center justify-center h-full"
           >
-            {/* Profile Image */}
-            <div className="relative">
+            {/* Profile Image Container */}
+            <div className="relative w-80 h-80">
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                className="overflow-hidden border-4 rounded-full shadow-2xl w-80 h-80 border-gradient-to-r from-cyan-400 to-purple-500 shadow-cyan-400/20"
+                className="absolute inset-0 overflow-hidden border-4 rounded-full shadow-2xl border-gradient-to-r from-cyan-400 to-purple-500 shadow-cyan-400/20"
               >
                 <img
-                  src="https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/df140b5a-6101-409e-b0ef-0ce43ad9d4f7.jpg"
+                  src={heroImage}
                   alt="Luis Alberto - Pusho.dev"
                   className="object-cover w-full h-full"
                 />
               </motion.div>
 
-              {/* Tech logos around image */}
-              {technologies.map((tech, index) => (
-                <motion.div
-                  key={tech.name}
-                  className={`absolute w-12 h-12 bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm rounded-full border border-white/20 flex items-center justify-center ${tech.color} font-bold text-sm shadow-lg`}
-                  style={{
-                    top: "50%",
-                    left: "50%",
-                    transform: `rotate(${
-                      index * 60
-                    }deg) translateY(-50px) translateX(-50%) rotate(-${
-                      index * 60
-                    }deg)`,
-                    transformOrigin: "50% 50px",
-                  }}
-                  animate={{
-                    y: [0, -5, 0],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    delay: index * 0.3,
-                  }}
-                  whileHover={{ scale: 1.2 }}
-                >
-                  {tech.name.slice(0, 2)}
-                </motion.div>
-              ))}
+              {/* Tech logos orbiting around image */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                {technologies.map((tech, index) => {
+                  const angle = (index * 360) / technologies.length;
+                  const radius = 180;
+                  const x = Math.cos((angle * Math.PI) / 180) * radius;
+                  const y = Math.sin((angle * Math.PI) / 180) * radius;
+
+                  const iconData = simpleIcons[
+                    tech.iconKey as keyof typeof simpleIcons
+                  ] as any;
+
+                  return (
+                    <motion.div
+                      key={tech.name}
+                      className="absolute flex items-center justify-center w-16 h-16 transition-colors border rounded-full shadow-lg bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm border-white/20 hover:bg-white/20 dark:hover:bg-gray-700/70"
+                      style={{
+                        x,
+                        y,
+                      }}
+                      whileHover={{ scale: 1.3 }}
+                    >
+                      {iconData && iconData.path && (
+                        <svg
+                          className="w-8 h-8"
+                          role="img"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d={iconData.path} fill={tech.color} />
+                        </svg>
+                      )}
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
             </div>
           </motion.div>
         </div>

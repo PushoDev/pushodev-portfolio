@@ -74,7 +74,7 @@ const translations = {
     "nav.contact": "Contact",
 
     // Hero
-    "hero.greeting": "👋🏾 Hello, I am",
+    "hero.greeting": "Hello, I am",
     "hero.role": "Full-Stack Developer",
     "hero.description":
       'Founder of the largest ecommerce in Granma "GolfitoShop", ✨ Computer Science Graduate 🖥️. Passionate about Software Development 📱⚙️ and Problem Solving. 😊⭐🤖 📧',
