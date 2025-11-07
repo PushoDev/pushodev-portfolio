@@ -1,102 +1,105 @@
 /**
  * Contact section with hacker-style code animation and contact form
  */
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, useInView } from 'motion/react';
-import { Mail, Phone, MapPin, Send, Code } from 'lucide-react';
-import { Button } from './ui/button';
-import { useLanguage } from '../contexts/LanguageContext';
+import React, { useState, useEffect, useRef } from "react";
+import { motion, useInView } from "motion/react";
+import { Mail, Phone, MapPin, Send, Code } from "lucide-react";
+import { Button } from "./ui/button";
+import { useLanguage } from "../contexts/LanguageContext";
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
-  const [hackerText, setHackerText] = useState('');
+  const [hackerText, setHackerText] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const codeSnippets = [
-    "const developer = new FullStackDev();",
-    "developer.skills = ['React', 'Laravel', 'Python'];",
-    "if (project.isComplex()) {",
-    "  developer.solve(problem);",
-    "  return 'Perfect Solution ✨';",
+    "class Full.Stack.Developer {",
+    "  constructor(name) {",
+    "    this.name = luis.guisado.puchotech;",
+    "    this.expertise = ['React', 'Laravel', 'Python', 'Flutter'];",
+    "    this.yearsOfExperience = 5;",
+    "  }",
+    "",
+    "  solveProblems() {",
+    "    return 'Clean code + Fast delivery + Innovation';",
+    "  }",
+    "",
+    "  readyToCollaborate() {",
+    "    return true;",
+    "  }",
     "}",
     "",
-    "// Always ready for new challenges",
-    "developer.status = 'Available for hire';",
-    "developer.passion = 'Creating amazing apps';",
-    "",
-    "export default developer;"
+    "const developer = new FullStackDeveloper();",
+    "// Let's build something amazing together 🚀",
   ];
+
+  const stateRef = useRef({ currentLine: 0, currentChar: 0 });
 
   useEffect(() => {
     if (!isInView) return;
 
-    let currentLine = 0;
-    let currentChar = 0;
-    let isDeleting = false;
-
     const typeCode = () => {
-      const currentLineText = codeSnippets[currentLine];
-      
-      if (!isDeleting) {
-        if (currentChar < currentLineText.length) {
-          setHackerText(prev => prev + currentLineText[currentChar]);
-          currentChar++;
-        } else {
-          setTimeout(() => {
-            if (currentLine < codeSnippets.length - 1) {
-              setHackerText(prev => prev + '\n');
-              currentLine++;
-              currentChar = 0;
-            }
-          }, 500);
-        }
+      const state = stateRef.current;
+      const currentLineText = codeSnippets[state.currentLine];
+
+      if (state.currentChar < currentLineText.length) {
+        setHackerText((prev) => prev + currentLineText[state.currentChar]);
+        state.currentChar++;
+      } else if (state.currentLine < codeSnippets.length - 1) {
+        setHackerText((prev) => prev + "\n");
+        state.currentLine++;
+        state.currentChar = 0;
       }
     };
 
-    const interval = setInterval(typeCode, 100);
+    const interval = setInterval(typeCode, 50);
     return () => clearInterval(interval);
   }, [isInView]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí se implementaría la lógica de envío del formulario
-    console.log('Form submitted:', formData);
+    const message = `Hola, mi nombre es ${formData.name}.\n\nEmail: ${formData.email}\n\nMensaje: ${formData.message}`;
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/5355572430?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank");
   };
 
   return (
-    <section id="contact" className="py-20 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="relative py-20">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="mb-16 text-center"
         >
-          <h2 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-8">
-            {t('contact.title')}
+          <h2 className="mb-8 text-4xl font-bold text-transparent lg:text-5xl bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text">
+            {t("contact.title")}
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            ¿Tienes un proyecto en mente? ¡Hablemos y creemos algo increíble juntos!
+          <p className="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">
+            ¿Tienes un proyecto en mente? ¡Envíame un mensaje a WhatsApp y
+            creemos algo increíble juntos!
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          
+        <div className="grid items-start grid-cols-1 gap-12 lg:grid-cols-2">
           {/* Left Side - Hacker Code Effect */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -105,8 +108,7 @@ const Contact: React.FC = () => {
             className="relative"
           >
             {/* Code Terminal */}
-            <div className="backdrop-blur-2xl bg-gray-900/90 dark:bg-gray-950/90 rounded-2xl border border-cyan-400/30 shadow-2xl shadow-cyan-400/10 overflow-hidden">
-              
+            <div className="overflow-hidden border shadow-2xl backdrop-blur-2xl bg-gray-900/90 dark:bg-gray-950/90 rounded-2xl border-cyan-400/30 shadow-cyan-400/10">
               {/* Terminal Header */}
               <div className="flex items-center justify-between p-4 border-b border-cyan-400/20 bg-gray-800/50">
                 <div className="flex space-x-2">
@@ -114,7 +116,7 @@ const Contact: React.FC = () => {
                   <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                 </div>
-                <div className="flex items-center space-x-2 text-cyan-400 text-sm">
+                <div className="flex items-center space-x-2 text-sm text-cyan-400">
                   <Code className="w-4 h-4" />
                   <span>pusho.dev - terminal</span>
                 </div>
@@ -122,13 +124,19 @@ const Contact: React.FC = () => {
 
               {/* Code Content */}
               <div className="p-6 font-mono text-sm leading-relaxed min-h-[400px]">
-                <div className="text-gray-400 mb-2">// 💻 Full-Stack Developer Portfolio</div>
-                <pre className="text-cyan-300 whitespace-pre-wrap">
+                <div className="mb-2 text-gray-400">
+                  // 💻 Full-Stack Developer Portfolio
+                </div>
+                <pre className="whitespace-pre-wrap text-cyan-300">
                   {hackerText}
                   <motion.span
                     animate={{ opacity: [1, 0] }}
-                    transition={{ duration: 0.8, repeat: Infinity, repeatType: 'reverse' }}
-                    className="text-cyan-400 font-bold"
+                    transition={{
+                      duration: 0.8,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                    }}
+                    className="font-bold text-cyan-400"
                   >
                     |
                   </motion.span>
@@ -144,35 +152,47 @@ const Contact: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="mt-8 grid grid-cols-1 gap-4"
+              className="grid grid-cols-1 gap-4 mt-8"
             >
-              <div className="backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl p-4 border border-white/20 flex items-center space-x-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full flex items-center justify-center">
+              <div className="flex items-center p-4 space-x-4 border backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl border-white/20">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500">
                   <Mail className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-800 dark:text-gray-200">Email</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300">luisalberto@pusho.dev</div>
+                  <div className="font-semibold text-gray-800 dark:text-gray-200">
+                    Email
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">
+                    pushodevs@gmail.com
+                  </div>
                 </div>
               </div>
 
-              <div className="backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl p-4 border border-white/20 flex items-center space-x-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+              <div className="flex items-center p-4 space-x-4 border backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl border-white/20">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500">
                   <Phone className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-800 dark:text-gray-200">WhatsApp</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300">+53 5572430</div>
+                  <div className="font-semibold text-gray-800 dark:text-gray-200">
+                    WhatsApp
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">
+                    +53 5572430
+                  </div>
                 </div>
               </div>
 
-              <div className="backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl p-4 border border-white/20 flex items-center space-x-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-orange-500 rounded-full flex items-center justify-center">
+              <div className="flex items-center p-4 space-x-4 border backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl border-white/20">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-orange-500">
                   <MapPin className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-800 dark:text-gray-200">Ubicación</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300">Granma, Cuba</div>
+                  <div className="font-semibold text-gray-800 dark:text-gray-200">
+                    Ubicación
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">
+                    Granma, Cuba
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -184,13 +204,12 @@ const Contact: React.FC = () => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="backdrop-blur-2xl bg-white/10 dark:bg-gray-900/30 rounded-2xl p-8 border border-white/20 shadow-2xl">
+            <div className="p-8 border shadow-2xl backdrop-blur-2xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20">
               <form onSubmit={handleSubmit} className="space-y-6">
-                
                 {/* Name Input */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    {t('contact.name')}
+                  <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {t("contact.name")}
                   </label>
                   <input
                     type="text"
@@ -198,15 +217,15 @@ const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-white/20 dark:bg-gray-800/50 border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent backdrop-blur-sm text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
+                    className="w-full px-4 py-3 text-gray-800 placeholder-gray-500 border bg-white/20 dark:bg-gray-800/50 border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent backdrop-blur-sm dark:text-gray-200 dark:placeholder-gray-400"
                     placeholder="Tu nombre completo"
                   />
                 </div>
 
                 {/* Email Input */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    {t('contact.email')}
+                  <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {t("contact.email")}
                   </label>
                   <input
                     type="email"
@@ -214,15 +233,15 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-white/20 dark:bg-gray-800/50 border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent backdrop-blur-sm text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
+                    className="w-full px-4 py-3 text-gray-800 placeholder-gray-500 border bg-white/20 dark:bg-gray-800/50 border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent backdrop-blur-sm dark:text-gray-200 dark:placeholder-gray-400"
                     placeholder="tu.email@ejemplo.com"
                   />
                 </div>
 
                 {/* Message Textarea */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    {t('contact.message')}
+                  <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    {t("contact.message")}
                   </label>
                   <textarea
                     name="message"
@@ -230,7 +249,7 @@ const Contact: React.FC = () => {
                     onChange={handleInputChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 bg-white/20 dark:bg-gray-800/50 border border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent backdrop-blur-sm text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 resize-none"
+                    className="w-full px-4 py-3 text-gray-800 placeholder-gray-500 border resize-none bg-white/20 dark:bg-gray-800/50 border-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent backdrop-blur-sm dark:text-gray-200 dark:placeholder-gray-400"
                     placeholder="Cuéntame sobre tu proyecto o idea..."
                   />
                 </div>
@@ -243,11 +262,11 @@ const Contact: React.FC = () => {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-gradient-to-r from-cyan-500 via-purple-600 to-pink-600 hover:from-cyan-600 hover:via-purple-700 hover:to-pink-700 text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2"
+                    className="flex items-center justify-center w-full py-4 space-x-2 font-semibold text-white transition-all duration-300 bg-green-600 shadow-lg hover:bg-green-700 rounded-xl hover:shadow-xl"
                     data-cursor-hover
                   >
                     <Send className="w-5 h-5" />
-                    <span>{t('contact.send')}</span>
+                    <span>Enviar por WhatsApp</span>
                   </Button>
                 </motion.div>
               </form>
@@ -255,9 +274,10 @@ const Contact: React.FC = () => {
               {/* Success Message Animation */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
-                className="mt-6 p-4 bg-green-500/20 border border-green-500/30 rounded-xl text-green-300 text-center hidden"
+                className="hidden p-4 mt-6 text-center text-green-300 border bg-green-500/20 border-green-500/30 rounded-xl"
               >
-                ✅ ¡Mensaje enviado correctamente! Te responderé pronto.
+                ✅ ¡Se abrirá WhatsApp para enviar tu mensaje! Te responderé lo
+                antes posible.
               </motion.div>
             </div>
           </motion.div>
