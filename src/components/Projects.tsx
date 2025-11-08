@@ -7,91 +7,115 @@ import { useRef } from "react";
 import { Github, ExternalLink, Filter } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "../contexts/LanguageContext";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "./ui/dialog";
+
+interface ProjectType {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  category: string;
+  github?: string;
+  demo?: string;
+  featured: boolean;
+  isPublic: boolean;
+}
 
 const Projects: React.FC = () => {
   const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState("all");
+  const [selectedProject, setSelectedProject] = useState<ProjectType | null>(
+    null
+  );
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const projects = [
+  const projects: ProjectType[] = [
     {
       id: 1,
       title: "GolfitoShop",
       description:
-        "El ecommerce más grande de Granma con sede en Mazanillo, con funcionalidades avanzadas de comercio electrónico.",
+        "El ecommerce más grande de Granma con sede en Mazanillo, con funcionalidades avanzadas de comercio electrónico. Integración con pasarelas de pago como QvaPay para transacciones seguras.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/4b2d9b98-0b1a-4cf8-8601-d60b094ac62d.jpg",
-      technologies: ["WordPress", "MySQL", "QvaPay", "Stripe"],
+      technologies: ["WordPress", "MySQL", "Whatsapp Business API"],
       category: "web",
       github: "https://github.com/PushoDev",
-      demo: "#",
+      demo: "https://golfitoshop.com",
       featured: true,
+      isPublic: false,
     },
     {
       id: 2,
       title: "Portfolio Website",
       description:
-        "Portfolio personal con efectos visuales avanzados y diseño moderno.",
+        "Portfolio personal con efectos visuales avanzados y diseño moderno. Incluye animaciones fluidas, soporte multiidioma (ES/EN), tema oscuro/claro, y cursor personalizado con efecto de aurora.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/3dee8b37-6d8d-4372-9c54-a729721947fe.jpg",
-      technologies: ["React", "TypeScript", "Tailwind", "Framer Motion"],
+      technologies: ["React", "TypeScript", "Tailwind", "Motion"],
       category: "web",
-      github: "https://github.com/PushoDev",
-      demo: "#",
+      github: "https://github.com/PushoDev/pushodev-portfolio",
+      demo: "https://pushodev.vercel.app",
       featured: true,
+      isPublic: true,
     },
     {
       id: 3,
       title: "Task Management App",
       description:
-        "Aplicación de gestión de tareas con colaboración en tiempo real.",
+        "Aplicación de gestión de tareas con colaboración en tiempo real. Permite a los usuarios crear, editar y asignar tareas, con notificaciones en tiempo real usando WebSockets.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/80c2882f-1399-4bdd-82fc-1e2fb8cbe6d6.jpg",
       technologies: ["React", "Node.js", "MongoDB", "Socket.io"],
       category: "web",
-      github: "https://github.com/PushoDev",
-      demo: "#",
+      github: "https://github.com/PushoDev/task-management",
       featured: false,
+      isPublic: true,
     },
     {
       id: 4,
       title: "Mobile Weather App",
       description:
-        "Aplicación móvil del clima con predicciones y alertas personalizadas.",
+        "Aplicación móvil del clima con predicciones y alertas personalizadas. Incluye geolocalización, mapas interactivos y notificaciones de cambios climáticos.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/6a2caf5a-41ed-4717-9fa4-7408a865454d.jpg",
       technologies: ["React Native", "TypeScript", "REST API"],
       category: "mobile",
-      github: "https://github.com/PushoDev",
-      demo: "#",
       featured: false,
+      isPublic: false,
     },
     {
       id: 5,
       title: "Desktop Inventory System",
       description:
-        "Sistema de inventario para pequeñas empresas con reportes avanzados.",
+        "Sistema de inventario para pequeñas empresas con reportes avanzados. Permite gestionar stock, generar reportes personalizados y exportar datos a Excel.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/03dd86ba-c717-41fd-895f-d40803dc39f5.jpg",
       technologies: ["Python", "Tkinter", "SQLite", "Pandas"],
       category: "desktop",
-      github: "https://github.com/PushoDev",
-      demo: "#",
       featured: false,
+      isPublic: false,
     },
     {
       id: 6,
       title: "API REST FastAPI",
       description:
-        "API robusta para microservicios con documentación automática.",
+        "API robusta para microservicios con documentación automática. Incluye autenticación JWT, validación de datos con Pydantic y deployado en Docker.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/60c30d1b-d865-4604-be63-690de7ae6ca1.jpg",
       technologies: ["FastAPI", "Python", "PostgreSQL", "Docker"],
       category: "web",
-      github: "https://github.com/PushoDev",
-      demo: "#",
+      github: "https://github.com/PushoDev/fastapi-microservices",
       featured: false,
+      isPublic: true,
     },
   ];
 
@@ -183,9 +207,10 @@ const Projects: React.FC = () => {
               exit={{ opacity: 0, y: -50 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ y: -10 }}
-              className={`group relative ${
+              className={`group relative cursor-pointer ${
                 project.featured ? "md:col-span-2 lg:col-span-1" : ""
               }`}
+              onClick={() => setSelectedProject(project)}
             >
               <div className="overflow-hidden transition-all duration-500 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20 hover:shadow-2xl hover:border-white/40">
                 {/* Project Image */}
@@ -293,6 +318,111 @@ const Projects: React.FC = () => {
           </Button>
         </motion.div>
       </div>
+
+      {/* Project Details Dialog */}
+      <Dialog
+        open={!!selectedProject}
+        onOpenChange={(open) => !open && setSelectedProject(null)}
+      >
+        <DialogContent className="max-w-2xl border-white/20 bg-gray-950/95 backdrop-blur-xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-white">
+              {selectedProject?.title}
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-6">
+            {/* Project Image */}
+            <div className="overflow-hidden rounded-lg">
+              <img
+                src={selectedProject?.image}
+                alt={selectedProject?.title}
+                className="object-cover w-full h-64"
+              />
+            </div>
+
+            {/* Description */}
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-gray-400">
+                DESCRIPCIÓN
+              </h3>
+              <p className="leading-relaxed text-gray-300">
+                {selectedProject?.description}
+              </p>
+            </div>
+
+            {/* Technologies */}
+            <div>
+              <h3 className="mb-3 text-sm font-semibold text-gray-400">
+                TECNOLOGÍAS
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {selectedProject?.technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 text-xs font-medium border rounded-full text-cyan-300 bg-cyan-500/10 border-cyan-500/30"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter className="flex gap-3 pt-6 border-t border-white/10">
+            {selectedProject?.isPublic && selectedProject?.github && (
+              <Button
+                className="flex-1 text-white bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700"
+                asChild
+                data-cursor-hover
+              >
+                <a
+                  href={selectedProject.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2"
+                >
+                  <Github className="w-4 h-4" />
+                  Ver en GitHub
+                </a>
+              </Button>
+            )}
+
+            {selectedProject?.demo && selectedProject.demo !== "#" && (
+              <Button
+                className="flex-1 text-white bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700"
+                asChild
+                data-cursor-hover
+              >
+                <a
+                  href={selectedProject.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  Visitar Demo
+                </a>
+              </Button>
+            )}
+
+            {!selectedProject?.isPublic && (
+              <div className="flex-1 px-4 py-2 text-sm text-center text-gray-400 border border-gray-700 rounded-lg bg-gray-800/50">
+                Proyecto Privado
+              </div>
+            )}
+
+            <Button
+              variant="outline"
+              className="text-gray-300 border-gray-600 hover:bg-gray-800"
+              onClick={() => setSelectedProject(null)}
+              data-cursor-hover
+            >
+              Cerrar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
