@@ -20,6 +20,7 @@ interface ProjectType {
   id: number;
   title: string;
   description: string;
+  descriptionEn: string;
   image: string;
   technologies: string[];
   category: string;
@@ -30,7 +31,7 @@ interface ProjectType {
 }
 
 const Projects: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [activeFilter, setActiveFilter] = useState("all");
   const [selectedProject, setSelectedProject] = useState<ProjectType | null>(
     null
@@ -38,12 +39,18 @@ const Projects: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  const getDescription = (project: ProjectType): string => {
+    return language === "en" ? project.descriptionEn : project.description;
+  };
+
   const projects: ProjectType[] = [
     {
       id: 1,
       title: "GolfitoShop",
       description:
         "El ecommerce más grande de Granma con sede en Mazanillo, con funcionalidades avanzadas de comercio electrónico. Integración con pasarelas de pago como QvaPay para transacciones seguras.",
+      descriptionEn:
+        "The largest ecommerce in Granma based in Mazanillo, with advanced e-commerce functionalities. Integration with payment gateways like QvaPay for secure transactions.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/4b2d9b98-0b1a-4cf8-8601-d60b094ac62d.jpg",
       technologies: ["WordPress", "MySQL", "Whatsapp Business API"],
@@ -58,6 +65,8 @@ const Projects: React.FC = () => {
       title: "Portfolio Website",
       description:
         "Portfolio personal con efectos visuales avanzados y diseño moderno. Incluye animaciones fluidas, soporte multiidioma (ES/EN), tema oscuro/claro, y cursor personalizado con efecto de aurora.",
+      descriptionEn:
+        "Personal portfolio with advanced visual effects and modern design. Includes smooth animations, multilingual support (ES/EN), dark/light theme, and custom cursor with aurora effect.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/3dee8b37-6d8d-4372-9c54-a729721947fe.jpg",
       technologies: ["React", "TypeScript", "Tailwind", "Motion"],
@@ -72,6 +81,8 @@ const Projects: React.FC = () => {
       title: "Task Management App",
       description:
         "Aplicación de gestión de tareas con colaboración en tiempo real. Permite a los usuarios crear, editar y asignar tareas, con notificaciones en tiempo real usando WebSockets.",
+      descriptionEn:
+        "Task management application with real-time collaboration. Allows users to create, edit and assign tasks with real-time notifications using WebSockets.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/80c2882f-1399-4bdd-82fc-1e2fb8cbe6d6.jpg",
       technologies: ["React", "Node.js", "MongoDB", "Socket.io"],
@@ -85,6 +96,8 @@ const Projects: React.FC = () => {
       title: "Mobile Weather App",
       description:
         "Aplicación móvil del clima con predicciones y alertas personalizadas. Incluye geolocalización, mapas interactivos y notificaciones de cambios climáticos.",
+      descriptionEn:
+        "Mobile weather application with personalized predictions and alerts. Includes geolocation, interactive maps and weather change notifications.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/6a2caf5a-41ed-4717-9fa4-7408a865454d.jpg",
       technologies: ["React Native", "TypeScript", "REST API"],
@@ -97,6 +110,8 @@ const Projects: React.FC = () => {
       title: "Desktop Inventory System",
       description:
         "Sistema de inventario para pequeñas empresas con reportes avanzados. Permite gestionar stock, generar reportes personalizados y exportar datos a Excel.",
+      descriptionEn:
+        "Inventory system for small businesses with advanced reporting. Allows stock management, custom reports generation and Excel data export.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/03dd86ba-c717-41fd-895f-d40803dc39f5.jpg",
       technologies: ["Python", "Tkinter", "SQLite", "Pandas"],
@@ -109,6 +124,8 @@ const Projects: React.FC = () => {
       title: "API REST FastAPI",
       description:
         "API robusta para microservicios con documentación automática. Incluye autenticación JWT, validación de datos con Pydantic y deployado en Docker.",
+      descriptionEn:
+        "Robust API for microservices with automatic documentation. Includes JWT authentication, data validation with Pydantic and deployed in Docker.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/60c30d1b-d865-4604-be63-690de7ae6ca1.jpg",
       technologies: ["FastAPI", "Python", "PostgreSQL", "Docker"],
@@ -277,7 +294,7 @@ const Projects: React.FC = () => {
                   </h3>
 
                   <p className="mb-4 text-gray-600 dark:text-gray-300 line-clamp-3">
-                    {project.description}
+                    {getDescription(project)}
                   </p>
 
                   {/* Technologies */}
@@ -344,17 +361,17 @@ const Projects: React.FC = () => {
             {/* Description */}
             <div>
               <h3 className="mb-2 text-sm font-semibold text-gray-400">
-                DESCRIPCIÓN
+                {t("projects.modal.description")}
               </h3>
               <p className="leading-relaxed text-gray-300">
-                {selectedProject?.description}
+                {selectedProject && getDescription(selectedProject)}
               </p>
             </div>
 
             {/* Technologies */}
             <div>
               <h3 className="mb-3 text-sm font-semibold text-gray-400">
-                TECNOLOGÍAS
+                {t("projects.modal.technologies")}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {selectedProject?.technologies.map((tech) => (
@@ -383,7 +400,7 @@ const Projects: React.FC = () => {
                   className="flex items-center justify-center gap-2"
                 >
                   <Github className="w-4 h-4" />
-                  Ver en GitHub
+                  {t("projects.modal.viewGithub")}
                 </a>
               </Button>
             )}
@@ -401,14 +418,14 @@ const Projects: React.FC = () => {
                   className="flex items-center justify-center gap-2"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  Visitar Demo
+                  {t("projects.modal.visitDemo")}
                 </a>
               </Button>
             )}
 
             {!selectedProject?.isPublic && (
               <div className="flex-1 px-4 py-2 text-sm text-center text-gray-400 border border-gray-700 rounded-lg bg-gray-800/50">
-                Proyecto Privado
+                {t("projects.modal.privateProject")}
               </div>
             )}
 
@@ -418,7 +435,7 @@ const Projects: React.FC = () => {
               onClick={() => setSelectedProject(null)}
               data-cursor-hover
             >
-              Cerrar
+              {t("projects.modal.close")}
             </Button>
           </DialogFooter>
         </DialogContent>

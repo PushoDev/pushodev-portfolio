@@ -49,6 +49,12 @@ const translations = {
     "projects.web": "Web",
     "projects.mobile": "Mobile",
     "projects.desktop": "Desktop",
+    "projects.modal.description": "DESCRIPCIÓN",
+    "projects.modal.technologies": "TECNOLOGÍAS",
+    "projects.modal.viewGithub": "Ver en GitHub",
+    "projects.modal.visitDemo": "Visitar Demo",
+    "projects.modal.privateProject": "Proyecto Privado",
+    "projects.modal.close": "Cerrar",
 
     // About
     "about.title": "Acerca de Mí",
@@ -100,6 +106,12 @@ const translations = {
     "projects.web": "Web",
     "projects.mobile": "Mobile",
     "projects.desktop": "Desktop",
+    "projects.modal.description": "DESCRIPTION",
+    "projects.modal.technologies": "TECHNOLOGIES",
+    "projects.modal.viewGithub": "View on GitHub",
+    "projects.modal.visitDemo": "Visit Demo",
+    "projects.modal.privateProject": "Private Project",
+    "projects.modal.close": "Close",
 
     // About
     "about.title": "About Me",
