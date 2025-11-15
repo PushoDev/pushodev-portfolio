@@ -18,38 +18,38 @@ const About: React.FC = () => {
   const testimonials = [
     {
       id: 1,
-      name: "María González",
-      position: "CEO, TechStartup",
+      name: "Cristina Lavañino",
+      position: "Profesora de Biología",
       avatar:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/c1e44d9a-b050-47d0-aa50-6ab97737c1dd.jpg",
-      content:
-        "Luis Alberto es un desarrollador excepcional. Su dedicación y habilidades técnicas son impresionantes. Entregó nuestro proyecto a tiempo y superó nuestras expectativas.",
-      rating: 5,
-    },
-    {
-      id: 2,
-      name: "Carlos Rodríguez",
-      position: "CTO, InnovaTech",
-      avatar:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/e10f9c98-557b-485f-a7a5-50bcadccc9ba.jpg",
-      content:
-        "Trabajar con Pusho.dev fue una experiencia fantástica. Su enfoque en los detalles y capacidad para resolver problemas complejos es admirable.",
-      rating: 5,
-    },
-    {
-      id: 3,
-      name: "Ana Martínez",
-      position: "Product Manager, DigitalCorp",
-      avatar:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/565a4a50-5997-4ad0-a471-bedc91f578ab.jpg",
+        "https://scontent-mia3-3.xx.fbcdn.net/v/t39.30808-6/481163271_527371140375433_9102856195478967612_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=KebFicPFGKoQ7kNvwEGihFh&_nc_oc=AdniK7rnd0VugCNnmdcXmFGOwB6weWAc4OQQWdMQzAxgInKgweJzt9RyggCS27OE_eI&_nc_zt=23&_nc_ht=scontent-mia3-3.xx&_nc_gid=Bomp6hG2LoLkUqD33Zenvw&oh=00_Afgg57Tx8OrN4jashGSWcDF_IemQjra9-PZ-mYbJ572IDg&oe=691EAF6A",
       content:
         "La calidad del código y la arquitectura que Luis implementó en nuestro proyecto es sobresaliente. Definitivamente recomiendo sus servicios.",
       rating: 5,
     },
     {
+      id: 2,
+      name: "Michel Verdecia",
+      position: "Fotógrafo Profesional",
+      avatar:
+        "https://scontent-mia3-3.xx.fbcdn.net/v/t39.30808-6/468880164_1682177725693580_4176664096948928189_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=N04rPzGNUwkQ7kNvwHXK2re&_nc_oc=AdlDgZvVzw5PDxSVrBP2bzsWqyFB7jcmrFbvDQomT9Btf0VTX2LpgiDSZUx0Wh1Uvsk&_nc_zt=23&_nc_ht=scontent-mia3-3.xx&_nc_gid=RlLr8D7X0xCiv9L3O4iAtg&oh=00_AfhTG8c5AA_B9wW8SGETDKbS-DXe5faNxjw1jg0aFlRQ0A&oe=691EBCC6",
+      content:
+        "Luis Alberto es un desarrollador excepcional. Su dedicación y habilidades técnicas son impresionantes. Entregó nuestro proyecto a tiempo y superó nuestras expectativas.",
+      rating: 5,
+    },
+    {
+      id: 3,
+      name: "Marketing",
+      position: "Decoraciones Imperio",
+      avatar:
+        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/565a4a50-5997-4ad0-a471-bedc91f578ab.jpg",
+      content:
+        "Trabajar con Pusho.dev fue una experiencia fantástica. Su enfoque en los detalles y capacidad para resolver problemas complejos es admirable.",
+      rating: 5,
+    },
+    {
       id: 4,
-      name: "Roberto Silva",
-      position: "Fundador, EcommerceMax",
+      name: "CEO",
+      position: "Regalos RX Mzllo",
       avatar:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/4be2acc8-b22f-4069-9922-c4b7d327c05d.jpg",
       content:
@@ -168,15 +168,27 @@ const About: React.FC = () => {
 
             <div className="space-y-6 leading-relaxed text-gray-600 dark:text-gray-300">
               <p className="text-lg">
-                {t("about.intro1")} <span className="font-semibold text-cyan-400">Luis Alberto Guisado Lavañino</span> {t("about.intro2")}
+                {t("about.intro1")}{" "}
+                <span className="font-semibold text-cyan-400">
+                  Luis Alberto Guisado Lavañino
+                </span>{" "}
+                {t("about.intro2")}
               </p>
 
               <p>
-                {t("about.journey1")} <span className="font-semibold text-purple-400">GolfitoShop</span> {t("about.journey2")}
+                {t("about.journey1")}{" "}
+                <span className="font-semibold text-purple-400">
+                  GolfitoShop
+                </span>{" "}
+                {t("about.journey2")}
               </p>
 
               <p>
-                {t("about.education1")} <span className="font-semibold text-purple-400">'IPI Ruben Bravo'</span> {t("about.education2")}
+                {t("about.education1")}{" "}
+                <span className="font-semibold text-purple-400">
+                  'IPI Ruben Bravo'
+                </span>{" "}
+                {t("about.education2")}
               </p>
 
               <div className="p-6 border bg-white/5 dark:bg-gray-800/30 backdrop-blur-sm rounded-xl border-white/10">
