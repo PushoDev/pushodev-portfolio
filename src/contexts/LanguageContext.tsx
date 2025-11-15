@@ -58,6 +58,20 @@ const translations = {
 
     // About
     "about.title": "Acerca de Mí",
+    "about.experience": "Años de Experiencia",
+    "about.availability": "Disponibilidad",
+    "about.approach": "Mi Enfoque",
+    "about.cleanCode": "✨ Código limpio y mantenible",
+    "about.performance": "🚀 Performance y optimización",
+    "about.userDesign": "🎨 Diseño centrado en el usuario",
+    "about.scalableSolutions": "🔧 Soluciones escalables",
+    "about.clientsSays": "Lo Que Dicen Mis Clientes",
+    "about.intro1": "¡Hola! Mi nombre es",
+    "about.intro2": ", y soy desarrollador Full-Stack apasionado por crear soluciones digitales que marquen la diferencia.",
+    "about.journey1": "Mi viaje en el mundo de la programación comenzó como autodidacta, impulsado por una curiosidad insaciable por entender cómo funcionan las cosas. Desde entonces, he desarrollado habilidades en múltiples tecnologías y he fundado",
+    "about.journey2": ", el ecommerce más grande de Granma.",
+    "about.education1": "Como graduado en Informática en el antiguo",
+    "about.education2": ", en el 2008 donde he adquirido una sólida base teórica sobre la ingeniería de software. Sin embargo, combino conocimientos académicos y autodidactas para ofrecer soluciones sólidas con experiencia en práctica real. Me especializo en crear aplicaciones web modernas, APIs robustas y soluciones que no solo funcionan, sino que brindan experiencias excepcionales a los usuarios.",
 
     // Contact
     "contact.title": "Contacto",
@@ -115,6 +129,20 @@ const translations = {
 
     // About
     "about.title": "About Me",
+    "about.experience": "Years of Experience",
+    "about.availability": "Availability",
+    "about.approach": "My Approach",
+    "about.cleanCode": "✨ Clean and maintainable code",
+    "about.performance": "🚀 Performance and optimization",
+    "about.userDesign": "🎨 User-centered design",
+    "about.scalableSolutions": "🔧 Scalable solutions",
+    "about.clientsSays": "What My Clients Say",
+    "about.intro1": "Hello! My name is",
+    "about.intro2": ", and I'm a Full-Stack developer passionate about creating digital solutions that make a difference.",
+    "about.journey1": "My journey in the world of programming began as a self-taught learner, driven by an insatiable curiosity to understand how things work. Since then, I have developed skills in multiple technologies and founded",
+    "about.journey2": ", the largest e-commerce in Granma.",
+    "about.education1": "As a graduate in Computer Science from the former",
+    "about.education2": "in 2008, I acquired a solid theoretical foundation in software engineering. However, I combine academic and self-taught knowledge to offer solid solutions with real practical experience. I specialize in creating modern web applications, robust APIs and solutions that not only work, but provide exceptional user experiences.",
 
     // Contact
     "contact.title": "Contact",

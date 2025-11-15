@@ -142,7 +142,7 @@ const About: React.FC = () => {
                   10+
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">
-                  Años de Experiencia
+                  {t("about.experience")}
                 </div>
               </div>
               <div className="p-4 text-center border backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl border-white/20">
@@ -150,7 +150,7 @@ const About: React.FC = () => {
                   24/7
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">
-                  Disponibilidad
+                  {t("about.availability")}
                 </div>
               </div>
             </motion.div>
@@ -168,50 +168,26 @@ const About: React.FC = () => {
 
             <div className="space-y-6 leading-relaxed text-gray-600 dark:text-gray-300">
               <p className="text-lg">
-                ¡Hola! Mi nombre es{" "}
-                <span className="font-semibold text-cyan-400">
-                  Luis Alberto Guisado Lavañino
-                </span>
-                , y soy desarrollador Full-Stack apasionado por crear soluciones
-                digitales que marquen la diferencia.
+                {t("about.intro1")} <span className="font-semibold text-cyan-400">Luis Alberto Guisado Lavañino</span> {t("about.intro2")}
               </p>
 
               <p>
-                Mi viaje en el mundo de la programación comenzó como
-                autodidacta, impulsado por una curiosidad insaciable por
-                entender cómo funcionan las cosas. Desde entonces, he
-                desarrollado habilidades en múltiples tecnologías y he fundado
-                <span className="font-semibold text-purple-400">
-                  {" "}
-                  GolfitoShop
-                </span>
-                , el ecommerce más grande de Granma.
+                {t("about.journey1")} <span className="font-semibold text-purple-400">GolfitoShop</span> {t("about.journey2")}
               </p>
 
               <p>
-                Como graduado en Informática en el antiguo{" "}
-                <span className="font-semibold text-purple-400">
-                  {" "}
-                  'IPI Ruben Bravo'
-                </span>
-                , en el 2008 donde he adquirido una sólida base teórica sobre la
-                ingeniería de software. Sin embargo, combino conocimientos
-                académicos y autodidactas para ofrecer soluciones sólidas con
-                experiencia en práctica real. Me especializo en crear
-                aplicaciones web modernas, APIs robustas y soluciones que no
-                solo funcionan, sino que brindan experiencias excepcionales a
-                los usuarios.
+                {t("about.education1")} <span className="font-semibold text-purple-400">'IPI Ruben Bravo'</span> {t("about.education2")}
               </p>
 
               <div className="p-6 border bg-white/5 dark:bg-gray-800/30 backdrop-blur-sm rounded-xl border-white/10">
                 <h3 className="mb-3 font-semibold text-gray-800 dark:text-gray-200">
-                  🎯 Mi Enfoque
+                  🎯 {t("about.approach")}
                 </h3>
                 <ul className="space-y-2 text-sm">
-                  <li>✨ Código limpio y mantenible</li>
-                  <li>🚀 Performance y optimización</li>
-                  <li>🎨 Diseño centrado en el usuario</li>
-                  <li>🔧 Soluciones escalables</li>
+                  <li>{t("about.cleanCode")}</li>
+                  <li>{t("about.performance")}</li>
+                  <li>{t("about.userDesign")}</li>
+                  <li>{t("about.scalableSolutions")}</li>
                 </ul>
               </div>
             </div>
@@ -226,7 +202,7 @@ const About: React.FC = () => {
           className="mt-20"
         >
           <h3 className="mb-12 text-3xl font-bold text-center text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text">
-            Lo Que Dicen Mis Clientes
+            {t("about.clientsSays")}
           </h3>
 
           {/* Testimonials Carousel */}
