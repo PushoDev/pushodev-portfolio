@@ -46,30 +46,14 @@ const Projects: React.FC = () => {
   const projects: ProjectType[] = [
     {
       id: 1,
-      title: "GolfitoShop",
+      title: "Portfolio React & TypeScript + Tailwindcss",
       description:
-        "El ecommerce más grande de Granma con sede en Mazanillo, con funcionalidades avanzadas de comercio electrónico. Integración con pasarelas de pago como QvaPay para transacciones seguras.",
+        "Portfolio Personal con React, TypeScript y TailwindCSS. Efectos visuales avanzados, animaciones fluidas, soporte multiidioma (ES/EN), tema oscuro/claro, y cursor personalizado.",
       descriptionEn:
-        "The largest ecommerce in Granma based in Mazanillo, with advanced e-commerce functionalities. Integration with payment gateways like QvaPay for secure transactions.",
-      image:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/4b2d9b98-0b1a-4cf8-8601-d60b094ac62d.jpg",
-      technologies: ["WordPress", "MySQL", "Whatsapp Business API"],
-      category: "web",
-      github: "https://github.com/PushoDev",
-      demo: "https://golfitoshop.com",
-      featured: true,
-      isPublic: false,
-    },
-    {
-      id: 2,
-      title: "Portfolio Website",
-      description:
-        "Portfolio personal con efectos visuales avanzados y diseño moderno. Incluye animaciones fluidas, soporte multiidioma (ES/EN), tema oscuro/claro, y cursor personalizado con efecto de aurora.",
-      descriptionEn:
-        "Personal portfolio with advanced visual effects and modern design. Includes smooth animations, multilingual support (ES/EN), dark/light theme, and custom cursor with aurora effect.",
+        "Personal Portfolio with React, TypeScript and TailwindCSS. Advanced visual effects, smooth animations, multilingual support (ES/EN), dark/light theme, and custom cursor.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/3dee8b37-6d8d-4372-9c54-a729721947fe.jpg",
-      technologies: ["React", "TypeScript", "Tailwind", "Motion"],
+      technologies: ["React", "TypeScript", "TailwindCSS", "Motion"],
       category: "web",
       github: "https://github.com/PushoDev/pushodev-portfolio",
       demo: "https://pushodev.vercel.app",
@@ -77,60 +61,76 @@ const Projects: React.FC = () => {
       isPublic: true,
     },
     {
-      id: 3,
-      title: "Task Management App",
+      id: 2,
+      title: "FastAPI + React & Typescripts Dashboard",
       description:
-        "Aplicación de gestión de tareas con colaboración en tiempo real. Permite a los usuarios crear, editar y asignar tareas, con notificaciones en tiempo real usando WebSockets.",
+        "Panel administrativo con autenticación y estadísticas. Backend con FastAPI y frontend con React y TypeScript para una experiencia de administración completa.",
       descriptionEn:
-        "Task management application with real-time collaboration. Allows users to create, edit and assign tasks with real-time notifications using WebSockets.",
+        "Admin dashboard with authentication and statistics. Backend with FastAPI and frontend with React and TypeScript for a complete administration experience.",
       image:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/80c2882f-1399-4bdd-82fc-1e2fb8cbe6d6.jpg",
-      technologies: ["React", "Node.js", "MongoDB", "Socket.io"],
+        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/60c30d1b-d865-4604-be63-690de7ae6ca1.jpg",
+      technologies: ["FastAPI", "React", "TypeScript", "Python"],
       category: "web",
-      github: "https://github.com/PushoDev/task-management",
+      github: "https://github.com/PushoDev/sistema.gestion-fast",
+      featured: true,
+      isPublic: true,
+    },
+    {
+      id: 3,
+      title: "Sistema de Gestión de Almacenes (Laravel + Reactsx)",
+      description:
+        "Solución completa para manejo de productos y almacenes. Maqueta funcional que demuestra la gestión integral de inventarios y almacenes.",
+      descriptionEn:
+        "Complete solution for product and warehouse management. Functional mockup demonstrating comprehensive inventory and warehouse management.",
+      image:
+        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/03dd86ba-c717-41fd-895f-d40803dc39f5.jpg",
+      technologies: ["Laravel", "React", "PHP", "MySQL"],
+      category: "web",
+      github: "https://github.com/PushoDev/proyecto-inventario",
       featured: false,
       isPublic: true,
     },
     {
       id: 4,
-      title: "Mobile Weather App",
+      title: "E-commerce Multivendedor (WordPress)",
       description:
-        "Aplicación móvil del clima con predicciones y alertas personalizadas. Incluye geolocalización, mapas interactivos y notificaciones de cambios climáticos.",
+        "Plataforma de comercio electrónico escalable y segura para múltiples vendedores. Solución completa para marketplace con funcionalidades avanzadas.",
       descriptionEn:
-        "Mobile weather application with personalized predictions and alerts. Includes geolocation, interactive maps and weather change notifications.",
+        "Scalable and secure e-commerce platform for multiple vendors. Complete marketplace solution with advanced functionalities.",
+      image:
+        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/4b2d9b98-0b1a-4cf8-8601-d60b094ac62d.jpg",
+      technologies: ["WordPress", "PHP", "MySQL", "WooCommerce"],
+      category: "web",
+      demo: "https://golfitoshop.com",
+      featured: true,
+      isPublic: false,
+    },
+    {
+      id: 5,
+      title: "GestoRem - App Dashboard para Gestión de Remesas",
+      description:
+        "Aplicación móvil Flutter para la gestión de remesas. Dashboard completo con funcionalidades para seguimiento de envíos, gestión de clientes y estadísticas de operaciones.",
+      descriptionEn:
+        "Flutter mobile app for remittance management. Complete dashboard with functionalities for shipment tracking, customer management and operation statistics.",
       image:
         "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/6a2caf5a-41ed-4717-9fa4-7408a865454d.jpg",
-      technologies: ["React Native", "TypeScript", "REST API"],
+      technologies: ["Flutter", "Dart", "Firebase", "Real-time DB"],
       category: "mobile",
       featured: false,
       isPublic: false,
     },
     {
-      id: 5,
-      title: "Desktop Inventory System",
-      description:
-        "Sistema de inventario para pequeñas empresas con reportes avanzados. Permite gestionar stock, generar reportes personalizados y exportar datos a Excel.",
-      descriptionEn:
-        "Inventory system for small businesses with advanced reporting. Allows stock management, custom reports generation and Excel data export.",
-      image:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/03dd86ba-c717-41fd-895f-d40803dc39f5.jpg",
-      technologies: ["Python", "Tkinter", "SQLite", "Pandas"],
-      category: "desktop",
-      featured: false,
-      isPublic: false,
-    },
-    {
       id: 6,
-      title: "API REST FastAPI",
+      title: "Drone Med (Nest + PostgreSQL's)",
       description:
-        "API robusta para microservicios con documentación automática. Incluye autenticación JWT, validación de datos con Pydantic y deployado en Docker.",
+        "API REST Full para Drones de transporte de medicamentos. Sistema robusto para gestión de drones médicos con seguimiento en tiempo real.",
       descriptionEn:
-        "Robust API for microservices with automatic documentation. Includes JWT authentication, data validation with Pydantic and deployed in Docker.",
+        "Full REST API for medical delivery drones. Robust system for managing medical drones with real-time tracking.",
       image:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/60c30d1b-d865-4604-be63-690de7ae6ca1.jpg",
-      technologies: ["FastAPI", "Python", "PostgreSQL", "Docker"],
+        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/80c2882f-1399-4bdd-82fc-1e2fb8cbe6d6.jpg",
+      technologies: ["NestJS", "PostgreSQL", "TypeScript", "Node.js"],
       category: "web",
-      github: "https://github.com/PushoDev/fastapi-microservices",
+      github: "https://github.com/PushoDev/drones-api",
       featured: false,
       isPublic: true,
     },
@@ -176,8 +176,7 @@ const Projects: React.FC = () => {
             className="max-w-2xl p-6 mx-auto mb-12 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20"
           >
             <p className="text-lg italic text-gray-600 dark:text-gray-300">
-              "Cada proyecto es una oportunidad para innovar y crear soluciones
-              que impacten positivamente."
+              "{t("projects.quote")}"
             </p>
           </motion.div>
         </motion.div>
@@ -281,7 +280,7 @@ const Projects: React.FC = () => {
                   {project.featured && (
                     <div className="absolute top-4 left-4">
                       <span className="px-3 py-1 text-xs font-bold text-white rounded-full shadow-lg bg-gradient-to-r from-cyan-500 to-purple-600">
-                        Featured
+                        {t("projects.featured")}
                       </span>
                     </div>
                   )}
@@ -330,7 +329,7 @@ const Projects: React.FC = () => {
             className="px-8 py-3 text-gray-700 bg-transparent border-white/20 hover:bg-white/10 backdrop-blur-sm dark:text-gray-300"
             data-cursor-hover
           >
-            Ver Todos los Proyectos
+            {t("projects.viewAll")}
             <ExternalLink className="w-4 h-4 ml-2" />
           </Button>
         </motion.div>
