@@ -219,8 +219,8 @@ const Hero: React.FC = () => {
               transition={{ delay: 1 }}
             >
               <a
-                href="/CV_Luis_Guisado.pdf"
-                download="CV_Luis_Guisado.pdf"
+                href="https://github.com/PushoDev/pushodev-portfolio/raw/main/public/pdf/CV_Luis_Alberto_Guisado.pdf"
+                download="CV_Luis_Alberto_Guisado.pdf"
                 className="inline-block"
               >
                 <Button
