@@ -30,6 +30,7 @@ const esbuildOpts = {
     '.html': 'copy',
     '.png': 'file',
     '.svg': 'file',
+    '.jpg': 'file',
   },
   plugins: [
     stylePlugin({
