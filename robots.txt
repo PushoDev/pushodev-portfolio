@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://pushodev.vercel.app/sitemap.xml

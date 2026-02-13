@@ -45,6 +45,9 @@ const copyStaticFiles = () => {
   mkdirSync('dist', { recursive: true })
   copyFileSync('cuba.svg', join('dist', 'cuba.svg'))
   copyFileSync('usa.svg', join('dist', 'usa.svg'))
+  copyFileSync('src/imgs/favicon.svg', join('dist', 'favicon.svg'))
+  copyFileSync('robots.txt', join('dist', 'robots.txt'))
+  copyFileSync('sitemap.xml', join('dist', 'sitemap.xml'))
 }
 
 if (isProd) {
