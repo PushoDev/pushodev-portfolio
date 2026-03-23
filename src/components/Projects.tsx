@@ -134,6 +134,21 @@ const Projects: React.FC = () => {
       featured: false,
       isPublic: true,
     },
+    {
+      id: 7,
+      title: "Blog Cultural Manzanillo",
+      description:
+        "Blog profesional desarrollado para la Secretaría de Cultura de Manzanillo. Centraliza la difusión de arte y gestión de eventos culturales. Construido con Laravel 13, React 19, Inertia.js y shadcn/ui.",
+      descriptionEn:
+        "Professional blog developed for the Culture Secretariat of Manzanillo. Centralizes art dissemination and cultural event management. Built with Laravel 13, React 19, Inertia.js and shadcn/ui.",
+      image:
+        "https://raw.githubusercontent.com/PushoDev/blog-cultural-manzanillo/refs/heads/main/docs/imgs/landing-page.png",
+      technologies: ["Laravel", "React", "TypeScript", "TailwindCSS", "Inertia.js", "PHP"],
+      category: "web",
+      github: "https://github.com/PushoDev/blog-cultural-manzanillo",
+      featured: true,
+      isPublic: true,
+    },
   ];
 
   const filters = [
@@ -196,11 +211,10 @@ const Projects: React.FC = () => {
                 onClick={() => setActiveFilter(filter.key)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`px-4 py-2 rounded-xl font-semibold transition-all duration-300 ${
-                  activeFilter === filter.key
-                    ? "bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow-lg"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-white/10"
-                }`}
+                className={`px-4 py-2 rounded-xl font-semibold transition-all duration-300 ${activeFilter === filter.key
+                  ? "bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow-lg"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-white/10"
+                  }`}
                 data-cursor-hover
               >
                 {filter.label}
@@ -223,9 +237,8 @@ const Projects: React.FC = () => {
               exit={{ opacity: 0, y: -50 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ y: -10 }}
-              className={`group relative cursor-pointer ${
-                project.featured ? "md:col-span-2 lg:col-span-1" : ""
-              }`}
+              className={`group relative cursor-pointer ${project.featured ? "md:col-span-2 lg:col-span-1" : ""
+                }`}
               onClick={() => setSelectedProject(project)}
             >
               <div className="overflow-hidden transition-all duration-500 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20 hover:shadow-2xl hover:border-white/40">
