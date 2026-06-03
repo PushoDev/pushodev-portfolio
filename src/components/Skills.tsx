@@ -183,6 +183,53 @@ const Skills: React.FC = () => {
           ))}
         </motion.div>
 
+        {/* ── Horizontal Marquee — infinite scroll of all tech logos ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="mt-16 overflow-hidden"
+        >
+          <p className="mb-4 text-xs tracking-[0.25em] text-center text-gray-500 uppercase">
+            & More
+          </p>
+          <div
+            className="flex gap-8 animate-marquee w-max"
+            style={{ cursor: 'default' }}
+          >
+            {/* Duplicated to create seamless loop (–50% translateX = one full cycle) */}
+            {[...Object.values(skillCategories).flatMap(c => c.skills),
+              ...Object.values(skillCategories).flatMap(c => c.skills)].map(
+              (skill, index) => {
+                const iconData = simpleIcons[skill.iconKey as keyof typeof simpleIcons] as any;
+                return (
+                  <div
+                    key={`marquee-${index}`}
+                    className="flex flex-col items-center gap-2 flex-shrink-0"
+                    title={skill.name}
+                  >
+                    {iconData?.path && (
+                      <div className="p-2 border rounded-xl bg-white/5 dark:bg-gray-800/30 border-white/10">
+                        <svg
+                          className="w-6 h-6"
+                          role="img"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d={iconData.path} fill={skill.color} />
+                        </svg>
+                      </div>
+                    )}
+                    <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                      {skill.name}
+                    </span>
+                  </div>
+                );
+              }
+            )}
+          </div>
+        </motion.div>
+
         {/* Floating Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {Array.from({ length: 6 }).map((_, i) => (

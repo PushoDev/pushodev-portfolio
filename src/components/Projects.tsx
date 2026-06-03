@@ -166,13 +166,13 @@ const Projects: React.FC = () => {
   return (
     <section id="projects" className="relative py-20">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        {/* Header */}
+        {/* Header — sticky so title + filters stay visible while scrolling cards */}
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="mb-16 text-center"
+          className="mb-16 text-center sticky top-16 z-20 pb-4 pt-2 backdrop-blur-md bg-transparent"
         >
           <motion.h2
             initial={{ opacity: 0, scale: 0.9 }}
@@ -236,9 +236,19 @@ const Projects: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ y: -10 }}
+              whileHover={{ scale: 1.03, y: -4 }}
               className={`group relative cursor-pointer ${project.featured ? "md:col-span-2 lg:col-span-1" : ""
                 }`}
+              style={{
+                // Glow color based on first technology in the stack
+                ['--glow' as string]: project.id === 1 ? '#61DAFB'
+                  : project.id === 2 ? '#009688'
+                  : project.id === 3 ? '#FF2D20'
+                  : project.id === 4 ? '#21759B'
+                  : project.id === 5 ? '#02569B'
+                  : project.id === 6 ? '#E0234E'
+                  : '#a855f7',
+              }}
               onClick={() => setSelectedProject(project)}
             >
               <div className="overflow-hidden transition-all duration-500 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20 hover:shadow-2xl hover:border-white/40">
@@ -322,8 +332,11 @@ const Projects: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Glow effect */}
-                <div className="absolute inset-0 transition-all duration-500 opacity-0 bg-gradient-to-br from-cyan-400/10 to-purple-500/10 group-hover:opacity-100 blur-xl rounded-2xl -z-10" />
+                {/* Glow effect — color matches the project's primary tech */}
+                <div
+                  className="absolute inset-0 transition-all duration-500 opacity-0 group-hover:opacity-30 blur-xl rounded-2xl -z-10"
+                  style={{ backgroundColor: 'var(--glow)' }}
+                />
               </div>
             </motion.div>
           ))}

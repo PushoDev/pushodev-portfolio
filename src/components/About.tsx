@@ -2,7 +2,7 @@
  * About section with testimonials carousel and personal information
  */
 import React, { useRef } from "react";
-import { motion, useInView } from "motion/react";
+import { motion, AnimatePresence, useInView } from "motion/react";
 import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "../contexts/LanguageContext";
@@ -17,6 +17,8 @@ const About: React.FC = () => {
   const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const wordRevealRef = useRef<HTMLParagraphElement>(null);
+  const wordRevealInView = useInView(wordRevealRef, { once: true, amount: 0.4 });
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   const testimonials = [
@@ -175,12 +177,23 @@ const About: React.FC = () => {
                 {t("about.intro2")}
               </p>
 
-              <p>
-                {t("about.journey1")}{" "}
-                <span className="font-semibold text-purple-400">
-                  GolfitoShop
-                </span>{" "}
-                {t("about.journey2")}
+              {/* Word-by-word scroll reveal */}
+              <p ref={wordRevealRef} className="leading-relaxed">
+                {[...t("about.journey1").split(" "), "GolfitoShop", ...t("about.journey2").split(" ")].map(
+                  (word, i, arr) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={wordRevealInView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ duration: 0.3, delay: i * 0.04 }}
+                      className={`inline-block mr-[0.25em] ${
+                        word === "GolfitoShop" ? "font-semibold text-purple-400" : ""
+                      }`}
+                    >
+                      {word}
+                    </motion.span>
+                  )
+                )}
               </p>
 
               <p>
@@ -223,7 +236,8 @@ const About: React.FC = () => {
               {/* Quote Icon */}
               <Quote className="w-12 h-12 mx-auto mb-6 text-cyan-400" />
 
-              {/* Testimonial Content */}
+              {/* Testimonial Content — AnimatePresence enables the exit animation */}
+              <AnimatePresence mode="wait">
               <motion.div
                 key={currentTestimonial}
                 initial={{ opacity: 0, x: 20 }}
@@ -265,6 +279,7 @@ const About: React.FC = () => {
                   </div>
                 </div>
               </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Navigation Buttons */}

@@ -58,10 +58,10 @@ const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className="relative flex items-center justify-center min-h-screen pt-16 overflow-hidden"
+      className="relative z-10 flex items-center justify-center min-h-screen pt-16 bg-background"
     >
-      {/* Floating circles around image */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Floating circles — isolated overflow so they don't clip the text */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Outer ring */}
         <motion.div
           animate={{ rotate: 360 }}
@@ -176,7 +176,7 @@ const Hero: React.FC = () => {
               </span>
             </motion.h1>
 
-            <div className="h-12 mb-8 text-2xl lg:text-3xl">
+            <div className="min-h-[3rem] mb-8 text-2xl lg:text-3xl overflow-visible">
               <TypewriterEffect words={roles} className="font-semibold" />
             </div>
 
@@ -298,11 +298,12 @@ const Hero: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Stats Section */}
+        {/* Stats Section — whileInView so CountUp animations start when actually visible */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8 }}
           className="grid grid-cols-2 gap-8 mt-20 lg:grid-cols-4"
         >
           {stats.map((stat, index) => (

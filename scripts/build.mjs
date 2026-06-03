@@ -3,7 +3,7 @@ import { rimraf } from 'rimraf'
 import stylePlugin from 'esbuild-style-plugin'
 import autoprefixer from 'autoprefixer'
 import tailwindcss from 'tailwindcss'
-import { copyFileSync, mkdirSync } from 'fs'
+import { copyFileSync, mkdirSync, readdirSync, existsSync, statSync } from 'fs'
 import { join } from 'path'
 
 const args = process.argv.slice(2)
@@ -48,6 +48,15 @@ const copyStaticFiles = () => {
   copyFileSync('src/imgs/favicon.svg', join('dist', 'favicon.svg'))
   copyFileSync('robots.txt', join('dist', 'robots.txt'))
   copyFileSync('sitemap.xml', join('dist', 'sitemap.xml'))
+  // Copy files from public/ into dist/ root so CSS url() references work
+  if (existsSync('public')) {
+    for (const file of readdirSync('public')) {
+      const src = join('public', file)
+      if (statSync(src).isFile()) {
+        copyFileSync(src, join('dist', file))
+      }
+    }
+  }
 }
 
 if (isProd) {
