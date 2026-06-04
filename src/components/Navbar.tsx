@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Moon, Sun, Menu, X } from "lucide-react";
+import { Moon, Sun, Menu, X, Globe, ChevronDown } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { useLanguage } from "../contexts/LanguageContext";
 import { Button } from "./ui/button";
@@ -31,6 +31,7 @@ const Navbar: React.FC = () => {
     { key: "nav.about", href: "#about" },
     { key: "nav.skills", href: "#skills" },
     { key: "nav.projects", href: "#projects" },
+    { key: "nav.blog", href: "#blog" },
     { key: "nav.contact", href: "#contact" },
   ];
 
@@ -50,88 +51,79 @@ const Navbar: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -24 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-              isScrolled
-                ? "backdrop-blur-xl bg-white/10 dark:bg-gray-900/10 border-b border-white/20 shadow-lg"
-                : "bg-transparent"
-            }`}
+            className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4"
           >
-            <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-              <div className="flex items-center justify-between h-16">
-                {/* Logo */}
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="text-2xl font-bold font-mono text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text cursor-pointer"
-                  onClick={() => scrollToSection("#home")}
+            <div
+              className="flex items-center justify-between gap-4 px-5 py-2.5 rounded-full border border-white/20 backdrop-blur-xl w-full max-w-5xl"
+              style={{ background: 'rgba(10,15,37,0.75)', boxShadow: '0 4px 32px rgba(0,0,0,0.4)' }}
+            >
+              {/* Logo */}
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="text-lg font-bold font-mono text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text cursor-pointer whitespace-nowrap"
+                onClick={() => scrollToSection("#home")}
+                data-cursor-hover
+              >
+                &lt;PushoDev /&gt;
+              </motion.div>
+
+              {/* Desktop Navigation */}
+              <div className="items-center hidden gap-6 md:flex">
+                {navItems.map((item) => (
+                  <motion.button
+                    key={item.key}
+                    onClick={() => scrollToSection(item.href)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="text-sm font-medium text-gray-300 transition-colors duration-200 hover:text-white whitespace-nowrap"
+                    data-cursor-hover
+                  >
+                    {t(item.key)}
+                  </motion.button>
+                ))}
+              </div>
+
+              {/* Theme and Language toggles */}
+              <div className="flex items-center gap-2">
+                {/* Sun/Moon separate icons */}
+                <div className="hidden sm:flex items-center gap-1 rounded-full border border-white/15 px-1 py-1" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                  <button
+                    onClick={() => theme === 'dark' && toggleTheme()}
+                    className={`p-1.5 rounded-full transition-all duration-200 ${theme === 'light' ? 'bg-white/20 text-yellow-300' : 'text-gray-500 hover:text-gray-300'}`}
+                    data-cursor-hover
+                  >
+                    <Sun className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => theme === 'light' && toggleTheme()}
+                    className={`p-1.5 rounded-full transition-all duration-200 ${theme === 'dark' ? 'bg-white/20 text-purple-300' : 'text-gray-500 hover:text-gray-300'}`}
+                    data-cursor-hover
+                  >
+                    <Moon className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                {/* Language */}
+                <button
+                  onClick={toggleLanguage}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/15 text-gray-300 hover:text-white hover:border-white/30 transition-all duration-200 text-xs font-semibold"
+                  style={{ background: 'rgba(255,255,255,0.05)' }}
                   data-cursor-hover
                 >
-                  &lt;Pushodev /&gt;
-                </motion.div>
+                  <Globe className="w-3.5 h-3.5" />
+                  <span>{language.toUpperCase()}</span>
+                  <ChevronDown className="w-3 h-3 opacity-60" />
+                </button>
 
-                {/* Desktop Navigation */}
-                <div className="items-center hidden space-x-8 md:flex">
-                  {navItems.map((item) => (
-                    <motion.button
-                      key={item.key}
-                      onClick={() => scrollToSection(item.href)}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="font-medium text-gray-800 transition-colors duration-200 dark:text-gray-200 hover:text-cyan-400"
-                      data-cursor-hover
-                    >
-                      {t(item.key)}
-                    </motion.button>
-                  ))}
-                </div>
-
-                {/* Theme and Language toggles */}
-                <div className="flex items-center space-x-3">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={toggleTheme}
-                    className="bg-transparent border-white/20 hover:bg-white/10 backdrop-blur-sm"
-                    data-cursor-hover
-                  >
-                    {theme === "dark" ? (
-                      <Sun className="w-4 h-4" />
-                    ) : (
-                      <Moon className="w-4 h-4" />
-                    )}
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={toggleLanguage}
-                    className="bg-transparent border-white/20 hover:bg-white/10 backdrop-blur-sm flex items-center space-x-1"
-                    data-cursor-hover
-                  >
-                    <img
-                      src={language === "es" ? "/cuba.svg" : "/usa.svg"}
-                      alt={language === "es" ? "Cuba" : "USA"}
-                      className="w-5 h-4"
-                    />
-                    <span className="text-xs font-semibold">
-                      {language.toUpperCase()}
-                    </span>
-                  </Button>
-
-                  {/* Mobile menu button */}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="bg-transparent md:hidden border-white/20 hover:bg-white/10 backdrop-blur-sm"
-                    data-cursor-hover
-                  >
-                    {isMobileMenuOpen ? (
-                      <X className="w-4 h-4" />
-                    ) : (
-                      <Menu className="w-4 h-4" />
-                    )}
-                  </Button>
-                </div>
+                {/* Mobile menu button */}
+                <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="flex md:hidden items-center justify-center w-8 h-8 rounded-full border border-white/15 text-gray-300 hover:text-white transition-colors"
+                  style={{ background: 'rgba(255,255,255,0.05)' }}
+                  data-cursor-hover
+                >
+                  {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+                </button>
               </div>
             </div>
           </motion.nav>
@@ -147,24 +139,23 @@ const Navbar: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.25 }}
-            className="fixed top-16 left-0 right-0 z-40 md:hidden"
+            className="fixed top-20 left-4 right-4 z-40 md:hidden rounded-2xl border border-white/20 overflow-hidden"
+            style={{ background: 'rgba(10,15,37,0.92)', backdropFilter: 'blur(20px)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}
           >
-            <div className="border-b shadow-2xl backdrop-blur-2xl bg-white/10 dark:bg-gray-900/10 border-white/20">
-              <div className="px-4 py-4 mx-auto max-w-7xl">
-                <div className="flex flex-col space-y-4">
-                  {navItems.map((item) => (
-                    <motion.button
-                      key={item.key}
-                      onClick={() => scrollToSection(item.href)}
-                      whileHover={{ scale: 1.02, x: 10 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="py-2 font-medium text-left text-gray-800 transition-colors duration-200 dark:text-gray-200 hover:text-cyan-400"
-                      data-cursor-hover
-                    >
-                      {t(item.key)}
-                    </motion.button>
-                  ))}
-                </div>
+            <div className="px-4 py-4">
+              <div className="flex flex-col gap-1">
+                {navItems.map((item) => (
+                  <motion.button
+                    key={item.key}
+                    onClick={() => scrollToSection(item.href)}
+                    whileHover={{ x: 6 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="py-2.5 px-3 font-medium text-left text-gray-300 hover:text-white transition-colors duration-200 rounded-lg hover:bg-white/5 text-sm"
+                    data-cursor-hover
+                  >
+                    {t(item.key)}
+                  </motion.button>
+                ))}
               </div>
             </div>
           </motion.div>

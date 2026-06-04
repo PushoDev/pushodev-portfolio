@@ -1,10 +1,12 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
-import { Github, Linkedin, Twitter, Download, ArrowRight } from 'lucide-react';
+import { Github, Linkedin, Twitter, Download, ArrowRight, Calendar, Rocket, Globe2 } from 'lucide-react';
 import TypewriterEffect from './TypewriterEffect';
 import CountUp from './CountUp';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 import * as simpleIcons from 'simple-icons';
+import avatarImg from '../../public/avatar_gral.png';
 
 /* ─── helpers ─────────────────────────────────────────────────────────── */
 const getIcon = (key: string) =>
@@ -34,21 +36,23 @@ const STATS = [
 ];
 
 const CARDS = [
-  { labelEs: 'DISPONIBLE PARA', subEs: 'FREELANCE',     labelEn: 'AVAILABLE FOR',  subEn: 'FREELANCE',  dot: '#22d3ee', top: '6%',  right: '2%'  },
-  { labelEs: 'EXPERIENCIA',     subEs: '5+ AÑOS',        labelEn: 'EXPERIENCE',     subEn: '5+ YEARS',   dot: '#a78bfa', top: '28%', right: '-2%' },
-  { labelEs: 'PROYECTOS',       subEs: '40+ COMPLETADOS',labelEn: 'PROJECTS',       subEn: '40+ DONE',   dot: '#f472b6', top: '55%', right: '-2%' },
-  { labelEs: 'TRABAJANDO',      subEs: 'GLOBALMENTE',    labelEn: 'WORKING',        subEn: 'GLOBALLY',   dot: '#34d399', top: '76%', right: '2%'  },
+  { labelEs: 'DISPONIBLE PARA', subEs: 'FREELANCE',     labelEn: 'AVAILABLE FOR',  subEn: 'FREELANCE',  dot: '#22d3ee', icon: null,    top: '6%',  right: '2%'  },
+  { labelEs: 'EXPERIENCIA',     subEs: '5+ AÑOS',        labelEn: 'EXPERIENCE',     subEn: '5+ YEARS',   dot: '#a78bfa', icon: 'cal',   top: '28%', right: '-2%' },
+  { labelEs: 'PROYECTOS',       subEs: '40+ COMPLETADOS',labelEn: 'PROJECTS',       subEn: '40+ DONE',   dot: '#f472b6', icon: 'rocket',top: '55%', right: '-2%' },
+  { labelEs: 'TRABAJANDO',      subEs: 'GLOBALMENTE',    labelEn: 'WORKING',        subEn: 'GLOBALLY',   dot: '#34d399', icon: 'globe',  top: '76%', right: '2%'  },
 ];
 
 const SOCIAL = [
   { icon: Github,   href: 'https://github.com/PushoDev',                   label: 'GitHub'   },
   { icon: Linkedin, href: 'https://www.linkedin.com/in/luis-alberto-pushodev/', label: 'LinkedIn' },
-  { icon: Twitter,  href: '#',                                              label: 'Twitter'  },
+  { icon: Twitter,  href: 'https://x.com/luisguisado1990',                                              label: 'Twitter'  },
 ];
 
 /* ─── component ───────────────────────────────────────────────────────── */
 const Hero: React.FC = () => {
   const { language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.05 });
 
@@ -60,28 +64,30 @@ const Hero: React.FC = () => {
     <section
       ref={ref}
       id="home"
-      className="relative z-10 min-h-screen flex flex-col overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #050816 0%, #0A0F25 50%, #120B2B 100%)' }}
+      className="relative z-10 min-h-screen flex flex-col overflow-x-hidden"
+      style={{ background: isDark
+        ? 'linear-gradient(135deg, #050816 0%, #0A0F25 50%, #120B2B 100%)'
+        : 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f5f3ff 100%)' }}
     >
       {/* ── grid overlay ─────────────────────────────────────────────── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(139,92,246,0.04) 1px, transparent 1px),' +
-            'linear-gradient(90deg,rgba(139,92,246,0.04) 1px,transparent 1px)',
+            `linear-gradient(rgba(139,92,246,${isDark ? '0.04' : '0.07'}) 1px, transparent 1px),` +
+            `linear-gradient(90deg,rgba(139,92,246,${isDark ? '0.04' : '0.07'}) 1px,transparent 1px)`,
           backgroundSize: '60px 60px',
         }}
       />
 
       {/* ── radial glow blobs ─────────────────────────────────────────── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full opacity-20"
-          style={{ background: 'radial-gradient(circle, #06b6d4 0%, transparent 70%)', filter: 'blur(80px)' }} />
-        <div className="absolute top-[10%] right-[-10%] w-[600px] h-[600px] rounded-full opacity-15"
-          style={{ background: 'radial-gradient(circle, #8b5cf6 0%, transparent 70%)', filter: 'blur(100px)' }} />
-        <div className="absolute bottom-[-10%] left-[30%] w-[400px] h-[400px] rounded-full opacity-10"
-          style={{ background: 'radial-gradient(circle, #ec4899 0%, transparent 70%)', filter: 'blur(80px)' }} />
+        <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full"
+          style={{ background: 'radial-gradient(circle, #06b6d4 0%, transparent 70%)', filter: 'blur(80px)', opacity: isDark ? 0.2 : 0.15 }} />
+        <div className="absolute top-[10%] right-[-10%] w-[600px] h-[600px] rounded-full"
+          style={{ background: 'radial-gradient(circle, #8b5cf6 0%, transparent 70%)', filter: 'blur(100px)', opacity: isDark ? 0.15 : 0.12 }} />
+        <div className="absolute bottom-[-10%] left-[30%] w-[400px] h-[400px] rounded-full"
+          style={{ background: 'radial-gradient(circle, #ec4899 0%, transparent 70%)', filter: 'blur(80px)', opacity: isDark ? 0.1 : 0.08 }} />
       </div>
 
       {/* ── floating particles ───────────────────────────────────────── */}
@@ -133,7 +139,7 @@ const Hero: React.FC = () => {
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
               >
-                <p className="text-2xl sm:text-3xl font-semibold text-gray-300 mb-1">
+                <p className={`text-2xl sm:text-3xl font-semibold mb-1 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
                   {language === 'es' ? 'Hola, soy' : "Hello, I'm"}
                 </p>
                 <h1 className="font-black leading-none">
@@ -170,7 +176,7 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.55, delay: 0.45 }}
-                className="text-gray-400 leading-relaxed max-w-lg text-base"
+                className={`leading-relaxed max-w-lg text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}
               >
                 {language === 'es'
                   ? <>Desarrollo aplicaciones web modernas y escalables utilizando Laravel, React, TypeScript y .NET. Transformo ideas en productos digitales{' '}
@@ -212,8 +218,8 @@ const Hero: React.FC = () => {
                   download
                   whileHover={{ scale: 1.03, borderColor: '#22d3ee' }}
                   whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-gray-200 text-sm border transition-all duration-300"
-                  style={{ border: '1px solid rgba(139,92,246,0.5)', background: 'rgba(139,92,246,0.08)' }}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm border transition-all duration-300 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}
+                  style={{ border: '1px solid rgba(139,92,246,0.5)', background: isDark ? 'rgba(139,92,246,0.08)' : 'rgba(139,92,246,0.06)' }}
                   data-cursor-hover
                 >
                   <Download className="w-4 h-4" />
@@ -227,7 +233,7 @@ const Hero: React.FC = () => {
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.55, delay: 0.65 }}
               >
-                <p className="text-[10px] font-bold tracking-[0.25em] text-gray-500 uppercase mb-3">
+                <p className={`text-[10px] font-bold tracking-[0.25em] uppercase mb-3 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
                   {language === 'es' ? 'Tecnologías' : 'Technologies'}
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -237,8 +243,8 @@ const Hero: React.FC = () => {
                       <motion.div
                         key={tech.name}
                         whileHover={{ scale: 1.1, y: -2 }}
-                        className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-gray-300 border border-white/10 transition-all duration-200"
-                        style={{ background: 'rgba(255,255,255,0.04)' }}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${isDark ? 'text-gray-300 border border-white/10' : 'text-gray-600 border border-black/10'}`}
+                        style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}
                         title={tech.name}
                         data-cursor-hover
                       >
@@ -259,8 +265,8 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.55, delay: 0.75 }}
-                className="rounded-2xl p-4 border border-white/10"
-                style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(12px)' }}
+                className={`rounded-2xl p-4 ${isDark ? 'border border-white/10' : 'border border-black/08'}`}
+                style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.6)', backdropFilter: 'blur(12px)' }}
               >
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {STATS.map((stat) => (
@@ -271,7 +277,7 @@ const Hero: React.FC = () => {
                       >
                         <CountUp end={stat.value} suffix={stat.suffix} />
                       </div>
-                      <p className="text-[10px] text-gray-500 mt-0.5 leading-tight">
+                      <p className={`text-[10px] mt-0.5 leading-tight ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
                         {language === 'es' ? stat.labelEs : stat.labelEn}
                       </p>
                     </div>
@@ -285,43 +291,57 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, x: 40 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
-              className="relative flex justify-center items-center min-h-[520px] lg:min-h-[680px]"
+              className="relative flex justify-center items-center min-h-[600px] lg:min-h-[780px]"
             >
               {/* Neon ring 1 — cyan */}
               <motion.div
                 className="absolute rounded-full"
-                animate={{ scale: [1, 1.04, 1], opacity: [0.4, 0.65, 0.4] }}
+                animate={{ scale: [1, 1.04, 1], opacity: [0.4, 0.7, 0.4] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
                 style={{
-                  width: '360px', height: '360px',
-                  border: '2px solid rgba(6,182,212,0.5)',
-                  boxShadow: '0 0 40px rgba(6,182,212,0.25), inset 0 0 40px rgba(6,182,212,0.08)',
+                  width: '460px', height: '460px',
+                  top: '50%', left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  border: '2px solid rgba(6,182,212,0.55)',
+                  boxShadow: '0 0 60px rgba(6,182,212,0.3), inset 0 0 60px rgba(6,182,212,0.1)',
                   borderRadius: '50%',
                 }}
               />
-              {/* Neon ring 2 — pink, larger */}
+              {/* Neon ring 2 — pink */}
               <motion.div
                 className="absolute rounded-full"
-                animate={{ scale: [1, 1.06, 1], opacity: [0.25, 0.45, 0.25] }}
+                animate={{ scale: [1, 1.06, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
                 style={{
-                  width: '480px', height: '480px',
-                  border: '1.5px solid rgba(236,72,153,0.4)',
-                  boxShadow: '0 0 60px rgba(236,72,153,0.15)',
+                  width: '620px', height: '620px',
+                  top: '50%', left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  border: '1.5px solid rgba(236,72,153,0.45)',
+                  boxShadow: '0 0 80px rgba(236,72,153,0.2)',
                   borderRadius: '50%',
                 }}
               />
 
-              {/* Avatar */}
-              <motion.img
-                src="/avatar_gral.png"
-                alt="Luis Alberto Guisado"
-                className="relative z-10 select-none pointer-events-none"
-                style={{ height: 'clamp(400px, 55vh, 580px)', objectFit: 'contain', objectPosition: 'bottom', filter: 'drop-shadow(0 0 40px rgba(139,92,246,0.3))' }}
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                draggable={false}
-              />
+              {/* Avatar — wrapper clips overflow at bottom */}
+              <div className="absolute inset-x-0 bottom-0 top-0 flex justify-center items-end overflow-hidden z-10 pointer-events-none">
+                <motion.img
+                  src={avatarImg}
+                  alt="Luis Alberto Guisado"
+                  className="select-none"
+                  style={{
+                    height: 'clamp(700px, 110vh, 1100px)',
+                    width: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center top',
+                    filter: 'drop-shadow(0 0 60px rgba(139,92,246,0.5)) drop-shadow(0 0 24px rgba(6,182,212,0.25))',
+                    maskImage: 'linear-gradient(to bottom, transparent 0%, black 6%, black 70%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 6%, black 70%, transparent 100%)',
+                  }}
+                  animate={{ y: [0, -12, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                  draggable={false}
+                />
+              </div>
 
               {/* Floating glass cards */}
               {CARDS.map((card, i) => (
@@ -331,9 +351,11 @@ const Hero: React.FC = () => {
                   style={{
                     top: card.top,
                     right: card.right,
-                    background: 'rgba(10,15,37,0.75)',
+                    background: isDark ? 'rgba(10,15,37,0.75)' : 'rgba(255,255,255,0.8)',
                     backdropFilter: 'blur(16px)',
-                    boxShadow: `0 4px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06)`,
+                    boxShadow: isDark
+                      ? `0 4px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06)`
+                      : `0 4px 24px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.06)`,
                   }}
                   initial={{ opacity: 0, x: 30 }}
                   animate={inView
@@ -345,13 +367,21 @@ const Hero: React.FC = () => {
                     y: { delay: 0.5 + i * 0.12, duration: 3 + i * 0.5, repeat: Infinity, ease: 'easeInOut' },
                   }}
                 >
-                  <div className="flex items-start gap-2">
-                    <span className="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: card.dot, boxShadow: `0 0 6px ${card.dot}` }} />
+                  <div className="flex items-center gap-2.5">
+                    <div
+                      className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
+                      style={{ background: `${card.dot}18`, border: `1px solid ${card.dot}40` }}
+                    >
+                      {card.icon === 'cal'    && <Calendar className="w-4 h-4" style={{ color: card.dot }} />}
+                      {card.icon === 'rocket' && <Rocket   className="w-4 h-4" style={{ color: card.dot }} />}
+                      {card.icon === 'globe'  && <Globe2   className="w-4 h-4" style={{ color: card.dot }} />}
+                      {!card.icon && <span className="w-2 h-2 rounded-full" style={{ background: card.dot, boxShadow: `0 0 6px ${card.dot}` }} />}
+                    </div>
                     <div>
                       <p className="text-[9px] font-semibold tracking-widest uppercase" style={{ color: card.dot }}>
                         {language === 'es' ? card.labelEs : card.labelEn}
                       </p>
-                      <p className="text-xs font-bold text-white mt-0.5">
+                      <p className={`text-xs font-bold mt-0.5 ${isDark ? 'text-white' : 'text-gray-800'}`}>
                         {language === 'es' ? card.subEs : card.subEn}
                       </p>
                     </div>
@@ -375,8 +405,8 @@ const Hero: React.FC = () => {
                     aria-label={label}
                     whileHover={{ scale: 1.15, boxShadow: '0 0 16px rgba(139,92,246,0.6)' }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center justify-center w-9 h-9 rounded-full border border-white/10 text-gray-400 hover:text-white transition-colors"
-                    style={{ background: 'rgba(255,255,255,0.05)' }}
+                    className={`flex items-center justify-center w-9 h-9 rounded-full transition-colors ${isDark ? 'border border-white/10 text-gray-400 hover:text-white' : 'border border-black/10 text-gray-500 hover:text-gray-800'}`}
+                    style={{ background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' }}
                     data-cursor-hover
                   >
                     <Icon className="w-4 h-4" />
@@ -399,7 +429,7 @@ const Hero: React.FC = () => {
           onClick={() => document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' })}
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.6, repeat: Infinity }}
-          className="flex flex-col items-center gap-1 text-gray-600 hover:text-gray-400 transition-colors"
+          className={`flex flex-col items-center gap-1 transition-colors ${isDark ? 'text-gray-600 hover:text-gray-400' : 'text-gray-400 hover:text-gray-600'}`}
           data-cursor-hover
         >
           <span className="text-[9px] tracking-[0.2em] uppercase">Scroll</span>
