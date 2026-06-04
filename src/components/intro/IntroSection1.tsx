@@ -75,7 +75,6 @@ const IntroSection: React.FC = () => {
   // Unmount once the overlay is essentially opaque — seamless cut to Hero
   useMotionValueEvent(overlayOpacity, 'change', (v) => {
     if (v >= 0.99) setIntroActive(false);
-    if (v < 0.01)  setIntroActive(true);
   });
 
   // ── Content (text + orbit): visible at start, fades at ~50% ──────

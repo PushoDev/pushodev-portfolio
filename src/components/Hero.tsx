@@ -1,349 +1,413 @@
-/**
- * Hero section with typewriter effect, animated elements and social links
- */
-import React from "react";
-import { motion } from "motion/react";
-import { Github, Linkedin, ExternalLink, ChevronDown } from "lucide-react";
-import { Button } from "./ui/button";
-import TypewriterEffect from "./TypewriterEffect";
-import CountUp from "./CountUp";
-import { useLanguage } from "../contexts/LanguageContext";
-import heroImage from "@/imgs/hero.png";
-import * as simpleIcons from "simple-icons";
+import React, { useRef } from 'react';
+import { motion, useInView } from 'motion/react';
+import { Github, Linkedin, Twitter, Download, ArrowRight } from 'lucide-react';
+import TypewriterEffect from './TypewriterEffect';
+import CountUp from './CountUp';
+import { useLanguage } from '../contexts/LanguageContext';
+import * as simpleIcons from 'simple-icons';
 
+/* ─── helpers ─────────────────────────────────────────────────────────── */
+const getIcon = (key: string) =>
+  (simpleIcons as Record<string, { path: string; hex: string } | undefined>)[key];
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 32 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1], delay },
+});
+
+/* ─── data ────────────────────────────────────────────────────────────── */
+const TECH = [
+  { name: 'Laravel',    key: 'siLaravel',    color: '#FF2D20' },
+  { name: 'React',      key: 'siReact',      color: '#61DAFB' },
+  { name: 'TypeScript', key: 'siTypescript', color: '#3178C6' },
+  { name: '.NET',       key: 'siDotnet',     color: '#512BD4' },
+  { name: 'Tailwind',   key: 'siTailwindcss',color: '#06B6D4' },
+  { name: 'GitHub',     key: 'siGithub',     color: '#e2e8f0' },
+];
+
+const STATS = [
+  { value: 40,  suffix: '+', labelEs: 'Proyectos Completados', labelEn: 'Completed Projects',  icon: '</>' },
+  { value: 20,  suffix: '+', labelEs: 'Clientes Felices',      labelEn: 'Happy Clients',        icon: '◎'  },
+  { value: 80,  suffix: '+', labelEs: 'Invitaciones de Café',  labelEn: 'Coffee Invitations',   icon: '☕' },
+  { value: 100, suffix: '%', labelEs: 'Pasión por lo que hago',labelEn: 'Passion for my work',  icon: '★'  },
+];
+
+const CARDS = [
+  { labelEs: 'DISPONIBLE PARA', subEs: 'FREELANCE',     labelEn: 'AVAILABLE FOR',  subEn: 'FREELANCE',  dot: '#22d3ee', top: '6%',  right: '2%'  },
+  { labelEs: 'EXPERIENCIA',     subEs: '5+ AÑOS',        labelEn: 'EXPERIENCE',     subEn: '5+ YEARS',   dot: '#a78bfa', top: '28%', right: '-2%' },
+  { labelEs: 'PROYECTOS',       subEs: '40+ COMPLETADOS',labelEn: 'PROJECTS',       subEn: '40+ DONE',   dot: '#f472b6', top: '55%', right: '-2%' },
+  { labelEs: 'TRABAJANDO',      subEs: 'GLOBALMENTE',    labelEn: 'WORKING',        subEn: 'GLOBALLY',   dot: '#34d399', top: '76%', right: '2%'  },
+];
+
+const SOCIAL = [
+  { icon: Github,   href: 'https://github.com/PushoDev',                   label: 'GitHub'   },
+  { icon: Linkedin, href: 'https://www.linkedin.com/in/luis-alberto-pushodev/', label: 'LinkedIn' },
+  { icon: Twitter,  href: '#',                                              label: 'Twitter'  },
+];
+
+/* ─── component ───────────────────────────────────────────────────────── */
 const Hero: React.FC = () => {
-  const { t, language } = useLanguage();
-  console.log("Hero image path:", heroImage);
+  const { language } = useLanguage();
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.05 });
 
-  const roles =
-    language === "es"
-      ? [
-          "Desarrollador Full-Stack",
-          "Autodidacta",
-          "Innovador",
-          "Solución de Problemas",
-        ]
-      : ["Full-Stack Developer", "Self-taught", "Innovator", "Problem Solver"];
-
-  const stats = [
-    { key: "stats.projects", value: 42, suffix: "+" },
-    { key: "stats.clients", value: 50, suffix: "+" },
-    { key: "stats.coffee", value: 80, suffix: "+" },
-    { key: "stats.thesis", value: 15, suffix: "+" },
-  ];
-
-  const technologies = [
-    { name: "React", iconKey: "siReact", color: "#61DAFB" },
-    { name: "Laravel", iconKey: "siLaravel", color: "#FF2D20" },
-    { name: "Flutter", iconKey: "siFlutter", color: "#02569B" },
-    { name: "Python", iconKey: "siPython", color: "#3776AB" },
-    { name: "Docker", iconKey: "siDocker", color: "#2496ED" },
-    { name: "TypeScript", iconKey: "siTypescript", color: "#3178C6" },
-  ];
-
-  const socialLinks = [
-    { icon: Github, href: "https://github.com/PushoDev", label: "GitHub" },
-    {
-      icon: Linkedin,
-      href: "https://www.linkedin.com/in/luis-alberto-pushodev/",
-      label: "LinkedIn",
-    },
-    {
-      icon: ExternalLink,
-      href: "https://puschoft.blogspot.com/",
-      label: "Blog",
-    },
-  ];
+  const roles = language === 'es'
+    ? ['Full Stack Developer', 'Laravel Specialist', 'React Developer', 'Backend Architect', 'Software Engineer']
+    : ['Full Stack Developer', 'Laravel Specialist', 'React Developer', 'Backend Architect', 'Software Engineer'];
 
   return (
     <section
+      ref={ref}
       id="home"
-      className="relative z-10 flex items-center justify-center min-h-screen pt-16 bg-background"
+      className="relative z-10 min-h-screen flex flex-col overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, #050816 0%, #0A0F25 50%, #120B2B 100%)' }}
     >
-      {/* Floating circles — isolated overflow so they don't clip the text */}
+      {/* ── grid overlay ─────────────────────────────────────────────── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(139,92,246,0.04) 1px, transparent 1px),' +
+            'linear-gradient(90deg,rgba(139,92,246,0.04) 1px,transparent 1px)',
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      {/* ── radial glow blobs ─────────────────────────────────────────── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Outer ring */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-96 h-96"
-        >
-          <div className="relative w-full h-full">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <motion.div
-                key={`outer-${i}`}
-                className="absolute w-4 h-4 rounded-full shadow-lg bg-gradient-to-r from-cyan-400 to-purple-500 shadow-cyan-400/50"
-                style={{
-                  top: "50%",
-                  left: "50%",
-                  transform: `rotate(${
-                    i * 45
-                  }deg) translateY(-48px) translateX(-50%)`,
-                  transformOrigin: "50% 48px",
-                }}
-                animate={{
-                  scale: [1, 1.2, 1],
-                  opacity: [0.7, 1, 0.7],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                }}
-              />
-            ))}
-          </div>
-        </motion.div>
+        <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full opacity-20"
+          style={{ background: 'radial-gradient(circle, #06b6d4 0%, transparent 70%)', filter: 'blur(80px)' }} />
+        <div className="absolute top-[10%] right-[-10%] w-[600px] h-[600px] rounded-full opacity-15"
+          style={{ background: 'radial-gradient(circle, #8b5cf6 0%, transparent 70%)', filter: 'blur(100px)' }} />
+        <div className="absolute bottom-[-10%] left-[30%] w-[400px] h-[400px] rounded-full opacity-10"
+          style={{ background: 'radial-gradient(circle, #ec4899 0%, transparent 70%)', filter: 'blur(80px)' }} />
+      </div>
 
-        {/* Inner ring */}
-        <motion.div
-          animate={{ rotate: -360 }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-72 h-72"
-        >
-          <div className="relative w-full h-full">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <motion.div
-                key={`inner-${i}`}
-                className="absolute w-3 h-3 rounded-full shadow-lg bg-gradient-to-r from-pink-400 to-orange-500 shadow-pink-400/50"
-                style={{
-                  top: "50%",
-                  left: "50%",
-                  transform: `rotate(${
-                    i * 60
-                  }deg) translateY(-36px) translateX(-50%)`,
-                  transformOrigin: "50% 36px",
-                }}
-                animate={{
-                  scale: [1, 1.3, 1],
-                  opacity: [0.6, 1, 0.6],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  delay: i * 0.25,
-                }}
-              />
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Floating particles */}
+      {/* ── floating particles ───────────────────────────────────────── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {Array.from({ length: 20 }).map((_, i) => (
           <motion.div
-            key={`particle-${i}`}
-            className="absolute w-2 h-2 rounded-full bg-gradient-to-r from-cyan-400/30 to-purple-500/30"
+            key={i}
+            className="absolute rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              width: `${2 + (i % 3)}px`,
+              height: `${2 + (i % 3)}px`,
+              left: `${(i * 37 + 10) % 95}%`,
+              top: `${(i * 53 + 5) % 90}%`,
+              background: ['#06b6d4', '#8b5cf6', '#ec4899'][i % 3],
+              opacity: 0.35,
             }}
-            animate={{
-              y: [0, -20, 0],
-              x: [0, Math.random() * 20 - 10, 0],
-              opacity: [0.3, 0.8, 0.3],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
+            animate={{ y: [0, -(12 + i % 8), 0], opacity: [0.35, 0.65, 0.35] }}
+            transition={{ duration: 3 + (i % 4), repeat: Infinity, delay: i * 0.3, ease: 'easeInOut' }}
           />
         ))}
       </div>
-      <br />
 
-      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="grid items-center grid-cols-1 gap-12 lg:grid-cols-2">
-          {/* Left Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center lg:text-left"
-          >
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="mb-6 text-5xl font-bold lg:text-7xl"
-            >
-              <span className="text-gray-800 dark:text-gray-200">
-                {t("hero.greeting")}
-              </span>
-              <br />
-              <span className="text-transparent bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text">
-                Luis Guisado
-              </span>
-            </motion.h1>
+      {/* ── main grid ────────────────────────────────────────────────── */}
+      <div className="flex-1 flex items-center pt-24 pb-8">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-4 items-center">
 
-            <div className="min-h-[3rem] mb-8 text-2xl lg:text-3xl overflow-visible">
-              <TypewriterEffect words={roles} className="font-semibold" />
-            </div>
+            {/* ══ LEFT ═════════════════════════════════════════════════ */}
+            <div className="flex flex-col gap-6 lg:pr-8">
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="max-w-2xl mb-8 text-lg leading-relaxed text-gray-600 dark:text-gray-300"
-            >
-              {t("hero.description")}
-            </motion.p>
+              {/* Badge */}
+              <motion.div
+                {...fadeUp(0.1)}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
+                className="flex items-center gap-2 w-fit"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500" />
+                </span>
+                <span className="text-xs font-bold tracking-[0.2em] text-pink-400 uppercase">
+                  {language === 'es' ? 'Disponible para Freelance' : 'Available for Freelance'}
+                </span>
+              </motion.div>
 
-            {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="flex justify-center mb-8 space-x-4 lg:justify-start"
-            >
-              {socialLinks.map((social, index) => (
+              {/* Headline */}
+              <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+              >
+                <p className="text-2xl sm:text-3xl font-semibold text-gray-300 mb-1">
+                  {language === 'es' ? 'Hola, soy' : "Hello, I'm"}
+                </p>
+                <h1 className="font-black leading-none">
+                  <span
+                    className="block text-6xl sm:text-7xl lg:text-8xl text-transparent bg-clip-text"
+                    style={{ backgroundImage: 'linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%)' }}
+                  >
+                    Luis
+                  </span>
+                  <span
+                    className="block text-6xl sm:text-7xl lg:text-8xl text-transparent bg-clip-text"
+                    style={{ backgroundImage: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)' }}
+                  >
+                    Guisado
+                  </span>
+                </h1>
+              </motion.div>
+
+              {/* Typewriter */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.55, delay: 0.35 }}
+                className="flex items-center gap-3"
+              >
+                <div className="h-px w-8 bg-gradient-to-r from-cyan-400 to-transparent" />
+                <div className="text-xl sm:text-2xl font-mono">
+                  <TypewriterEffect words={roles} className="font-semibold" />
+                </div>
+              </motion.div>
+
+              {/* Description */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.55, delay: 0.45 }}
+                className="text-gray-400 leading-relaxed max-w-lg text-base"
+              >
+                {language === 'es'
+                  ? <>Desarrollo aplicaciones web modernas y escalables utilizando Laravel, React, TypeScript y .NET. Transformo ideas en productos digitales{' '}
+                      <span className="text-cyan-400 font-medium">rápidos</span>,{' '}
+                      <span className="text-purple-400 font-medium">seguros</span>{' '}
+                      y <span className="text-pink-400 font-medium">atractivos</span>.</>
+                  : <>I build modern and scalable web applications using Laravel, React, TypeScript and .NET. I transform ideas into digital products that are{' '}
+                      <span className="text-cyan-400 font-medium">fast</span>,{' '}
+                      <span className="text-purple-400 font-medium">secure</span>{' '}
+                      and <span className="text-pink-400 font-medium">attractive</span>.</>
+                }
+              </motion.p>
+
+              {/* CTA Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.55, delay: 0.55 }}
+                className="flex flex-wrap gap-3"
+              >
                 <motion.a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center justify-center w-12 h-12 text-gray-700 transition-colors duration-300 border rounded-full shadow-lg bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm border-white/20 dark:text-gray-300 hover:text-cyan-400"
+                  href="#projects"
+                  onClick={(e) => { e.preventDefault(); document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-white text-sm"
+                  style={{
+                    background: 'linear-gradient(135deg, #06b6d4, #8b5cf6, #ec4899)',
+                    boxShadow: '0 0 24px rgba(139,92,246,0.4)',
+                  }}
                   data-cursor-hover
                 >
-                  <social.icon className="w-5 h-5" />
+                  {language === 'es' ? 'Ver Proyectos' : 'View Projects'}
+                  <ArrowRight className="w-4 h-4" />
                 </motion.a>
-              ))}
-            </motion.div>
 
-            {/* Download CV Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
-            >
-              <a
-                href="https://github.com/PushoDev/pushodev-portfolio/raw/main/public/pdf/CV_Luis_Alberto_Guisado.pdf"
-                download="CV_Luis_Alberto_Guisado.pdf"
-                className="inline-block"
-              >
-                <Button
-                  size="lg"
-                  className="px-8 py-3 font-semibold text-white transition-all duration-300 rounded-full shadow-lg bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 hover:shadow-xl"
+                <motion.a
+                  href="https://github.com/PushoDev/pushodev-portfolio/raw/main/public/pdf/CV_Luis_Alberto_Guisado.pdf"
+                  download
+                  whileHover={{ scale: 1.03, borderColor: '#22d3ee' }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-gray-200 text-sm border transition-all duration-300"
+                  style={{ border: '1px solid rgba(139,92,246,0.5)', background: 'rgba(139,92,246,0.08)' }}
                   data-cursor-hover
                 >
-                  {t("hero.downloadCV")}
-                </Button>
-              </a>
-            </motion.div>
-          </motion.div>
-
-          {/* Right Content - Profile Image with Tech Logos */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative flex items-center justify-center h-full"
-          >
-            {/* Profile Image Container */}
-            <div className="relative w-80 h-80">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="absolute inset-0 overflow-hidden border-4 rounded-full shadow-2xl border-gradient-to-r from-cyan-400 to-purple-500 shadow-cyan-400/20"
-              >
-                <img
-                  src={heroImage}
-                  alt="Luis Alberto - Pusho.dev"
-                  className="object-cover w-full h-full"
-                />
+                  <Download className="w-4 h-4" />
+                  {language === 'es' ? 'Descargar CV' : 'Download CV'}
+                </motion.a>
               </motion.div>
 
-              {/* Tech logos orbiting around image */}
+              {/* Tech Stack */}
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 flex items-center justify-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.55, delay: 0.65 }}
               >
-                {technologies.map((tech, index) => {
-                  const angle = (index * 360) / technologies.length;
-                  const radius = 180;
-                  const x = Math.cos((angle * Math.PI) / 180) * radius;
-                  const y = Math.sin((angle * Math.PI) / 180) * radius;
+                <p className="text-[10px] font-bold tracking-[0.25em] text-gray-500 uppercase mb-3">
+                  {language === 'es' ? 'Tecnologías' : 'Technologies'}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {TECH.map((tech) => {
+                    const icon = getIcon(tech.key);
+                    return (
+                      <motion.div
+                        key={tech.name}
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-gray-300 border border-white/10 transition-all duration-200"
+                        style={{ background: 'rgba(255,255,255,0.04)' }}
+                        title={tech.name}
+                        data-cursor-hover
+                      >
+                        {icon && (
+                          <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d={icon.path} fill={tech.color} />
+                          </svg>
+                        )}
+                        <span>{tech.name}</span>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </motion.div>
 
-                  const iconData = simpleIcons[
-                    tech.iconKey as keyof typeof simpleIcons
-                  ] as any;
-
-                  return (
-                    <motion.div
-                      key={tech.name}
-                      className="absolute flex items-center justify-center w-16 h-16 transition-colors border rounded-full shadow-lg bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm border-white/20 hover:bg-white/20 dark:hover:bg-gray-700/70"
-                      style={{
-                        x,
-                        y,
-                      }}
-                      whileHover={{ scale: 1.3 }}
-                    >
-                      {iconData && iconData.path && (
-                        <svg
-                          className="w-8 h-8"
-                          role="img"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d={iconData.path} fill={tech.color} />
-                        </svg>
-                      )}
-                    </motion.div>
-                  );
-                })}
+              {/* Stats Glass Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.55, delay: 0.75 }}
+                className="rounded-2xl p-4 border border-white/10"
+                style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(12px)' }}
+              >
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  {STATS.map((stat) => (
+                    <div key={stat.labelEs} className="text-center">
+                      <div
+                        className="text-2xl font-black text-transparent bg-clip-text"
+                        style={{ backgroundImage: 'linear-gradient(135deg, #22d3ee, #a855f7)' }}
+                      >
+                        <CountUp end={stat.value} suffix={stat.suffix} />
+                      </div>
+                      <p className="text-[10px] text-gray-500 mt-0.5 leading-tight">
+                        {language === 'es' ? stat.labelEs : stat.labelEn}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </motion.div>
             </div>
-          </motion.div>
-        </div>
 
-        {/* Stats Section — whileInView so CountUp animations start when actually visible */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8 }}
-          className="grid grid-cols-2 gap-8 mt-20 lg:grid-cols-4"
-        >
-          {stats.map((stat, index) => (
+            {/* ══ RIGHT ════════════════════════════════════════════════ */}
             <motion.div
-              key={stat.key}
-              whileHover={{ scale: 1.05 }}
-              className="p-6 text-center border shadow-lg rounded-2xl bg-white/5 dark:bg-gray-800/30 backdrop-blur-sm border-white/10"
+              initial={{ opacity: 0, x: 40 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
+              className="relative flex justify-center items-center min-h-[520px] lg:min-h-[680px]"
             >
-              <div className="mb-2 text-3xl font-bold text-transparent lg:text-4xl bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text">
-                <CountUp end={stat.value} suffix={stat.suffix} />
-              </div>
-              <div className="text-sm font-medium text-gray-600 lg:text-base dark:text-gray-300">
-                {t(stat.key)}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+              {/* Neon ring 1 — cyan */}
+              <motion.div
+                className="absolute rounded-full"
+                animate={{ scale: [1, 1.04, 1], opacity: [0.4, 0.65, 0.4] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+                style={{
+                  width: '360px', height: '360px',
+                  border: '2px solid rgba(6,182,212,0.5)',
+                  boxShadow: '0 0 40px rgba(6,182,212,0.25), inset 0 0 40px rgba(6,182,212,0.08)',
+                  borderRadius: '50%',
+                }}
+              />
+              {/* Neon ring 2 — pink, larger */}
+              <motion.div
+                className="absolute rounded-full"
+                animate={{ scale: [1, 1.06, 1], opacity: [0.25, 0.45, 0.25] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
+                style={{
+                  width: '480px', height: '480px',
+                  border: '1.5px solid rgba(236,72,153,0.4)',
+                  boxShadow: '0 0 60px rgba(236,72,153,0.15)',
+                  borderRadius: '50%',
+                }}
+              />
 
-        {/* Scroll Down Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-          className="absolute transform -translate-x-1/2 bottom-8 left-1/2"
-        >
-          <motion.button
-            onClick={() =>
-              document
-                .querySelector("#about")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="p-2 text-gray-700 transition-colors duration-300 border rounded-full bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm border-white/20 dark:text-gray-300 hover:text-cyan-400"
-            data-cursor-hover
-          >
-            <ChevronDown className="w-6 h-6" />
-          </motion.button>
-        </motion.div>
+              {/* Avatar */}
+              <motion.img
+                src="/avatar_gral.png"
+                alt="Luis Alberto Guisado"
+                className="relative z-10 select-none pointer-events-none"
+                style={{ height: 'clamp(400px, 55vh, 580px)', objectFit: 'contain', objectPosition: 'bottom', filter: 'drop-shadow(0 0 40px rgba(139,92,246,0.3))' }}
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                draggable={false}
+              />
+
+              {/* Floating glass cards */}
+              {CARDS.map((card, i) => (
+                <motion.div
+                  key={card.labelEs}
+                  className="absolute z-20 rounded-xl px-3 py-2.5 border border-white/10 min-w-[140px]"
+                  style={{
+                    top: card.top,
+                    right: card.right,
+                    background: 'rgba(10,15,37,0.75)',
+                    backdropFilter: 'blur(16px)',
+                    boxShadow: `0 4px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06)`,
+                  }}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={inView
+                    ? { opacity: 1, x: 0, y: [0, -4, 0] }
+                    : { opacity: 0, x: 30 }}
+                  transition={{
+                    opacity: { delay: 0.5 + i * 0.12, duration: 0.5 },
+                    x: { delay: 0.5 + i * 0.12, duration: 0.5 },
+                    y: { delay: 0.5 + i * 0.12, duration: 3 + i * 0.5, repeat: Infinity, ease: 'easeInOut' },
+                  }}
+                >
+                  <div className="flex items-start gap-2">
+                    <span className="mt-1 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: card.dot, boxShadow: `0 0 6px ${card.dot}` }} />
+                    <div>
+                      <p className="text-[9px] font-semibold tracking-widest uppercase" style={{ color: card.dot }}>
+                        {language === 'es' ? card.labelEs : card.labelEn}
+                      </p>
+                      <p className="text-xs font-bold text-white mt-0.5">
+                        {language === 'es' ? card.subEs : card.subEn}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+
+              {/* Social links — bottom right of right column */}
+              <motion.div
+                className="absolute bottom-0 right-4 flex gap-2 z-20"
+                initial={{ opacity: 0, y: 16 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.9, duration: 0.5 }}
+              >
+                {SOCIAL.map(({ icon: Icon, href, label }) => (
+                  <motion.a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    whileHover={{ scale: 1.15, boxShadow: '0 0 16px rgba(139,92,246,0.6)' }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex items-center justify-center w-9 h-9 rounded-full border border-white/10 text-gray-400 hover:text-white transition-colors"
+                    style={{ background: 'rgba(255,255,255,0.05)' }}
+                    data-cursor-hover
+                  >
+                    <Icon className="w-4 h-4" />
+                  </motion.a>
+                ))}
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
       </div>
+
+      {/* ── scroll caret ───────────────────────────────────────────────── */}
+      <motion.div
+        className="flex justify-center pb-6"
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ delay: 1.2 }}
+      >
+        <motion.button
+          onClick={() => document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' })}
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity }}
+          className="flex flex-col items-center gap-1 text-gray-600 hover:text-gray-400 transition-colors"
+          data-cursor-hover
+        >
+          <span className="text-[9px] tracking-[0.2em] uppercase">Scroll</span>
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </motion.button>
+      </motion.div>
     </section>
   );
 };
