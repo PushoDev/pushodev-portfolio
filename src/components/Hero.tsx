@@ -22,6 +22,7 @@ const fadeUp = (delay = 0) => ({
 const TECH = [
   { name: 'Laravel',    key: 'siLaravel',    color: '#FF2D20' },
   { name: 'React',      key: 'siReact',      color: '#61DAFB' },
+  { name: 'Vue',        key: 'siVuedotjs',   color: '#4FC08D' },
   { name: 'TypeScript', key: 'siTypescript', color: '#3178C6' },
   { name: '.NET',       key: 'siDotnet',     color: '#512BD4' },
   { name: 'Tailwind',   key: 'siTailwindcss',color: '#06B6D4' },
@@ -64,21 +65,8 @@ const Hero: React.FC = () => {
     <section
       ref={ref}
       id="home"
-      className="relative z-10 min-h-screen flex flex-col overflow-x-hidden"
-      style={{ background: isDark
-        ? 'linear-gradient(135deg, #050816 0%, #0A0F25 50%, #120B2B 100%)'
-        : 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f5f3ff 100%)' }}
+      className="relative z-10 h-screen flex flex-col overflow-hidden"
     >
-      {/* ── grid overlay ─────────────────────────────────────────────── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            `linear-gradient(rgba(139,92,246,${isDark ? '0.04' : '0.07'}) 1px, transparent 1px),` +
-            `linear-gradient(90deg,rgba(139,92,246,${isDark ? '0.04' : '0.07'}) 1px,transparent 1px)`,
-          backgroundSize: '60px 60px',
-        }}
-      />
 
       {/* ── radial glow blobs ─────────────────────────────────────────── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -111,12 +99,12 @@ const Hero: React.FC = () => {
       </div>
 
       {/* ── main grid ────────────────────────────────────────────────── */}
-      <div className="flex-1 flex items-center pt-24 pb-8">
+      <div className="flex-1 flex items-center pt-20 pb-4">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-4 items-center">
 
             {/* ══ LEFT ═════════════════════════════════════════════════ */}
-            <div className="flex flex-col gap-6 lg:pr-8">
+            <div className="flex flex-col gap-4 lg:pr-8">
 
               {/* Badge */}
               <motion.div
@@ -144,16 +132,10 @@ const Hero: React.FC = () => {
                 </p>
                 <h1 className="font-black leading-none">
                   <span
-                    className="block text-6xl sm:text-7xl lg:text-8xl text-transparent bg-clip-text"
-                    style={{ backgroundImage: 'linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%)' }}
+                    className="block text-5xl sm:text-6xl lg:text-7xl text-transparent bg-clip-text whitespace-nowrap"
+                    style={{ backgroundImage: 'linear-gradient(135deg, #22d3ee 0%, #3b82f6 40%, #a855f7 70%, #ec4899 100%)' }}
                   >
-                    Luis
-                  </span>
-                  <span
-                    className="block text-6xl sm:text-7xl lg:text-8xl text-transparent bg-clip-text"
-                    style={{ backgroundImage: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)' }}
-                  >
-                    Guisado
+                    Luis Guisado
                   </span>
                 </h1>
               </motion.div>
@@ -242,18 +224,17 @@ const Hero: React.FC = () => {
                     return (
                       <motion.div
                         key={tech.name}
-                        whileHover={{ scale: 1.1, y: -2 }}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-200 ${isDark ? 'text-gray-300 border border-white/10' : 'text-gray-600 border border-black/10'}`}
+                        whileHover={{ scale: 1.15, y: -2 }}
+                        className={`flex items-center justify-center p-2.5 rounded-xl transition-all duration-200 ${isDark ? 'border border-white/10' : 'border border-black/10'}`}
                         style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}
                         title={tech.name}
                         data-cursor-hover
                       >
                         {icon && (
-                          <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <svg className="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d={icon.path} fill={tech.color} />
                           </svg>
                         )}
-                        <span>{tech.name}</span>
                       </motion.div>
                     );
                   })}
@@ -291,7 +272,8 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, x: 40 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
-              className="relative flex justify-center items-center min-h-[600px] lg:min-h-[780px]"
+              className="relative flex justify-center items-center"
+              style={{ height: 'calc(100vh - 10rem)' }}
             >
               {/* Neon ring 1 — cyan */}
               <motion.div
@@ -299,7 +281,7 @@ const Hero: React.FC = () => {
                 animate={{ scale: [1, 1.04, 1], opacity: [0.4, 0.7, 0.4] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
                 style={{
-                  width: '460px', height: '460px',
+                  width: '360px', height: '360px',
                   top: '50%', left: '50%',
                   transform: 'translate(-50%, -50%)',
                   border: '2px solid rgba(6,182,212,0.55)',
@@ -313,7 +295,7 @@ const Hero: React.FC = () => {
                 animate={{ scale: [1, 1.06, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
                 style={{
-                  width: '620px', height: '620px',
+                  width: '500px', height: '500px',
                   top: '50%', left: '50%',
                   transform: 'translate(-50%, -50%)',
                   border: '1.5px solid rgba(236,72,153,0.45)',
@@ -322,22 +304,21 @@ const Hero: React.FC = () => {
                 }}
               />
 
-              {/* Avatar — wrapper clips overflow at bottom */}
-              <div className="absolute inset-x-0 bottom-0 top-0 flex justify-center items-end overflow-hidden z-10 pointer-events-none">
+              {/* Avatar */}
+              <div className="absolute inset-0 flex justify-center items-center z-10 pointer-events-none">
                 <motion.img
                   src={avatarImg}
                   alt="Luis Alberto Guisado"
                   className="select-none"
                   style={{
-                    height: 'clamp(700px, 110vh, 1100px)',
-                    width: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center top',
-                    filter: 'drop-shadow(0 0 60px rgba(139,92,246,0.5)) drop-shadow(0 0 24px rgba(6,182,212,0.25))',
-                    maskImage: 'linear-gradient(to bottom, transparent 0%, black 6%, black 70%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 6%, black 70%, transparent 100%)',
+                    height: '100%',
+                    width: 'auto',
+                    objectFit: 'contain',
+                    filter: 'drop-shadow(0 0 80px rgba(139,92,246,0.6)) drop-shadow(0 0 32px rgba(6,182,212,0.3))',
+                    maskImage: 'linear-gradient(to bottom, transparent 0%, black 8%, black 82%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 8%, black 82%, transparent 100%)',
                   }}
-                  animate={{ y: [0, -12, 0] }}
+                  animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
                   draggable={false}
                 />

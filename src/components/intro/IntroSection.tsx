@@ -9,6 +9,7 @@ import {
 } from 'motion/react';
 import OrbitImages from './OrbitImages';
 import * as simpleIcons from 'simple-icons';
+import { useTheme } from '../../contexts/ThemeContext';
 
 // Build inline SVG data-URIs from simple-icons
 const iconUrl = (key: string, color: string): string => {
@@ -36,6 +37,9 @@ const springConfig = { stiffness: 120, damping: 20 };
 
 const IntroSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  const bgBase = isDark ? '#06060f' : '#f0f9ff';
 
   // Unmount the fixed layers only once the dark overlay is fully opaque
   // (overlayOpacity >= 0.99). Unmounting at exactly opacity=1 ensures a
@@ -58,15 +62,15 @@ const IntroSection: React.FC = () => {
   //   Center text (450px in 900px viewport): SVG top = 450-1584 = -1134px → use ≈-1100px
   //   At 300px width (0.33×): height = 73px, text at ~53px
   //   Target text at 30% from top ≈ 270px: SVG top = 270-53 = 217px → use ≈220px
-  const rawMaskSize = useTransform(scrollYProgress, [0, 1], [9000, 300]);
-  const rawMaskPos  = useTransform(scrollYProgress, [0, 1], [-1100, 220]);
+  const rawMaskSize = useTransform(scrollYProgress, [0, 1], [300, 9000]);
+  const rawMaskPos  = useTransform(scrollYProgress, [0, 1], [220, -1100]);
   const maskSize    = useSpring(rawMaskSize, springConfig);
   const maskPos     = useSpring(rawMaskPos,  springConfig);
   const maskSizeCSS = useMotionTemplate`${maskSize}px`;
   const maskPosCSS  = useMotionTemplate`center ${maskPos}px`;
 
   // ── Outer layer: full-screen dark bg, fades out in the first 50% ──
-  const outerOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const outerOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
   const bgScale      = useTransform(scrollYProgress, [0, 1], [1.08, 1]);
 
   // ── Dark transition overlay: fades in at 80-100% ──────────────────
@@ -88,13 +92,13 @@ const IntroSection: React.FC = () => {
     inset: 0,
     width: '100%',
     height: '100%',
-    zIndex: 5,
+    zIndex: 20,
   };
 
   return (
     <>
       {/* 200vh scroll zone — provides scroll distance, no visual content */}
-      <div ref={containerRef} style={{ height: '200vh' }} id="intro" />
+      <div ref={containerRef} style={{ height: '150vh' }} id="intro" />
 
       {/* Fixed visual layers — unmounted once intro is fully scrolled past */}
       {introActive && (
@@ -104,13 +108,14 @@ const IntroSection: React.FC = () => {
           <motion.div
             style={{ ...fixedBase, opacity: outerOpacity, scale: bgScale }}
           >
-            <div style={{ position: 'absolute', inset: 0, background: '#06060f' }} />
+            <div style={{ position: 'absolute', inset: 0, background: bgBase }} />
             <div
               style={{
                 position: 'absolute',
                 inset: 0,
-                background:
-                  'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(168,85,247,0.18) 0%, rgba(6,182,212,0.10) 50%, transparent 100%)',
+                background: isDark
+                  ? 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(168,85,247,0.18) 0%, rgba(6,182,212,0.10) 50%, transparent 100%)'
+                  : 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(168,85,247,0.12) 0%, rgba(6,182,212,0.08) 50%, transparent 100%)',
               }}
             />
           </motion.div>
@@ -141,21 +146,20 @@ const IntroSection: React.FC = () => {
                   'linear-gradient(135deg, #a855f7 0%, #06b6d4 50%, #ec4899 100%)',
               }}
             />
-            {/* Dark fill inside mask — fades in at end (same role as the white fill */}
-            {/* in the GTA demo), creating a seamless transition to the Hero's dark bg */}
+            {/* Fill inside mask — fades in at end, seamless cut to Hero bg */}
             <motion.div
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: '#06060f',
+                background: bgBase,
                 opacity: overlayOpacity,
               }}
             />
           </motion.div>
 
-          {/* ── Layer 3: global dark overlay — covers all layers for Hero transition ── */}
+          {/* ── Layer 3: global overlay — covers all layers for Hero transition ── */}
           <motion.div
-            style={{ ...fixedBase, background: '#06060f', opacity: overlayOpacity }}
+            style={{ ...fixedBase, background: bgBase, opacity: overlayOpacity }}
           />
 
           {/* ── Layer 4: content (text + orbit + scroll hint) ─────────────────── */}

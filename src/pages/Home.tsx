@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { ThemeProvider } from '../contexts/ThemeContext';
 import { LanguageProvider } from '../contexts/LanguageContext';
-import CustomCursor from '../components/CustomCursor';
 import AuroraBackground from '../components/AuroraBackground';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
@@ -14,7 +13,6 @@ import Footer from '../components/Footer';
 import WhatsAppButton from '../components/WhatsAppButton';
 import ScrollToTop from '../components/ScrollToTop';
 import IntroSection from '../components/intro/IntroSection';
-import ParticleOrbitEffect from '../components/intro/ParticleOrbitEffect';
 import LoadingScreen from '../components/ui/LoadingScreen';
 
 const Home: React.FC = () => {
@@ -34,18 +32,6 @@ const Home: React.FC = () => {
 
           {/* Background Effects */}
           <AuroraBackground />
-          <CustomCursor />
-
-          {/* Particle cursor orbit — global, on top of everything */}
-          <ParticleOrbitEffect
-            particleCount={18}
-            radius={58}
-            colorRange={[220, 310]}
-            particleSpeed={0.022}
-            intensity={0.85}
-            fadeOpacity={0.04}
-            particleSize={2.5}
-          />
 
           {/* Navigation — visibility controlled inside Navbar via scroll position */}
           <Navbar />

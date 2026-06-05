@@ -16,9 +16,9 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     const checkScroll = () => {
       // Intro occupies 200vh; show navbar 100px before the end
-      const introEnd = window.innerHeight * 2 - 100;
+      const introEnd = window.innerHeight * 1.5 - 100;
       setIsPastIntro(window.scrollY >= introEnd);
-      setIsScrolled(window.scrollY > window.innerHeight * 2 + 50);
+      setIsScrolled(window.scrollY > window.innerHeight * 1.5 + 50);
     };
 
     window.addEventListener("scroll", checkScroll, { passive: true });

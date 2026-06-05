@@ -83,8 +83,7 @@ body {
   background-color: hsl(var(--background));
   overscroll-behavior: none;
   font-synthesis-weight: none;
-  /* hide the OS cursor — CustomCursor + ParticleOrbitEffect replace it */
-  cursor: none;
+  cursor: auto;
 }
 
 /* Subtle film-grain noise overlay (opacity 0.03 — barely visible) */
