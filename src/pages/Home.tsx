@@ -21,7 +21,7 @@ const Home: React.FC = () => {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <div className="relative min-h-screen overflow-x-hidden">
+        <div className="relative min-h-screen">
 
           {/* Loading screen — AnimatePresence handles the exit animation */}
           <AnimatePresence>

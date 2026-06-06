@@ -39,8 +39,8 @@ const STATS = [
 const CARDS = [
   { labelEs: 'DISPONIBLE PARA', subEs: 'FREELANCE',     labelEn: 'AVAILABLE FOR',  subEn: 'FREELANCE',  dot: '#22d3ee', icon: null,    top: '6%',  right: '2%'  },
   { labelEs: 'EXPERIENCIA',     subEs: '5+ AÑOS',        labelEn: 'EXPERIENCE',     subEn: '5+ YEARS',   dot: '#a78bfa', icon: 'cal',   top: '28%', right: '-2%' },
-  { labelEs: 'PROYECTOS',       subEs: '40+ COMPLETADOS',labelEn: 'PROJECTS',       subEn: '40+ DONE',   dot: '#f472b6', icon: 'rocket',top: '55%', right: '-2%' },
-  { labelEs: 'TRABAJANDO',      subEs: 'GLOBALMENTE',    labelEn: 'WORKING',        subEn: 'GLOBALLY',   dot: '#34d399', icon: 'globe',  top: '76%', right: '2%'  },
+  { labelEs: 'PROYECTOS',       subEs: '40+ COMPLETADOS',labelEn: 'PROJECTS',       subEn: '40+ DONE',   dot: '#f472b6', icon: 'rocket',top: '54%', right: '-2%' },
+  { labelEs: 'TRABAJANDO',      subEs: 'GLOBALMENTE',    labelEn: 'WORKING',        subEn: 'GLOBALLY',   dot: '#34d399', icon: 'globe',  top: '74%', right: '2%'  },
 ];
 
 const SOCIAL = [
@@ -105,6 +105,40 @@ const Hero: React.FC = () => {
 
             {/* ══ LEFT ═════════════════════════════════════════════════ */}
             <div className="flex flex-col gap-4 lg:pr-8">
+
+              {/* Mobile avatar — hidden on desktop, shown above headline on mobile */}
+              <motion.div
+                className="lg:hidden flex justify-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="relative">
+                  <div
+                    className="w-28 h-28 rounded-full overflow-hidden"
+                    style={{
+                      border: '2px solid rgba(139,92,246,0.6)',
+                      boxShadow: '0 0 0 4px rgba(139,92,246,0.12), 0 0 40px rgba(139,92,246,0.45), 0 0 70px rgba(6,182,212,0.2)',
+                    }}
+                  >
+                    <img
+                      src={avatarImg}
+                      alt="Luis Alberto Guisado"
+                      className="w-full h-full object-cover object-top"
+                      draggable={false}
+                    />
+                  </div>
+                  <motion.div
+                    className="absolute inset-0 rounded-full border-2 border-purple-400/40"
+                    animate={{ scale: [1, 1.25, 1], opacity: [0.5, 0, 0.5] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                  />
+                  <div
+                    className="absolute bottom-1 right-1 w-4 h-4 rounded-full border-2 border-black/20"
+                    style={{ background: '#22c55e', boxShadow: '0 0 8px #22c55e' }}
+                  />
+                </div>
+              </motion.div>
 
               {/* Badge */}
               <motion.div
@@ -241,12 +275,12 @@ const Hero: React.FC = () => {
                 </div>
               </motion.div>
 
-              {/* Stats Glass Card */}
+              {/* Stats Glass Card — hidden on very small phones to keep content within h-screen */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.55, delay: 0.75 }}
-                className={`rounded-2xl p-4 ${isDark ? 'border border-white/10' : 'border border-black/08'}`}
+                className={`hidden sm:block rounded-2xl p-4 ${isDark ? 'border border-white/10' : 'border border-black/08'}`}
                 style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.6)', backdropFilter: 'blur(12px)' }}
               >
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -272,7 +306,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, x: 40 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
-              className="relative flex justify-center items-center"
+              className="hidden lg:flex relative justify-center items-center"
               style={{ height: 'calc(100vh - 10rem)' }}
             >
               {/* Neon ring 1 — cyan */}
@@ -281,8 +315,8 @@ const Hero: React.FC = () => {
                 animate={{ scale: [1, 1.04, 1], opacity: [0.4, 0.7, 0.4] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
                 style={{
-                  width: '360px', height: '360px',
-                  top: '50%', left: '50%',
+                  width: '400px', height: '400px',
+                  top: '40%', left: '50%',
                   transform: 'translate(-50%, -50%)',
                   border: '2px solid rgba(6,182,212,0.55)',
                   boxShadow: '0 0 60px rgba(6,182,212,0.3), inset 0 0 60px rgba(6,182,212,0.1)',
@@ -295,8 +329,8 @@ const Hero: React.FC = () => {
                 animate={{ scale: [1, 1.06, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
                 style={{
-                  width: '500px', height: '500px',
-                  top: '50%', left: '50%',
+                  width: '560px', height: '560px',
+                  top: '40%', left: '50%',
                   transform: 'translate(-50%, -50%)',
                   border: '1.5px solid rgba(236,72,153,0.45)',
                   boxShadow: '0 0 80px rgba(236,72,153,0.2)',
@@ -305,18 +339,17 @@ const Hero: React.FC = () => {
               />
 
               {/* Avatar */}
-              <div className="absolute inset-0 flex justify-center items-center z-10 pointer-events-none">
+              <div className="absolute inset-0 flex justify-center items-end z-10 pointer-events-none">
                 <motion.img
                   src={avatarImg}
                   alt="Luis Alberto Guisado"
                   className="select-none"
                   style={{
                     height: '100%',
-                    width: 'auto',
+                    width: '100%',
                     objectFit: 'contain',
+                    objectPosition: 'bottom center',
                     filter: 'drop-shadow(0 0 80px rgba(139,92,246,0.6)) drop-shadow(0 0 32px rgba(6,182,212,0.3))',
-                    maskImage: 'linear-gradient(to bottom, transparent 0%, black 8%, black 82%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 8%, black 82%, transparent 100%)',
                   }}
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
@@ -372,7 +405,7 @@ const Hero: React.FC = () => {
 
               {/* Social links — bottom right of right column */}
               <motion.div
-                className="absolute bottom-0 right-4 flex gap-2 z-20"
+                className="absolute bottom-4 right-4 flex gap-2 z-20"
                 initial={{ opacity: 0, y: 16 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.9, duration: 0.5 }}

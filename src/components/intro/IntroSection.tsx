@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   motion,
   useScroll,
@@ -46,6 +46,20 @@ const IntroSection: React.FC = () => {
   // seamless cut — the dark overlay hides any one-frame flash.
   const [introActive, setIntroActive] = useState(true);
 
+  // Responsive orbit dimensions — 740px total width on desktop, 280px on mobile
+  const [orbit, setOrbit] = useState({ radiusX: 370, radiusY: 72, itemSize: 52 });
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      if (w < 640)       setOrbit({ radiusX: 130, radiusY: 45, itemSize: 36 });
+      else if (w < 1024) setOrbit({ radiusX: 240, radiusY: 60, itemSize: 44 });
+      else               setOrbit({ radiusX: 370, radiusY: 72, itemSize: 52 });
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   // Track the 200vh scroll container.
   // offset ['start start', 'end start']:
   //   progress=0  → container top at viewport top (scroll=0)
@@ -70,11 +84,11 @@ const IntroSection: React.FC = () => {
   const maskPosCSS  = useMotionTemplate`center ${maskPos}px`;
 
   // ── Outer layer: full-screen dark bg, fades out in the first 50% ──
-  const outerOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const outerOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const bgScale      = useTransform(scrollYProgress, [0, 1], [1.08, 1]);
 
   // ── Dark transition overlay: fades in at 80-100% ──────────────────
-  const overlayOpacity = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
+  const overlayOpacity = useTransform(scrollYProgress, [0.75, 1], [0, 1]);
 
   // Unmount once the overlay is essentially opaque — seamless cut to Hero
   useMotionValueEvent(overlayOpacity, 'change', (v) => {
@@ -83,7 +97,7 @@ const IntroSection: React.FC = () => {
   });
 
   // ── Content (text + orbit): visible at start, fades at ~50% ──────
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.12, 0.48], [1, 1, 0]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.10, 0.40], [1, 1, 0]);
   const contentY       = useTransform(scrollYProgress, [0, 0.48], [0, -60]);
 
   // shared fixed-layer style — z-index below portfolio sections
@@ -98,7 +112,7 @@ const IntroSection: React.FC = () => {
   return (
     <>
       {/* 200vh scroll zone — provides scroll distance, no visual content */}
-      <div ref={containerRef} style={{ height: '150vh' }} id="intro" />
+      <div ref={containerRef} style={{ height: '200vh' }} id="intro" />
 
       {/* Fixed visual layers — unmounted once intro is fully scrolled past */}
       {introActive && (
@@ -170,7 +184,7 @@ const IntroSection: React.FC = () => {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '2rem',
+              gap: orbit.radiusX < 200 ? '1rem' : '2rem',
               padding: '0 1rem',
               opacity: contentOpacity,
               y: contentY,
@@ -207,11 +221,11 @@ const IntroSection: React.FC = () => {
             >
               <OrbitImages
                 images={orbitIcons}
-                radiusX={370}
-                radiusY={72}
+                radiusX={orbit.radiusX}
+                radiusY={orbit.radiusY}
                 rotation={-6}
                 duration={26}
-                itemSize={52}
+                itemSize={orbit.itemSize}
               />
             </motion.div>
 

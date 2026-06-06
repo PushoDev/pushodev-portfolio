@@ -172,7 +172,7 @@ const Projects: React.FC = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="mb-16 text-center sticky top-16 z-20 pb-4 pt-2 backdrop-blur-md bg-transparent"
+          className="mb-16 text-center"
         >
           <motion.h2
             initial={{ opacity: 0, scale: 0.9 }}

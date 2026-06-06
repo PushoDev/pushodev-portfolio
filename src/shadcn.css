@@ -82,6 +82,7 @@ body {
   color: hsl(var(--foreground));
   background-color: hsl(var(--background));
   overscroll-behavior: none;
+  overflow-x: hidden;
   font-synthesis-weight: none;
   cursor: auto;
 }
