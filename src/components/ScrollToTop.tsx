@@ -17,9 +17,7 @@ const ScrollToTop: React.FC = () => {
       const progress = (scrolled / maxHeight) * 100;
 
       setScrollProgress(progress);
-      // Only show after the user has passed the 200vh intro zone
-      const introEnd = window.innerHeight * 2;
-      setIsVisible(scrolled > introEnd + 100);
+      setIsVisible(scrolled > 400);
     };
 
     window.addEventListener('scroll', toggleVisibility);
@@ -27,7 +25,6 @@ const ScrollToTop: React.FC = () => {
   }, []);
 
   const scrollToTop = () => {
-    // Scroll to the Hero section, not the intro (which is at scroll=0)
     document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
   };
 

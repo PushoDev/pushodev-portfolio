@@ -12,7 +12,6 @@ import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import WhatsAppButton from '../components/WhatsAppButton';
 import ScrollToTop from '../components/ScrollToTop';
-import IntroSection from '../components/intro/IntroSection';
 import LoadingScreen from '../components/ui/LoadingScreen';
 
 const Home: React.FC = () => {
@@ -38,10 +37,6 @@ const Home: React.FC = () => {
 
           {/* Main Content */}
           <main>
-            {/* Intro section: 200vh scroll container, sticky visual frame */}
-            <IntroSection />
-
-            {/* Portfolio sections start after the 200vh intro */}
             <Hero />
             <Skills />
             <Projects />

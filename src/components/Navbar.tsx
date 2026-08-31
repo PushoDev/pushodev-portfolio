@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Moon, Sun, Menu, X, Globe, ChevronDown } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
@@ -8,23 +8,7 @@ import { Button } from "./ui/button";
 const Navbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage, t } = useLanguage();
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // Hidden until the user scrolls past the 200vh intro zone
-  const [isPastIntro, setIsPastIntro] = useState(false);
-
-  useEffect(() => {
-    const checkScroll = () => {
-      // Intro occupies 200vh; show navbar 100px before the end
-      const introEnd = window.innerHeight * 1.5 - 100;
-      setIsPastIntro(window.scrollY >= introEnd);
-      setIsScrolled(window.scrollY > window.innerHeight * 1.5 + 50);
-    };
-
-    window.addEventListener("scroll", checkScroll, { passive: true });
-    checkScroll(); // run once on mount (handles reload mid-page)
-    return () => window.removeEventListener("scroll", checkScroll);
-  }, []);
 
   const navItems = [
     { key: "nav.home", href: "#home" },
@@ -43,15 +27,14 @@ const Navbar: React.FC = () => {
   return (
     <>
       <AnimatePresence>
-        {isPastIntro && (
-          <motion.nav
-            key="navbar"
-            initial={{ opacity: 0, y: -24 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -24 }}
-            transition={{ duration: 0.45, ease: "easeOut" }}
-            className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4"
-          >
+        <motion.nav
+          key="navbar"
+          initial={{ opacity: 0, y: -24 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -24 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4"
+        >
             <div
               className="flex items-center justify-between gap-4 px-5 py-2.5 rounded-full border border-white/20 backdrop-blur-xl w-full max-w-5xl"
               style={{ background: 'rgba(10,15,37,0.75)', boxShadow: '0 4px 32px rgba(0,0,0,0.4)' }}
@@ -125,13 +108,12 @@ const Navbar: React.FC = () => {
                 </button>
               </div>
             </div>
-          </motion.nav>
-        )}
+        </motion.nav>
       </AnimatePresence>
 
       {/* Mobile Menu */}
       <AnimatePresence>
-        {isPastIntro && isMobileMenuOpen && (
+        {isMobileMenuOpen && (
           <motion.div
             key="mobile-menu"
             initial={{ opacity: 0, y: -20 }}
