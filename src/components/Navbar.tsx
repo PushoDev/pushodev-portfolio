@@ -31,7 +31,6 @@ const Navbar: React.FC = () => {
     { key: "nav.about", href: "#about" },
     { key: "nav.skills", href: "#skills" },
     { key: "nav.projects", href: "#projects" },
-    { key: "nav.blog", href: "#blog" },
     { key: "nav.contact", href: "#contact" },
   ];
 

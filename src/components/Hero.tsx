@@ -266,7 +266,7 @@ const Hero: React.FC = () => {
                       >
                         {icon && (
                           <svg className="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d={icon.path} fill={tech.color} />
+                            <path d={icon.path} fill={tech.key === 'siGithub' ? (isDark ? '#e2e8f0' : '#24292e') : tech.color} />
                           </svg>
                         )}
                       </motion.div>

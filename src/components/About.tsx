@@ -92,11 +92,6 @@ const About: React.FC = () => {
                   src={aboutImage}
                   alt="Luis Alberto - About"
                   className="object-cover object-center w-full h-full"
-                  onError={(e) => {
-                    console.error("Error cargando imagen:", e);
-                    console.log("Ruta intentada:", aboutImage);
-                  }}
-                  onLoad={() => console.log("Imagen cargada correctamente")}
                 />
               </motion.div>
 
@@ -141,7 +136,7 @@ const About: React.FC = () => {
             >
               <div className="p-4 text-center border backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl border-white/20">
                 <div className="text-2xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text">
-                  10+
+                  5+
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">
                   {t("about.experience")}

@@ -7,6 +7,10 @@ import { useRef } from "react";
 import { Github, ExternalLink, Filter } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "../contexts/LanguageContext";
+import portfolioImg from "@/imgs/projects/portfolio.jpg";
+import golfitoshopImg from "@/imgs/projects/golfitoshop.jpg";
+import laglorietashopImg from "@/imgs/projects/laglorietashop.jpg";
+import almacenErpImg from "@/imgs/projects/almacen-erp.jpg";
 import {
   Dialog,
   DialogContent,
@@ -51,8 +55,7 @@ const Projects: React.FC = () => {
         "Portfolio Personal con React, TypeScript y TailwindCSS. Efectos visuales avanzados, animaciones fluidas, soporte multiidioma (ES/EN), tema oscuro/claro, y cursor personalizado.",
       descriptionEn:
         "Personal Portfolio with React, TypeScript and TailwindCSS. Advanced visual effects, smooth animations, multilingual support (ES/EN), dark/light theme, and custom cursor.",
-      image:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/3dee8b37-6d8d-4372-9c54-a729721947fe.jpg",
+      image: portfolioImg,
       technologies: ["React", "TypeScript", "TailwindCSS", "Motion"],
       category: "web",
       github: "https://github.com/PushoDev/pushodev-portfolio",
@@ -77,31 +80,44 @@ const Projects: React.FC = () => {
     },
     {
       id: 3,
-      title: "Sistema de Gestión de Almacenes (Laravel + Reactsx)",
+      title: "ERP / POS Multi-Almacén (Laravel + React)",
       description:
-        "Solución completa para manejo de productos y almacenes. Maqueta funcional que demuestra la gestión integral de inventarios y almacenes.",
+        "ERP y punto de venta multi-almacén para negocios con varias monedas (USD/CUP/MLC): control de inventario con códigos de barra, ventas, compras a proveedores, traslados entre almacenes, comisiones por vendedor, cierre de caja por turno y un bot de Telegram para aprobaciones y reportes. El repositorio es privado por ser software comercial en producción; el enlace de GitHub es una maqueta pública que reproduce la misma arquitectura y funcionalidades.",
       descriptionEn:
-        "Complete solution for product and warehouse management. Functional mockup demonstrating comprehensive inventory and warehouse management.",
-      image:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/03dd86ba-c717-41fd-895f-d40803dc39f5.jpg",
-      technologies: ["Laravel", "React", "PHP", "MySQL"],
+        "Multi-warehouse ERP and point of sale for multi-currency businesses (USD/CUP/MLC): barcode-based inventory control, sales, supplier purchasing, inter-warehouse transfers, per-seller commissions, shift-based cash register closing, and a Telegram bot for approvals and reports. The repository is private as it's commercial software in production; the GitHub link is a public mockup reproducing the same architecture and functionality.",
+      image: almacenErpImg,
+      technologies: ["Laravel", "React", "TypeScript", "Inertia.js", "MySQL", "Telegram Bot"],
       category: "web",
       github: "https://github.com/PushoDev/proyecto-inventario",
-      featured: false,
+      demo: "https://gestion.posglorietashop.com",
+      featured: true,
       isPublic: true,
     },
     {
       id: 4,
-      title: "E-commerce Multivendedor (WordPress)",
+      title: "GolfitoShop — Marketplace Local + Bot de Telegram",
       description:
-        "Plataforma de comercio electrónico escalable y segura para múltiples vendedores. Solución completa para marketplace con funcionalidades avanzadas.",
+        "Marketplace local que conecta proveedores de productos, restaurantes y servicios con clientes en Granma, Cuba. Panel de proveedor y administración, catálogos en tiempo real con precios en USD/CUP, y un bot propio de Telegram (@golfitoshop_bot) para buscar productos y negocios sin salir de la app, derivando el pedido al WhatsApp del proveedor para coordinarlo directo.",
       descriptionEn:
-        "Scalable and secure e-commerce platform for multiple vendors. Complete marketplace solution with advanced functionalities.",
-      image:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/4b2d9b98-0b1a-4cf8-8601-d60b094ac62d.jpg",
-      technologies: ["WordPress", "PHP", "MySQL", "WooCommerce"],
+        "Local marketplace connecting product, restaurant and service providers with customers in Granma, Cuba. Provider and admin dashboard, real-time catalogs with USD/CUP pricing, and a custom Telegram bot (@golfitoshop_bot) to search products and businesses without leaving the app, handing the order off to the provider's WhatsApp to coordinate directly.",
+      image: golfitoshopImg,
+      technologies: ["Laravel", "React", "TypeScript", "Inertia.js", "PostgreSQL", "Telegram Bot"],
       category: "web",
       demo: "https://golfitoshop.com",
+      featured: true,
+      isPublic: false,
+    },
+    {
+      id: 8,
+      title: "La Glorieta Shop — E-commerce por WhatsApp",
+      description:
+        "Tienda online de variedades y equipos para el hogar con selección de tienda por provincia y pedidos coordinados directo por WhatsApp, sin pasarela de pago ni registro obligatorio. Frontend en Next.js consumiendo una API propia, con un panel de gestión/POS aparte containerizado con Docker.",
+      descriptionEn:
+        "Online store for home goods and appliances with per-province store selection and orders coordinated directly via WhatsApp, no payment gateway or mandatory signup. Next.js frontend consuming a custom API, with a separate management/POS panel containerized with Docker.",
+      image: laglorietashopImg,
+      technologies: ["Next.js", "React", "TypeScript", "TailwindCSS", "Docker"],
+      category: "web",
+      demo: "https://laglorietashop.com",
       featured: true,
       isPublic: false,
     },
@@ -244,9 +260,10 @@ const Projects: React.FC = () => {
                 ['--glow' as string]: project.id === 1 ? '#61DAFB'
                   : project.id === 2 ? '#009688'
                   : project.id === 3 ? '#FF2D20'
-                  : project.id === 4 ? '#21759B'
+                  : project.id === 4 ? '#F5A623'
                   : project.id === 5 ? '#02569B'
                   : project.id === 6 ? '#E0234E'
+                  : project.id === 8 ? '#E11D2E'
                   : '#a855f7',
               }}
               onClick={() => setSelectedProject(project)}
