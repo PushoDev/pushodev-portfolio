@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Github, Linkedin, Twitter, Download, ArrowRight, Calendar, Rocket, Globe2 } from 'lucide-react';
 import TypewriterEffect from './TypewriterEffect';
@@ -37,10 +37,10 @@ const STATS = [
 ];
 
 const CARDS = [
-  { labelEs: 'DISPONIBLE PARA', subEs: 'FREELANCE',     labelEn: 'AVAILABLE FOR',  subEn: 'FREELANCE',  dot: '#22d3ee', icon: null,    top: '6%',  right: '2%'  },
-  { labelEs: 'EXPERIENCIA',     subEs: '5+ AÑOS',        labelEn: 'EXPERIENCE',     subEn: '5+ YEARS',   dot: '#a78bfa', icon: 'cal',   top: '28%', right: '-2%' },
-  { labelEs: 'PROYECTOS',       subEs: '40+ COMPLETADOS',labelEn: 'PROJECTS',       subEn: '40+ DONE',   dot: '#f472b6', icon: 'rocket',top: '54%', right: '-2%' },
-  { labelEs: 'TRABAJANDO',      subEs: 'GLOBALMENTE',    labelEn: 'WORKING',        subEn: 'GLOBALLY',   dot: '#34d399', icon: 'globe',  top: '74%', right: '2%'  },
+  { labelEs: 'DISPONIBLE PARA', subEs: 'FREELANCE',     labelEn: 'AVAILABLE FOR',  subEn: 'FREELANCE',  dot: '#22d3ee', icon: null,    top: '4%',  right: '2%'  },
+  { labelEs: 'EXPERIENCIA',     subEs: '5+ AÑOS',        labelEn: 'EXPERIENCE',     subEn: '5+ YEARS',   dot: '#a78bfa', icon: 'cal',   top: '21%', right: '-2%' },
+  { labelEs: 'PROYECTOS',       subEs: '40+ COMPLETADOS',labelEn: 'PROJECTS',       subEn: '40+ DONE',   dot: '#f472b6', icon: 'rocket',top: '38%', right: '-2%' },
+  { labelEs: 'TRABAJANDO',      subEs: 'GLOBALMENTE',    labelEn: 'WORKING',        subEn: 'GLOBALLY',   dot: '#34d399', icon: 'globe', top: '55%', right: '2%'  },
 ];
 
 const SOCIAL = [
@@ -56,6 +56,22 @@ const Hero: React.FC = () => {
   const isDark = theme === 'dark';
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.05 });
+
+  // Live GitHub public repo count for the floating badge — falls back to a
+  // static value if the API is unreachable or rate-limited.
+  const [githubRepos, setGithubRepos] = useState<number | null>(null);
+  useEffect(() => {
+    fetch('https://api.github.com/users/PushoDev')
+      .then((res) => (res.ok ? res.json() : Promise.reject()))
+      .then((data) => setGithubRepos(data.public_repos))
+      .catch(() => {});
+  }, []);
+
+  const githubCard = {
+    labelEs: 'GITHUB', subEs: `${githubRepos ?? 40}+ REPOS`,
+    labelEn: 'GITHUB', subEn: `${githubRepos ?? 40}+ REPOS`,
+    dot: '#94a3b8', icon: 'github' as const, top: '72%', right: '-2%',
+  };
 
   const roles = language === 'es'
     ? ['Full Stack Developer', 'Laravel Specialist', 'React Developer', 'Backend Architect', 'Software Engineer']
@@ -363,7 +379,7 @@ const Hero: React.FC = () => {
               </div>
 
               {/* Floating glass cards */}
-              {CARDS.map((card, i) => (
+              {[...CARDS, githubCard].map((card, i) => (
                 <motion.div
                   key={card.labelEs}
                   className="absolute z-20 rounded-xl px-3 py-2.5 border border-white/10 min-w-[140px]"
@@ -394,6 +410,7 @@ const Hero: React.FC = () => {
                       {card.icon === 'cal'    && <Calendar className="w-4 h-4" style={{ color: card.dot }} />}
                       {card.icon === 'rocket' && <Rocket   className="w-4 h-4" style={{ color: card.dot }} />}
                       {card.icon === 'globe'  && <Globe2   className="w-4 h-4" style={{ color: card.dot }} />}
+                      {card.icon === 'github' && <Github   className="w-4 h-4" style={{ color: card.dot }} />}
                       {!card.icon && <span className="w-2 h-2 rounded-full" style={{ background: card.dot, boxShadow: `0 0 6px ${card.dot}` }} />}
                     </div>
                     <div>
