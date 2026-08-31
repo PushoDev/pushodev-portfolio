@@ -33,6 +33,7 @@ const Skills: React.FC = () => {
         { name: "PHP", color: "#777BB4", iconKey: "siPhp" },
         { name: "Python", color: "#3776AB", iconKey: "siPython" },
         { name: "Laravel", color: "#FF2D20", iconKey: "siLaravel" },
+        { name: "Odoo", color: "#714B67", iconKey: "siOdoo" },
         { name: "WordPress", color: "#21759B", iconKey: "siWordpress" },
         { name: "Django", color: "#092E20", iconKey: "siDjango" },
         { name: "FastAPI", color: "#009688", iconKey: "siFastapi" },

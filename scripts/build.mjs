@@ -3,7 +3,7 @@ import { rimraf } from 'rimraf'
 import stylePlugin from 'esbuild-style-plugin'
 import autoprefixer from 'autoprefixer'
 import tailwindcss from 'tailwindcss'
-import { copyFileSync, mkdirSync, readdirSync, existsSync, statSync } from 'fs'
+import { copyFileSync, mkdirSync, readdirSync, existsSync, statSync, cpSync } from 'fs'
 import { join } from 'path'
 
 const args = process.argv.slice(2)
@@ -43,17 +43,19 @@ const esbuildOpts = {
 
 const copyStaticFiles = () => {
   mkdirSync('dist', { recursive: true })
-  copyFileSync('cuba.svg', join('dist', 'cuba.svg'))
-  copyFileSync('usa.svg', join('dist', 'usa.svg'))
   copyFileSync('src/imgs/favicon.svg', join('dist', 'favicon.svg'))
   copyFileSync('robots.txt', join('dist', 'robots.txt'))
   copyFileSync('sitemap.xml', join('dist', 'sitemap.xml'))
-  // Copy files from public/ into dist/ root so CSS url() references work
+  // Copy public/ into dist/ root (recursively, preserving subfolders like pdf/)
+  // so CSS url() references and direct links (e.g. /pdf/*.pdf) work
   if (existsSync('public')) {
     for (const file of readdirSync('public')) {
       const src = join('public', file)
-      if (statSync(src).isFile()) {
-        copyFileSync(src, join('dist', file))
+      const dest = join('dist', file)
+      if (statSync(src).isDirectory()) {
+        cpSync(src, dest, { recursive: true })
+      } else {
+        copyFileSync(src, dest)
       }
     }
   }
@@ -66,7 +68,7 @@ if (isProd) {
   const ctx = await esbuild.context(esbuildOpts)
   copyStaticFiles()
   await ctx.watch()
-  const { hosts, port } = await ctx.serve()
+  const { hosts, port } = await ctx.serve({ servedir: 'dist' })
   console.log(`Running on:`)
   hosts.forEach((host) => {
     console.log('Creado por © Pushodev - 2025 pushodevs@gmail.com');

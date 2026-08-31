@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Moon, Sun, Menu, X, Globe, ChevronDown } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
@@ -17,6 +17,35 @@ const Navbar: React.FC = () => {
     { key: "nav.projects", href: "#projects" },
     { key: "nav.contact", href: "#contact" },
   ];
+
+  const [activeSection, setActiveSection] = useState("home");
+
+  useEffect(() => {
+    const sectionIds = navItems.map((item) => item.href.slice(1));
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Pick the entry closest to the vertical center of the viewport
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        if (visible.length > 0) {
+          const closest = visible.reduce((a, b) =>
+            Math.abs(a.boundingClientRect.top) < Math.abs(b.boundingClientRect.top) ? a : b
+          );
+          setActiveSection(closest.target.id);
+        }
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
@@ -51,18 +80,30 @@ const Navbar: React.FC = () => {
 
               {/* Desktop Navigation */}
               <div className="items-center hidden gap-6 md:flex">
-                {navItems.map((item) => (
-                  <motion.button
-                    key={item.key}
-                    onClick={() => scrollToSection(item.href)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-sm font-medium text-gray-300 transition-colors duration-200 hover:text-white whitespace-nowrap"
-                    data-cursor-hover
-                  >
-                    {t(item.key)}
-                  </motion.button>
-                ))}
+                {navItems.map((item) => {
+                  const isActive = activeSection === item.href.slice(1);
+                  return (
+                    <motion.button
+                      key={item.key}
+                      onClick={() => scrollToSection(item.href)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`relative text-sm font-medium transition-colors duration-200 whitespace-nowrap ${isActive ? 'text-white' : 'text-gray-300 hover:text-white'
+                        }`}
+                      data-cursor-hover
+                    >
+                      {t(item.key)}
+                      {isActive && (
+                        <motion.span
+                          layoutId="navbar-active-indicator"
+                          className="absolute left-0 right-0 -bottom-1.5 h-[2px] rounded-full"
+                          style={{ background: 'linear-gradient(90deg, #22d3ee, #a855f7)' }}
+                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                        />
+                      )}
+                    </motion.button>
+                  );
+                })}
               </div>
 
               {/* Theme and Language toggles */}
@@ -125,18 +166,24 @@ const Navbar: React.FC = () => {
           >
             <div className="px-4 py-4">
               <div className="flex flex-col gap-1">
-                {navItems.map((item) => (
-                  <motion.button
-                    key={item.key}
-                    onClick={() => scrollToSection(item.href)}
-                    whileHover={{ x: 6 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="py-2.5 px-3 font-medium text-left text-gray-300 hover:text-white transition-colors duration-200 rounded-lg hover:bg-white/5 text-sm"
-                    data-cursor-hover
-                  >
-                    {t(item.key)}
-                  </motion.button>
-                ))}
+                {navItems.map((item) => {
+                  const isActive = activeSection === item.href.slice(1);
+                  return (
+                    <motion.button
+                      key={item.key}
+                      onClick={() => scrollToSection(item.href)}
+                      whileHover={{ x: 6 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`py-2.5 px-3 font-medium text-left transition-colors duration-200 rounded-lg text-sm ${isActive
+                          ? 'text-white bg-white/10'
+                          : 'text-gray-300 hover:text-white hover:bg-white/5'
+                        }`}
+                      data-cursor-hover
+                    >
+                      {t(item.key)}
+                    </motion.button>
+                  );
+                })}
               </div>
             </div>
           </motion.div>

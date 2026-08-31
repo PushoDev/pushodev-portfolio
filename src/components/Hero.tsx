@@ -6,7 +6,7 @@ import CountUp from './CountUp';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 import * as simpleIcons from 'simple-icons';
-import avatarImg from '../../public/avatar_gral.png';
+import avatarImg from '../../public/avatar_hero.png';
 
 /* ─── helpers ─────────────────────────────────────────────────────────── */
 const getIcon = (key: string) =>
@@ -230,7 +230,7 @@ const Hero: React.FC = () => {
                 </motion.a>
 
                 <motion.a
-                  href="https://github.com/PushoDev/pushodev-portfolio/raw/main/public/pdf/CV_Luis_Alberto_Guisado.pdf"
+                  href={language === 'es' ? '/pdf/CV_Luis_Guisado_Fullstack_ES.pdf' : '/pdf/CV_Luis_Guisado_Fullstack_EN.pdf'}
                   download
                   whileHover={{ scale: 1.03, borderColor: '#22d3ee' }}
                   whileTap={{ scale: 0.97 }}
@@ -349,7 +349,12 @@ const Hero: React.FC = () => {
                     width: '100%',
                     objectFit: 'contain',
                     objectPosition: 'bottom center',
-                    filter: 'drop-shadow(0 0 80px rgba(139,92,246,0.6)) drop-shadow(0 0 32px rgba(6,182,212,0.3))',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 84%, transparent 99%)',
+                    maskImage: 'linear-gradient(to bottom, black 84%, transparent 99%)',
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskRepeat: 'no-repeat',
+                    WebkitMaskSize: '100% 100%',
+                    maskSize: '100% 100%',
                   }}
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
