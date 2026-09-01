@@ -29,3 +29,4 @@ QWEN.md
 WARP.md
 
 .vercel
+.env*
