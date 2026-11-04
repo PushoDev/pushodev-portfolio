@@ -6,37 +6,86 @@ import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 import { Github, ExternalLink, Filter } from "lucide-react";
 import { Button } from "./ui/button";
+import GlitchVault from "./GlitchVault";
+import Pagination from "./Pagination";
 import { useLanguage } from "../contexts/LanguageContext";
 import portfolioImg from "@/imgs/projects/portfolio.jpg";
 import golfitoshopImg from "@/imgs/projects/golfitoshop.jpg";
 import laglorietashopImg from "@/imgs/projects/laglorietashop.jpg";
 import almacenErpImg from "@/imgs/projects/almacen-erp.jpg";
+import fastapiImg from "@/imgs/projects/fastapi-dashboard.jpg";
+import gestoremImg from "@/imgs/projects/gestorem.jpg";
+import droneMedImg from "@/imgs/projects/drone-med.jpg";
+import blogCulturalImg from "@/imgs/projects/blog-cultural.jpg";
+import reReImg from "@/imgs/projects/re-re-remesas.jpg";
+import golfitoshopAppsImg from "@/imgs/projects/golfitoshop-apps.jpg";
+import dayclosureImg from "@/imgs/projects/dayclosure.jpg";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogFooter,
 } from "./ui/dialog";
+
+const PAGE_SIZE = 6;
+
+type Status = "production" | "development" | "completed" | "idea";
+type Category = "web" | "mobile" | "desktop" | "web3";
 
 interface ProjectType {
   id: number;
   title: string;
   description: string;
   descriptionEn: string;
-  image: string;
+  /** Screenshot; projects without one get a generated gradient cover */
+  image?: string;
   technologies: string[];
-  category: string;
+  category: Category;
+  status: Status;
+  /** Hover glow, usually the colour of the main technology */
+  glow: string;
   github?: string;
   demo?: string;
   featured: boolean;
   isPublic: boolean;
 }
 
+const STATUS_STYLE: Record<Status, string> = {
+  production: "from-emerald-500 to-teal-600",
+  development: "from-amber-500 to-orange-600",
+  completed: "from-cyan-500 to-purple-600",
+  idea: "from-violet-500 to-fuchsia-600",
+};
+
+/** Display order: finished work first, then in-development, then ideas */
+const STATUS_ORDER: Record<Status, number> = { production: 0, completed: 1, development: 2, idea: 3 };
+
+const COVER_GRADIENT: Record<Category, string> = {
+  web: "from-cyan-700 via-blue-800 to-purple-900",
+  mobile: "from-purple-700 via-fuchsia-800 to-pink-900",
+  desktop: "from-amber-600 via-orange-800 to-rose-900",
+  web3: "from-slate-700 via-violet-900 to-indigo-950",
+};
+
+/** Cover for projects that have no screenshot yet */
+const ProjectCover: React.FC<{ project: ProjectType; className: string }> = ({ project, className }) => (
+  <div
+    className={`flex items-center justify-center bg-gradient-to-br ${COVER_GRADIENT[project.category]} ${className}`}
+    role="img"
+    aria-label={project.title}
+  >
+    <span className="px-6 text-2xl font-black tracking-tight text-center text-white/90">
+      {project.title.split(/\s[—-]\s|\s\(/)[0]}
+    </span>
+  </div>
+);
+
 const Projects: React.FC = () => {
   const { t, language } = useLanguage();
   const [activeFilter, setActiveFilter] = useState("all");
+  const [page, setPage] = useState(1);
+  const sectionRef = useRef<HTMLElement>(null);
   const [selectedProject, setSelectedProject] = useState<ProjectType | null>(
     null
   );
@@ -49,45 +98,17 @@ const Projects: React.FC = () => {
 
   const projects: ProjectType[] = [
     {
-      id: 1,
-      title: "Portfolio React & TypeScript + Tailwindcss",
-      description:
-        "Portfolio Personal con React, TypeScript y TailwindCSS. Efectos visuales avanzados, animaciones fluidas, soporte multiidioma (ES/EN), tema oscuro/claro, y cursor personalizado.",
-      descriptionEn:
-        "Personal Portfolio with React, TypeScript and TailwindCSS. Advanced visual effects, smooth animations, multilingual support (ES/EN), dark/light theme, and custom cursor.",
-      image: portfolioImg,
-      technologies: ["React", "TypeScript", "TailwindCSS", "Motion"],
-      category: "web",
-      github: "https://github.com/PushoDev/pushodev-portfolio",
-      demo: "https://pushodev.vercel.app",
-      featured: true,
-      isPublic: true,
-    },
-    {
-      id: 2,
-      title: "FastAPI + React & Typescripts Dashboard",
-      description:
-        "Panel administrativo con autenticación y estadísticas. Backend con FastAPI y frontend con React y TypeScript para una experiencia de administración completa.",
-      descriptionEn:
-        "Admin dashboard with authentication and statistics. Backend with FastAPI and frontend with React and TypeScript for a complete administration experience.",
-      image:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/60c30d1b-d865-4604-be63-690de7ae6ca1.jpg",
-      technologies: ["FastAPI", "React", "TypeScript", "Python"],
-      category: "web",
-      github: "https://github.com/PushoDev/sistema.gestion-fast",
-      featured: true,
-      isPublic: true,
-    },
-    {
       id: 3,
       title: "ERP / POS Multi-Almacén (Laravel + React)",
       description:
-        "ERP y punto de venta multi-almacén para negocios con varias monedas (USD/CUP/MLC): control de inventario con códigos de barra, ventas, compras a proveedores, traslados entre almacenes, comisiones por vendedor, cierre de caja por turno y un bot de Telegram para aprobaciones y reportes. El repositorio es privado por ser software comercial en producción; el enlace de GitHub es una maqueta pública que reproduce la misma arquitectura y funcionalidades.",
+        "ERP y punto de venta multi-almacén para negocios con varias monedas (USD/CUP/MLC): inventario con costo real por lote, ventas con comisiones por vendedor, compras a proveedores, traslados entre almacenes, cierre de caja por turno y un bot de Telegram para aprobaciones y reportes. El repositorio es privado por ser software comercial en producción; el enlace de GitHub es una maqueta pública que reproduce la misma arquitectura y funcionalidades.",
       descriptionEn:
-        "Multi-warehouse ERP and point of sale for multi-currency businesses (USD/CUP/MLC): barcode-based inventory control, sales, supplier purchasing, inter-warehouse transfers, per-seller commissions, shift-based cash register closing, and a Telegram bot for approvals and reports. The repository is private as it's commercial software in production; the GitHub link is a public mockup reproducing the same architecture and functionality.",
+        "Multi-warehouse ERP and point of sale for multi-currency businesses (USD/CUP/MLC): inventory with real per-batch cost, sales with per-seller commissions, supplier purchasing, inter-warehouse transfers, shift-based cash register closing, and a Telegram bot for approvals and reports. The repository is private as it's commercial software in production; the GitHub link is a public mockup reproducing the same architecture and functionality.",
       image: almacenErpImg,
-      technologies: ["Laravel", "React", "TypeScript", "Inertia.js", "MySQL", "Telegram Bot"],
+      technologies: ["Laravel", "React", "TypeScript", "Inertia.js", "MariaDB", "Telegram Bot"],
       category: "web",
+      status: "production",
+      glow: "#FF2D20",
       github: "https://github.com/PushoDev/proyecto-inventario",
       demo: "https://gestion.posglorietashop.com",
       featured: true,
@@ -97,12 +118,14 @@ const Projects: React.FC = () => {
       id: 4,
       title: "GolfitoShop — Marketplace Local + Bot de Telegram",
       description:
-        "Marketplace local que conecta proveedores de productos, restaurantes y servicios con clientes en Granma, Cuba. Panel de proveedor y administración, catálogos en tiempo real con precios en USD/CUP, y un bot propio de Telegram (@golfitoshop_bot) para buscar productos y negocios sin salir de la app, derivando el pedido al WhatsApp del proveedor para coordinarlo directo.",
+        "Marketplace local que conecta proveedores de productos, restaurantes y servicios con clientes en Granma, Cuba. Panel de proveedor y administración, catálogos con precios en USD/CUP, anuncios y orden por zona, membresías, y un bot propio de Telegram (@golfitoshop_bot) para buscar productos y negocios, derivando el pedido al WhatsApp del proveedor para coordinarlo directo.",
       descriptionEn:
-        "Local marketplace connecting product, restaurant and service providers with customers in Granma, Cuba. Provider and admin dashboard, real-time catalogs with USD/CUP pricing, and a custom Telegram bot (@golfitoshop_bot) to search products and businesses without leaving the app, handing the order off to the provider's WhatsApp to coordinate directly.",
+        "Local marketplace connecting product, restaurant and service providers with customers in Granma, Cuba. Provider and admin dashboard, catalogs with USD/CUP pricing, zone-based ads and ordering, memberships, and a custom Telegram bot (@golfitoshop_bot) to search products and businesses, handing the order off to the provider's WhatsApp to coordinate directly.",
       image: golfitoshopImg,
       technologies: ["Laravel", "React", "TypeScript", "Inertia.js", "PostgreSQL", "Telegram Bot"],
       category: "web",
+      status: "production",
+      glow: "#F5A623",
       demo: "https://golfitoshop.com",
       featured: true,
       isPublic: false,
@@ -117,37 +140,56 @@ const Projects: React.FC = () => {
       image: laglorietashopImg,
       technologies: ["Next.js", "React", "TypeScript", "TailwindCSS", "Docker"],
       category: "web",
+      status: "production",
+      glow: "#E11D2E",
       demo: "https://laglorietashop.com",
       featured: true,
       isPublic: false,
     },
     {
-      id: 5,
-      title: "GestoRem - App Dashboard para Gestión de Remesas",
+      id: 9,
+      title: "GolfitoShop Apps — Cliente y Panel (React Native)",
       description:
-        "Aplicación móvil Flutter para la gestión de remesas. Dashboard completo con funcionalidades para seguimiento de envíos, gestión de clientes y estadísticas de operaciones.",
+        "Apps móviles nativas de GolfitoShop: la App Cliente (inicio por zona, kioscos, buscador, lista de compra y pedido por WhatsApp) y la app de Panel para proveedores y administración. Consumen la API v1 del marketplace con un cliente tipado generado desde OpenAPI, notificaciones push y actualizaciones por aire con EAS.",
       descriptionEn:
-        "Flutter mobile app for remittance management. Complete dashboard with functionalities for shipment tracking, customer management and operation statistics.",
-      image:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/6a2caf5a-41ed-4717-9fa4-7408a865454d.jpg",
-      technologies: ["Flutter", "Dart", "Firebase", "Real-time DB"],
+        "Native mobile apps for GolfitoShop: the Customer app (zone-based home, businesses, search, shopping list and WhatsApp ordering) and the Panel app for providers and administration. They consume the marketplace's API v1 through a typed client generated from OpenAPI, push notifications and over-the-air updates with EAS.",
+      image: golfitoshopAppsImg,
+      technologies: ["React Native", "Expo", "TypeScript", "TanStack Query", "Firebase"],
       category: "mobile",
-      featured: false,
+      status: "development",
+      glow: "#a78bfa",
+      featured: true,
       isPublic: false,
     },
     {
-      id: 6,
-      title: "Drone Med (Nest + PostgreSQL's)",
+      id: 10,
+      title: "DayClosure — ERP/POS instalable y offline",
       description:
-        "API REST Full para Drones de transporte de medicamentos. Sistema robusto para gestión de drones médicos con seguimiento en tiempo real.",
+        "Versión instalable del ERP/POS para pequeños negocios con conexión inestable: app de escritorio y app móvil con datos locales en SQLite y un despliegue por negocio. Se está reconstruyendo con Tauri (Rust + React) a partir de las reglas de negocio ya validadas en producción.",
       descriptionEn:
-        "Full REST API for medical delivery drones. Robust system for managing medical drones with real-time tracking.",
-      image:
-        "https://pub-cdn.sider.ai/u/U0O9H2Y0YNR/web-coder/6882accea51c7347d0934b3b/resource/80c2882f-1399-4bdd-82fc-1e2fb8cbe6d6.jpg",
-      technologies: ["NestJS", "PostgreSQL", "TypeScript", "Node.js"],
+        "Installable version of the ERP/POS for small businesses with unreliable connectivity: desktop and mobile apps with local SQLite data and one deployment per business. It is being rebuilt with Tauri (Rust + React) on top of business rules already validated in production.",
+      image: dayclosureImg,
+      technologies: ["Tauri", "Rust", "React", "TypeScript", "SQLite"],
+      category: "desktop",
+      status: "development",
+      glow: "#FFC131",
+      featured: true,
+      isPublic: false,
+    },
+    {
+      id: 11,
+      title: "Re & Re — Remesas y Recargas (Django + React)",
+      description:
+        "Prueba técnica entregada: plataforma de remesas y recargas ETECSA para Cuba con membresía VIP. Autenticación JWT, gestión de usuarios y membresías, remesas, recargas y pagos. Backend con Django REST Framework y PostgreSQL; frontend con React, Vite y Tailwind.",
+      descriptionEn:
+        "Delivered technical test: remittance and ETECSA top-up platform for Cuba with a VIP membership. JWT authentication, user and membership management, remittances, top-ups and payments. Backend with Django REST Framework and PostgreSQL; frontend with React, Vite and Tailwind.",
+      image: reReImg,
+      technologies: ["Django", "DRF", "PostgreSQL", "React", "TypeScript", "JWT"],
       category: "web",
-      github: "https://github.com/PushoDev/drones-api",
-      featured: false,
+      status: "completed",
+      glow: "#44B78B",
+      github: "https://github.com/PushoDev/re-remesas",
+      featured: true,
       isPublic: true,
     },
     {
@@ -157,13 +199,106 @@ const Projects: React.FC = () => {
         "Blog profesional desarrollado para la Secretaría de Cultura de Manzanillo. Centraliza la difusión de arte y gestión de eventos culturales. Construido con Laravel 13, React 19, Inertia.js y shadcn/ui.",
       descriptionEn:
         "Professional blog developed for the Culture Secretariat of Manzanillo. Centralizes art dissemination and cultural event management. Built with Laravel 13, React 19, Inertia.js and shadcn/ui.",
-      image:
-        "https://raw.githubusercontent.com/PushoDev/blog-cultural-manzanillo/refs/heads/main/docs/imgs/landing-page.png",
+      image: blogCulturalImg,
       technologies: ["Laravel", "React", "TypeScript", "TailwindCSS", "Inertia.js", "PHP"],
       category: "web",
+      status: "completed",
+      glow: "#FF2D20",
       github: "https://github.com/PushoDev/blog-cultural-manzanillo",
-      featured: true,
+      featured: false,
       isPublic: true,
+    },
+    {
+      id: 2,
+      title: "FastAPI + React & Typescripts Dashboard",
+      description:
+        "Panel administrativo con autenticación y estadísticas. Backend con FastAPI y frontend con React y TypeScript para una experiencia de administración completa.",
+      descriptionEn:
+        "Admin dashboard with authentication and statistics. Backend with FastAPI and frontend with React and TypeScript for a complete administration experience.",
+      image: fastapiImg,
+      technologies: ["FastAPI", "React", "TypeScript", "Python"],
+      category: "web",
+      status: "completed",
+      glow: "#009688",
+      github: "https://github.com/PushoDev/sistema.gestion-fast",
+      featured: false,
+      isPublic: true,
+    },
+    {
+      id: 1,
+      title: "Portfolio React & TypeScript + Tailwindcss",
+      description:
+        "Portfolio Personal con React, TypeScript y TailwindCSS. Efectos visuales avanzados, animaciones fluidas, soporte multiidioma (ES/EN), tema oscuro/claro, y cursor personalizado.",
+      descriptionEn:
+        "Personal Portfolio with React, TypeScript and TailwindCSS. Advanced visual effects, smooth animations, multilingual support (ES/EN), dark/light theme, and custom cursor.",
+      image: portfolioImg,
+      technologies: ["React", "TypeScript", "TailwindCSS", "Motion"],
+      category: "web",
+      status: "completed",
+      glow: "#61DAFB",
+      github: "https://github.com/PushoDev/pushodev-portfolio",
+      demo: "https://pushodev.vercel.app",
+      featured: false,
+      isPublic: true,
+    },
+    {
+      id: 6,
+      title: "Drone Med (Nest + PostgreSQL's)",
+      description:
+        "API REST Full para Drones de transporte de medicamentos. Sistema robusto para gestión de drones médicos con seguimiento en tiempo real.",
+      descriptionEn:
+        "Full REST API for medical delivery drones. Robust system for managing medical drones with real-time tracking.",
+      image: droneMedImg,
+      technologies: ["NestJS", "PostgreSQL", "TypeScript", "Node.js"],
+      category: "web",
+      status: "completed",
+      glow: "#E0234E",
+      github: "https://github.com/PushoDev/drones-api",
+      featured: false,
+      isPublic: true,
+    },
+    {
+      id: 5,
+      title: "GestoRem - App Dashboard para Gestión de Remesas",
+      description:
+        "Aplicación móvil Flutter para la gestión de remesas. Dashboard completo con funcionalidades para seguimiento de envíos, gestión de clientes y estadísticas de operaciones.",
+      descriptionEn:
+        "Flutter mobile app for remittance management. Complete dashboard with functionalities for shipment tracking, customer management and operation statistics.",
+      image: gestoremImg,
+      technologies: ["Flutter", "Dart", "Firebase", "Real-time DB"],
+      category: "mobile",
+      status: "completed",
+      glow: "#02569B",
+      featured: false,
+      isPublic: false,
+    },
+    {
+      id: 12,
+      title: "Facturación B2B con pronto pago (Web3)",
+      description:
+        "Idea en estudio: facturas pagadas con un token ERC-20, con plazos y descuento por pago anticipado. Contratos en Solidity con tests unitarios y fuzz en Foundry, desplegados en testnet con código verificado y una interfaz en React. Aún sin código publicado; material educativo, sin auditar.",
+      descriptionEn:
+        "Idea under study: invoices paid with an ERC-20 token, with payment terms and an early-payment discount. Solidity contracts with unit and fuzz tests in Foundry, deployed to testnet with verified code and a React interface. No code published yet; educational material, unaudited.",
+      technologies: ["Solidity", "Foundry", "OpenZeppelin", "React", "TypeScript"],
+      category: "web3",
+      status: "idea",
+      glow: "#8c9be8",
+      featured: false,
+      isPublic: false,
+    },
+    {
+      id: 13,
+      title: "Notarización de documentos (Web3)",
+      description:
+        "Idea en estudio: registrar en la blockchain el hash de un documento o de un conjunto de registros y permitir su verificación pública, con un indexador de eventos en Laravel. Aún sin código publicado; material educativo, sin auditar.",
+      descriptionEn:
+        "Idea under study: record the hash of a document or a set of records on-chain and allow public verification, with an event indexer in Laravel. No code published yet; educational material, unaudited.",
+      technologies: ["Solidity", "Foundry", "Laravel", "React", "Merkle"],
+      category: "web3",
+      status: "idea",
+      glow: "#a78bfa",
+      featured: false,
+      isPublic: false,
     },
   ];
 
@@ -172,15 +307,30 @@ const Projects: React.FC = () => {
     { key: "web", label: t("projects.web") },
     { key: "mobile", label: t("projects.mobile") },
     { key: "desktop", label: t("projects.desktop") },
+    { key: "web3", label: t("projects.web3") },
   ];
+
+  // Array.prototype.sort is stable: within each status the order above is kept
+  const sortedProjects = [...projects].sort(
+    (a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status]
+  );
 
   const filteredProjects =
     activeFilter === "all"
-      ? projects
-      : projects.filter((project) => project.category === activeFilter);
+      ? sortedProjects
+      : sortedProjects.filter((project) => project.category === activeFilter);
+
+  const totalPages = Math.max(1, Math.ceil(filteredProjects.length / PAGE_SIZE));
+  const pagedProjects = filteredProjects.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  const changePage = (next: number) => {
+    if (next < 1 || next > totalPages) return;
+    setPage(next);
+    sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
-    <section id="projects" className="relative py-20">
+    <section id="projects" ref={sectionRef} className="relative py-20">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Header — sticky so title + filters stay visible while scrolling cards */}
         <motion.div
@@ -219,12 +369,12 @@ const Projects: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="flex justify-center mb-12"
         >
-          <div className="flex flex-wrap gap-2 p-2 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20">
+          <div className="flex flex-wrap justify-center gap-2 p-2 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20">
             <Filter className="w-5 h-5 mx-2 my-auto text-gray-500 dark:text-gray-400" />
             {filters.map((filter) => (
               <motion.button
                 key={filter.key}
-                onClick={() => setActiveFilter(filter.key)}
+                onClick={() => { setActiveFilter(filter.key); setPage(1); }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={`px-4 py-2 rounded-xl font-semibold transition-all duration-300 ${activeFilter === filter.key
@@ -244,60 +394,66 @@ const Projects: React.FC = () => {
           layout
           className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
         >
-          {filteredProjects.map((project, index) => (
+          {pagedProjects.map((project, index) => (
             <motion.div
               key={project.id}
               layout
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.6, delay: Math.min(index, 6) * 0.08 }}
               whileHover={{ scale: 1.03, y: -4 }}
-              className={`group relative cursor-pointer ${project.featured ? "md:col-span-2 lg:col-span-1" : ""
-                }`}
-              style={{
-                // Glow color based on first technology in the stack
-                ['--glow' as string]: project.id === 1 ? '#61DAFB'
-                  : project.id === 2 ? '#009688'
-                  : project.id === 3 ? '#FF2D20'
-                  : project.id === 4 ? '#F5A623'
-                  : project.id === 5 ? '#02569B'
-                  : project.id === 6 ? '#E0234E'
-                  : project.id === 8 ? '#E11D2E'
-                  : '#a855f7',
-              }}
+              className="relative cursor-pointer group"
+              style={{ ["--glow" as string]: project.glow }}
               onClick={() => setSelectedProject(project)}
             >
-              <div className="overflow-hidden transition-all duration-500 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20 hover:shadow-2xl hover:border-white/40">
+              <GlitchVault
+                className="overflow-hidden h-full transition-all duration-500 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20 hover:shadow-2xl hover:border-white/40"
+                glitchColor={project.glow}
+                glitchRadius={110}
+                animatedBorder
+              >
                 {/* Project Image */}
                 <div className="relative overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="object-cover w-full h-48 transition-transform duration-500 group-hover:scale-110"
-                  />
+                  {project.image ? (
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      loading="lazy"
+                      className="object-cover w-full h-48 transition-transform duration-500 group-hover:scale-110"
+                    />
+                  ) : (
+                    <ProjectCover
+                      project={project}
+                      className="w-full h-48 transition-transform duration-500 group-hover:scale-110"
+                    />
+                  )}
 
                   {/* Overlay on hover */}
                   <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-t from-black/60 via-transparent to-transparent group-hover:opacity-100" />
 
-                  {/* Action buttons */}
+                  {/* Action buttons: only for links that really exist */}
                   <div className="absolute flex space-x-2 transition-opacity duration-300 opacity-0 top-4 right-4 group-hover:opacity-100">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-white bg-white/20 border-white/30 hover:bg-white/30 backdrop-blur-sm"
-                      asChild
-                      data-cursor-hover
-                    >
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    {project.isPublic && project.github && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-white bg-white/20 border-white/30 hover:bg-white/30 backdrop-blur-sm"
+                        asChild
+                        data-cursor-hover
                       >
-                        <Github className="w-4 h-4" />
-                      </a>
-                    </Button>
-                    {project.demo !== "#" && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="GitHub"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Github className="w-4 h-4" />
+                        </a>
+                      </Button>
+                    )}
+                    {project.demo && (
                       <Button
                         size="sm"
                         variant="outline"
@@ -309,6 +465,8 @@ const Projects: React.FC = () => {
                           href={project.demo}
                           target="_blank"
                           rel="noopener noreferrer"
+                          aria-label="Demo"
+                          onClick={(e) => e.stopPropagation()}
                         >
                           <ExternalLink className="w-4 h-4" />
                         </a>
@@ -316,14 +474,14 @@ const Projects: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Featured badge */}
-                  {project.featured && (
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 text-xs font-bold text-white rounded-full shadow-lg bg-gradient-to-r from-cyan-500 to-purple-600">
-                        {t("projects.featured")}
-                      </span>
-                    </div>
-                  )}
+                  {/* Status badge */}
+                  <div className="absolute top-4 left-4">
+                    <span
+                      className={`px-3 py-1 text-xs font-bold text-white rounded-full shadow-lg bg-gradient-to-r ${STATUS_STYLE[project.status]}`}
+                    >
+                      {t(`projects.status.${project.status}`)}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Project Content */}
@@ -348,16 +506,24 @@ const Projects: React.FC = () => {
                     ))}
                   </div>
                 </div>
+              </GlitchVault>
 
-                {/* Glow effect — color matches the project's primary tech */}
-                <div
-                  className="absolute inset-0 transition-all duration-500 opacity-0 group-hover:opacity-30 blur-xl rounded-2xl -z-10"
-                  style={{ backgroundColor: 'var(--glow)' }}
-                />
-              </div>
+              {/* Glow effect — colour matches the project's primary tech */}
+              <div
+                className="absolute inset-0 transition-all duration-500 opacity-0 group-hover:opacity-30 blur-xl rounded-2xl -z-10"
+                style={{ backgroundColor: "var(--glow)" }}
+              />
             </motion.div>
           ))}
         </motion.div>
+
+        <Pagination
+          totalPages={totalPages}
+          currentPage={page}
+          onPageChange={changePage}
+          prevLabel={language === "es" ? "Página anterior" : "Previous page"}
+          nextLabel={language === "es" ? "Página siguiente" : "Next page"}
+        />
 
         {/* View More Projects Button */}
         <motion.div
@@ -370,10 +536,13 @@ const Projects: React.FC = () => {
             size="lg"
             variant="outline"
             className="px-8 py-3 text-gray-700 bg-transparent border-white/20 hover:bg-white/10 backdrop-blur-sm dark:text-gray-300"
+            asChild
             data-cursor-hover
           >
-            {t("projects.viewAll")}
-            <ExternalLink className="w-4 h-4 ml-2" />
+            <a href="https://github.com/PushoDev?tab=repositories" target="_blank" rel="noopener noreferrer">
+              {t("projects.viewAll")}
+              <ExternalLink className="w-4 h-4 ml-2" />
+            </a>
           </Button>
         </motion.div>
       </div>
@@ -393,11 +562,15 @@ const Projects: React.FC = () => {
           <div className="space-y-6">
             {/* Project Image */}
             <div className="overflow-hidden rounded-lg">
-              <img
-                src={selectedProject?.image}
-                alt={selectedProject?.title}
-                className="object-cover w-full h-64"
-              />
+              {selectedProject?.image ? (
+                <img
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  className="object-cover w-full h-64"
+                />
+              ) : (
+                selectedProject && <ProjectCover project={selectedProject} className="w-full h-64" />
+              )}
             </div>
 
             {/* Description */}
@@ -465,9 +638,11 @@ const Projects: React.FC = () => {
               </Button>
             )}
 
-            {!selectedProject?.isPublic && (
+            {selectedProject && !selectedProject.isPublic && (
               <div className="flex-1 px-4 py-2 text-sm text-center text-gray-400 border border-gray-700 rounded-lg bg-gray-800/50">
-                {t("projects.modal.privateProject")}
+                {selectedProject.status === "idea"
+                  ? t("projects.modal.comingSoon")
+                  : t("projects.modal.privateProject")}
               </div>
             )}
 
