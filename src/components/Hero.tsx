@@ -3,6 +3,7 @@ import { motion, useInView } from 'motion/react';
 import { Github, Linkedin, Twitter, Download, ArrowRight, Calendar, Rocket, Globe2 } from 'lucide-react';
 import TypewriterEffect from './TypewriterEffect';
 import CountUp from './CountUp';
+import { EXPERIENCE_YEARS } from '../lib/experience';
 import SocialDock, { type DockItemData } from './SocialDock';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -36,11 +37,9 @@ const TECH = [
   { name: 'GitHub',     key: 'siGithub',     color: '#e2e8f0' },
 ];
 
-// Experience counted from my first full-time developer role (2016, per LinkedIn).
-const YEARS_IN_IT = new Date().getFullYear() - 2016;
 
 const STATS = [
-  { value: YEARS_IN_IT, suffix: '',  labelEs: 'Años como Desarrollador',    labelEn: 'Years as a Developer',           icon: '</>' },
+  { value: EXPERIENCE_YEARS, suffix: '+', labelEs: 'Años de Experiencia',     labelEn: 'Years of Experience',    icon: '</>' },
   { value: 3,           suffix: '',  labelEs: 'Sistemas en Producción',     labelEn: 'Systems in Production',  icon: '◎'  },
   { value: 20,          suffix: '+', labelEs: 'Clientes Felices',           labelEn: 'Happy Clients',          icon: '◎'  },
   { value: 100,         suffix: '%', labelEs: 'Pasión por lo que hago',     labelEn: 'Passion for my work',    icon: '★'  },
@@ -48,7 +47,7 @@ const STATS = [
 
 const CARDS = [
   { labelEs: 'DISPONIBLE PARA', subEs: 'TRABAJO REMOTO', labelEn: 'OPEN TO',        subEn: 'REMOTE WORK', dot: '#22d3ee', icon: null,    top: '4%',  right: '2%'  },
-  { labelEs: 'EXPERIENCIA',     subEs: 'DESDE 2016',      labelEn: 'EXPERIENCE',     subEn: 'SINCE 2016',  dot: '#a78bfa', icon: 'cal',   top: '21%', right: '-2%' },
+  { labelEs: 'EXPERIENCIA',     subEs: `${EXPERIENCE_YEARS}+ AÑOS`,   labelEn: 'EXPERIENCE',     subEn: `${EXPERIENCE_YEARS}+ YEARS`, dot: '#a78bfa', icon: 'cal',   top: '21%', right: '-2%' },
   { labelEs: 'EN PRODUCCIÓN',   subEs: '3 SISTEMAS',     labelEn: 'IN PRODUCTION',  subEn: '3 SYSTEMS',   dot: '#f472b6', icon: 'rocket',top: '38%', right: '-2%' },
   { labelEs: 'TRABAJANDO',      subEs: 'GLOBALMENTE',    labelEn: 'WORKING',        subEn: 'GLOBALLY',    dot: '#34d399', icon: 'globe', top: '55%', right: '2%'  },
 ];
@@ -306,7 +305,7 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.55, delay: 0.75 }}
-                className={`hidden sm:block rounded-2xl p-4 ${isDark ? 'border border-white/10' : 'border border-black/08'}`}
+                className={`relative gb gb-soft hidden sm:block rounded-2xl p-4 ${isDark ? 'border border-white/10' : 'border border-black/08'}`}
                 style={{ background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.6)', backdropFilter: 'blur(12px)' }}
               >
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

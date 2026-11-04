@@ -4,6 +4,7 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { useLanguage } from "../contexts/LanguageContext";
+import { EXPERIENCE_YEARS } from "../lib/experience";
 import Experience from "./Experience";
 import TestimonialsOrbit from "./TestimonialsOrbit";
 import aboutImage from "@/imgs/about.png";
@@ -121,15 +122,15 @@ const About: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="grid grid-cols-2 gap-4"
             >
-              <div className="p-4 text-center border backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl border-white/20">
+              <div className="relative p-4 text-center border gb gb-soft backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl border-white/20">
                 <div className="text-2xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text">
-                  {new Date().getFullYear() - 2016}
+                  {EXPERIENCE_YEARS}+
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">
                   {t("about.experience")}
                 </div>
               </div>
-              <div className="p-4 text-center border backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl border-white/20">
+              <div className="relative p-4 text-center border gb gb-soft backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl border-white/20">
                 <div className="text-2xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text">
                   {language === "es" ? "Remoto" : "Remote"}
                 </div>
@@ -185,7 +186,7 @@ const About: React.FC = () => {
                 {t("about.education2")}
               </p>
 
-              <div className="p-6 border bg-white/5 dark:bg-gray-800/30 backdrop-blur-sm rounded-xl border-white/10">
+              <div className="relative p-6 border gb gb-soft bg-white/5 dark:bg-gray-800/30 backdrop-blur-sm rounded-xl border-white/10">
                 <h3 className="mb-3 font-semibold text-gray-800 dark:text-gray-200">
                   🎯 {t("about.approach")}
                 </h3>

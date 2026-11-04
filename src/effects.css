@@ -14,6 +14,7 @@
   -webkit-mask-composite:xor;mask-composite:exclude;
   animation:gb-spin 4.5s linear infinite;opacity:.55;transition:opacity .3s;
 }
+.gb-soft::before{opacity:0}  /* secondary cards: border only on hover */
 .gb:hover::before,.gb:focus-within::before{opacity:1}
 
 @media (prefers-reduced-motion:reduce){

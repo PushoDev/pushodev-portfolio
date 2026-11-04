@@ -64,7 +64,7 @@ const TestimonialsOrbit: React.FC<{ testimonials: Testimonial[]; prevLabel?: str
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.3 }}
-        className="z-10 w-full max-w-sm p-6 text-center border shadow-xl backdrop-blur-xl bg-white/60 dark:bg-gray-950/70 rounded-2xl border-white/20 md:w-72"
+        className="relative z-10 w-full max-w-sm p-6 text-center border shadow-xl gb backdrop-blur-xl bg-white/60 dark:bg-gray-950/70 rounded-2xl border-white/20 md:w-72"
       >
         <Quote className="w-8 h-8 mx-auto mb-3 text-cyan-400" />
         <p className="mb-4 text-sm italic leading-relaxed text-gray-600 dark:text-gray-300">"{t.content}"</p>

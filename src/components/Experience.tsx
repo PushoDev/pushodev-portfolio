@@ -153,7 +153,7 @@ const Card: React.FC<{
         aria-hidden="true"
         className="absolute left-0 top-[4.6rem] z-10 h-4 w-4 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 ring-4 ring-purple-500/25"
       />
-      <div className="p-6 mt-10 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20">
+      <div className="relative p-6 mt-10 border shadow-lg gb backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20">
         <div className="flex flex-wrap items-center gap-2 mb-1 text-xs font-medium text-cyan-500 dark:text-cyan-400">
           <Briefcase className="w-3.5 h-3.5" />
           <span>{es ? item.period : item.periodEn ?? item.period}</span>
@@ -299,7 +299,7 @@ const Experience: React.FC = () => {
           {EDUCATION.map((ed) => (
             <div
               key={ed.org}
-              className="flex items-start gap-4 p-5 border backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20"
+              className="relative flex items-start gap-4 p-5 border gb gb-soft backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20"
             >
               <GraduationCap className="flex-shrink-0 w-6 h-6 mt-0.5 text-purple-400" />
               <div>

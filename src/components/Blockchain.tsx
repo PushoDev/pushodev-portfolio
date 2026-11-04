@@ -129,7 +129,7 @@ const Blockchain: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.7 }}
-          className="p-6 mt-10 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20"
+          className="relative p-6 mt-10 border shadow-lg gb backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20"
         >
           <h3 className="mb-1 text-lg font-bold text-gray-800 dark:text-gray-100">
             {es ? 'Mi base Web2 es la ventaja' : 'My Web2 background is the edge'}

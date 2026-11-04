@@ -69,7 +69,7 @@ const translations = {
 
     // About
     "about.title": "Acerca de Mí",
-    "about.experience": "Años como Desarrollador",
+    "about.experience": "Años de Experiencia",
     "about.availability": "Disponibilidad",
     "about.approach": "Mi Enfoque",
     "about.cleanCode": "✨ Código limpio y mantenible",
@@ -151,7 +151,7 @@ const translations = {
 
     // About
     "about.title": "About Me",
-    "about.experience": "Years as a Developer",
+    "about.experience": "Years of Experience",
     "about.availability": "Availability",
     "about.approach": "My Approach",
     "about.cleanCode": "✨ Clean and maintainable code",

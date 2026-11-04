@@ -4,19 +4,23 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { useLanguage } from "../contexts/LanguageContext";
+import { EXPERIENCE_YEARS } from "../lib/experience";
 
 const SKILLS = [
   "Laravel",
   "PHP",
   "React",
   "TypeScript",
+  "Django",
   "Python",
-  "FastAPI",
-  "NestJS",
-  "MySQL",
+  ".NET",
+  "Expo",
   "PostgreSQL",
   "Docker",
 ];
+
+// Things I am currently learning (kept in sync with the Skills section)
+const LEARNING = ["Solidity", "Tauri"];
 
 const punct = "text-zinc-600 dark:text-gray-400";
 
@@ -41,7 +45,7 @@ const CoderProfileCard: React.FC = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const role = language === "es" ? "Desarrollador Full-Stack" : "Full-Stack Developer";
-  const experience = language === "es" ? "5+ años" : "5+ years";
+  const experience = language === "es" ? `${EXPERIENCE_YEARS}+ años` : `${EXPERIENCE_YEARS}+ years`;
   const name = "Luis Guisado";
   const location = "Granma, Cuba";
 
@@ -82,6 +86,22 @@ const CoderProfileCard: React.FC = () => {
       indent: true,
       content: (
         <>
+          <Key name="learning" />
+          <span className={punct}>[</span>
+          {LEARNING.map((item, index) => (
+            <span key={item}>
+              <Str value={item} className="text-violet-600 dark:text-violet-400" />
+              {index < LEARNING.length - 1 && <span className={punct}>, </span>}
+            </span>
+          ))}
+          <span className={punct}>],</span>
+        </>
+      ),
+    },
+    {
+      indent: true,
+      content: (
+        <>
           <Key name="available" />
           <span className="text-orange-500 dark:text-orange-400">true</span>
           <span className={punct}>,</span>
@@ -93,8 +113,8 @@ const CoderProfileCard: React.FC = () => {
 
   const summary =
     language === "es"
-      ? `${name}, ${role} en ${location}, ${experience} de experiencia. Tecnologías: ${SKILLS.join(", ")}. Disponible para trabajar.`
-      : `${name}, ${role} based in ${location}, ${experience} of experience. Technologies: ${SKILLS.join(", ")}. Available for work.`;
+      ? `${name}, ${role} en ${location}, ${experience} de experiencia. Tecnologías: ${SKILLS.join(", ")}. Aprendiendo: ${LEARNING.join(", ")}. Disponible para trabajar.`
+      : `${name}, ${role} based in ${location}, ${experience} of experience. Technologies: ${SKILLS.join(", ")}. Learning: ${LEARNING.join(", ")}. Available for work.`;
 
   return (
     <div
