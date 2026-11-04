@@ -42,7 +42,7 @@ const Home: React.FC = () => {
           <Navbar />
 
           {/* Main Content */}
-          <main>
+          <main className="overflow-x-clip">
             <Hero />
 
             {/* Hero / Skills divider */}

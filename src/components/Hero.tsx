@@ -9,6 +9,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 import * as simpleIcons from 'simple-icons';
 import avatarImg from '../../public/avatar_hero.png';
+import mobileBadge from '@/imgs/pusho-badge.png';
 
 /* ─── helpers ─────────────────────────────────────────────────────────── */
 const getIcon = (key: string) =>
@@ -131,7 +132,7 @@ const Hero: React.FC = () => {
             {/* ══ LEFT ═════════════════════════════════════════════════ */}
             <div className="flex flex-col gap-4 lg:pr-8">
 
-              {/* Mobile avatar — hidden on desktop, shown above headline on mobile */}
+              {/* Mobile brand image — hidden on desktop, where the big portrait is shown */}
               <motion.div
                 className="lg:hidden flex justify-center"
                 initial={{ opacity: 0, y: 20 }}
@@ -140,27 +141,20 @@ const Hero: React.FC = () => {
               >
                 <div className="relative">
                   <div
-                    className="w-28 h-28 rounded-full overflow-hidden"
-                    style={{
-                      border: '2px solid rgba(139,92,246,0.6)',
-                      boxShadow: '0 0 0 4px rgba(139,92,246,0.12), 0 0 40px rgba(139,92,246,0.45), 0 0 70px rgba(6,182,212,0.2)',
-                    }}
-                  >
-                    <img
-                      src={avatarImg}
-                      alt="Luis Alberto Guisado"
-                      className="w-full h-full object-cover object-top"
-                      draggable={false}
-                    />
-                  </div>
-                  <motion.div
-                    className="absolute inset-0 rounded-full border-2 border-purple-400/40"
-                    animate={{ scale: [1, 1.25, 1], opacity: [0.5, 0, 0.5] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                    aria-hidden="true"
+                    className="absolute inset-4 rounded-full blur-2xl opacity-50"
+                    style={{ background: 'radial-gradient(circle, #8b5cf6 0%, #06b6d4 60%, transparent 75%)' }}
                   />
-                  <div
-                    className="absolute bottom-1 right-1 w-4 h-4 rounded-full border-2 border-black/20"
-                    style={{ background: '#22c55e', boxShadow: '0 0 8px #22c55e' }}
+                  <motion.img
+                    src={mobileBadge}
+                    alt="Luis Alberto Guisado"
+                    width={192}
+                    height={192}
+                    loading="lazy"
+                    draggable={false}
+                    className="relative object-contain w-44 h-44 select-none sm:w-52 sm:h-52 drop-shadow-xl"
+                    animate={{ y: [0, -6, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                   />
                 </div>
               </motion.div>
