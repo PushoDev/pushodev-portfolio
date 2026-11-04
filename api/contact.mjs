@@ -1,6 +1,10 @@
 /**
  * Vercel Function: receives the contact form and emails it through Resend.
  *
+ * Plain ESM (.mjs) on purpose: the project's tsconfig is set for bundlers
+ * (module: esnext) and package.json has no "type": "module", which made the
+ * TypeScript version fail to load on Vercel (FUNCTION_INVOCATION_FAILED).
+ *
  * Environment variables (Vercel → Project → Settings → Environment Variables):
  *   RESEND_API_KEY  secret key from resend.com (never commit it)
  *   CONTACT_TO      address that receives the messages (bethocubans1990@gmail.com)
@@ -11,17 +15,17 @@
 const MAX = { name: 100, email: 200, message: 5000 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const json = (body: unknown, status = 200) =>
+const json = (body, status = 200) =>
   new Response(JSON.stringify(body), {
     status,
     headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
   });
 
-const clean = (value: unknown, max: number) =>
+const clean = (value, max) =>
   typeof value === 'string' ? value.replace(/\r/g, '').trim().slice(0, max) : '';
 
-export async function POST(request: Request) {
-  let data: Record<string, unknown>;
+export async function POST(request) {
+  let data;
   try {
     data = await request.json();
   } catch {
