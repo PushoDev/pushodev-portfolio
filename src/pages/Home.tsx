@@ -8,6 +8,7 @@ import Hero from '../components/Hero';
 import Skills from '../components/Skills';
 import Projects from '../components/Projects';
 import About from '../components/About';
+import Blockchain from '../components/Blockchain';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import WhatsAppButton from '../components/WhatsAppButton';
@@ -53,6 +54,7 @@ const Home: React.FC = () => {
             <Skills />
             <Projects />
             <About />
+            <Blockchain />
             <Contact />
           </main>
 

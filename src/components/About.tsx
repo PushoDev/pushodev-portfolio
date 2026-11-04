@@ -2,12 +2,10 @@
  * About section with testimonials carousel and personal information
  */
 import React, { useRef } from "react";
-import { motion, AnimatePresence, useInView } from "motion/react";
-import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "./ui/button";
+import { motion, useInView } from "motion/react";
 import { useLanguage } from "../contexts/LanguageContext";
 import Experience from "./Experience";
-import { useState } from "react";
+import TestimonialsOrbit from "./TestimonialsOrbit";
 import aboutImage from "@/imgs/about.png";
 import cristinaAvatar from "@/imgs/testimonials/cristina.jpg";
 import michelAvatar from "@/imgs/testimonials/michel.jpg";
@@ -20,7 +18,6 @@ const About: React.FC = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const wordRevealRef = useRef<HTMLParagraphElement>(null);
   const wordRevealInView = useInView(wordRevealRef, { once: true, amount: 0.4 });
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   const testimonials = [
     {
@@ -53,23 +50,13 @@ const About: React.FC = () => {
     {
       id: 4,
       name: "CEO",
-      position: "Regalos RX Mzllo",
+      position: "Agencia Regalos RL Mzllo",
       avatar: agenciaRegalosAvatar,
       content:
         "GolfitoShop es un testimonio del talento de Luis. Su visión y ejecución técnica han transformado completamente nuestro negocio online.",
       rating: 5,
     },
   ];
-
-  const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setCurrentTestimonial(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length
-    );
-  };
 
   return (
     <section id="about" className="relative py-20">
@@ -109,9 +96,8 @@ const About: React.FC = () => {
                     style={{
                       top: "50%",
                       left: "50%",
-                      transform: `rotate(${
-                        i * 60
-                      }deg) translateY(-40px) translateX(-50%)`,
+                      transform: `rotate(${i * 60
+                        }deg) translateY(-40px) translateX(-50%)`,
                       transformOrigin: "50% 40px",
                     }}
                     animate={{
@@ -182,9 +168,8 @@ const About: React.FC = () => {
                       initial={{ opacity: 0, y: 8 }}
                       animate={wordRevealInView ? { opacity: 1, y: 0 } : {}}
                       transition={{ duration: 0.3, delay: i * 0.04 }}
-                      className={`inline-block mr-[0.25em] ${
-                        word === "GolfitoShop" ? "font-semibold text-purple-400" : ""
-                      }`}
+                      className={`inline-block mr-[0.25em] ${word === "GolfitoShop" ? "font-semibold text-purple-400" : ""
+                        }`}
                     >
                       {word}
                     </motion.span>
@@ -232,99 +217,11 @@ const About: React.FC = () => {
             {t("about.clientsSays")}
           </h3>
 
-          {/* Testimonials Carousel */}
-          <div className="relative max-w-4xl mx-auto">
-            <div className="p-8 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20">
-              {/* Quote Icon */}
-              <Quote className="w-12 h-12 mx-auto mb-6 text-cyan-400" />
-
-              {/* Testimonial Content — AnimatePresence enables the exit animation */}
-              <AnimatePresence mode="wait">
-              <motion.div
-                key={currentTestimonial}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className="text-center"
-              >
-                <p className="mb-6 text-lg italic leading-relaxed text-gray-600 dark:text-gray-300">
-                  "{testimonials[currentTestimonial].content}"
-                </p>
-
-                {/* Rating */}
-                <div className="flex justify-center mb-4">
-                  {Array.from({
-                    length: testimonials[currentTestimonial].rating,
-                  }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 text-yellow-400 fill-current"
-                    />
-                  ))}
-                </div>
-
-                {/* Author */}
-                <div className="flex items-center justify-center space-x-4">
-                  <img
-                    src={testimonials[currentTestimonial].avatar}
-                    alt={testimonials[currentTestimonial].name}
-                    className="object-cover w-12 h-12 border-2 rounded-full border-cyan-400/50"
-                  />
-                  <div>
-                    <div className="font-semibold text-gray-800 dark:text-gray-200">
-                      {testimonials[currentTestimonial].name}
-                    </div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                      {testimonials[currentTestimonial].position}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Navigation Buttons */}
-            <div className="flex justify-center mt-6 space-x-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={prevTestimonial}
-                className="bg-white/10 border-white/20 hover:bg-white/20 backdrop-blur-sm"
-                data-cursor-hover
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-
-              {/* Dots indicator */}
-              <div className="flex items-center space-x-2">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentTestimonial(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === currentTestimonial
-                        ? "bg-cyan-400 w-8"
-                        : "bg-gray-400/50 hover:bg-gray-400"
-                    }`}
-                    data-cursor-hover
-                    aria-label={`Go to testimonial ${index + 1}`}
-                    title={`Testimonial ${index + 1}`}
-                  />
-                ))}
-              </div>
-
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={nextTestimonial}
-                className="bg-white/10 border-white/20 hover:bg-white/20 backdrop-blur-sm"
-                data-cursor-hover
-              >
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
+          <TestimonialsOrbit
+            testimonials={testimonials}
+            prevLabel={language === "es" ? "Testimonio anterior" : "Previous testimonial"}
+            nextLabel={language === "es" ? "Testimonio siguiente" : "Next testimonial"}
+          />
         </motion.div>
       </div>
     </section>
