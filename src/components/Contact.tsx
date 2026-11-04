@@ -1,11 +1,12 @@
 /**
- * Contact section with hacker-style code animation and contact form
+ * Contact section with editor-style profile card and contact form
  */
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { motion, useInView } from "motion/react";
-import { Mail, Phone, MapPin, Send, Code } from "lucide-react";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "../contexts/LanguageContext";
+import CoderProfileCard from "./CoderProfileCard";
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
@@ -14,53 +15,8 @@ const Contact: React.FC = () => {
     email: "",
     message: "",
   });
-  const [hackerText, setHackerText] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const codeSnippets = [
-    "class Full.Stack.Developer {",
-    "  constructor(name) {",
-    "    this.name = luis.guisado.puchotech;",
-    "    this.expertise = ['React', 'Laravel', 'Python', 'Flutter'];",
-    "    this.yearsOfExperience = 5;",
-    "  }",
-    "",
-    "  solveProblems() {",
-    "    return 'Clean code + Fast delivery + Innovation';",
-    "  }",
-    "",
-    "  readyToCollaborate() {",
-    "    return true;",
-    "  }",
-    "}",
-    "",
-    "const developer = new FullStackDeveloper();",
-    "// Let's build something amazing together 🚀",
-  ];
-
-  const stateRef = useRef({ currentLine: 0, currentChar: 0 });
-
-  useEffect(() => {
-    if (!isInView) return;
-
-    const typeCode = () => {
-      const state = stateRef.current;
-      const currentLineText = codeSnippets[state.currentLine];
-
-      if (state.currentChar < currentLineText.length) {
-        setHackerText((prev) => prev + currentLineText[state.currentChar]);
-        state.currentChar++;
-      } else if (state.currentLine < codeSnippets.length - 1) {
-        setHackerText((prev) => prev + "\n");
-        state.currentLine++;
-        state.currentChar = 0;
-      }
-    };
-
-    const interval = setInterval(typeCode, 50);
-    return () => clearInterval(interval);
-  }, [isInView]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -100,52 +56,14 @@ const Contact: React.FC = () => {
         </motion.div>
 
         <div className="grid items-start grid-cols-1 gap-12 lg:grid-cols-2">
-          {/* Left Side - Hacker Code Effect */}
+          {/* Left Side - Profile Card */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            {/* Code Terminal */}
-            <div className="overflow-hidden border shadow-2xl backdrop-blur-2xl bg-gray-900/90 dark:bg-gray-950/90 rounded-2xl border-cyan-400/30 shadow-cyan-400/10">
-              {/* Terminal Header */}
-              <div className="flex items-center justify-between p-4 border-b border-cyan-400/20 bg-gray-800/50">
-                <div className="flex space-x-2">
-                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                </div>
-                <div className="flex items-center space-x-2 text-sm text-cyan-400">
-                  <Code className="w-4 h-4" />
-                  <span>pusho.dev - terminal</span>
-                </div>
-              </div>
-
-              {/* Code Content */}
-              <div className="p-6 font-mono text-sm leading-relaxed min-h-[400px]">
-                <div className="mb-2 text-gray-400">
-                  // 💻 Full-Stack Developer Portfolio
-                </div>
-                <pre className="whitespace-pre-wrap text-cyan-300">
-                  {hackerText}
-                  <motion.span
-                    animate={{ opacity: [1, 0] }}
-                    transition={{
-                      duration: 0.8,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                    }}
-                    className="font-bold text-cyan-400"
-                  >
-                    |
-                  </motion.span>
-                </pre>
-              </div>
-
-              {/* Glowing border effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-purple-500/20 to-pink-500/20 blur-sm -z-10 rounded-2xl"></div>
-            </div>
+            <CoderProfileCard />
 
             {/* Contact Info Cards */}
             <motion.div

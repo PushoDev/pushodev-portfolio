@@ -13,6 +13,7 @@ import Footer from '../components/Footer';
 import WhatsAppButton from '../components/WhatsAppButton';
 import ScrollToTop from '../components/ScrollToTop';
 import LoadingScreen from '../components/ui/LoadingScreen';
+import GlowLine from '../components/GlowLine';
 
 const Home: React.FC = () => {
   const [showLoader, setShowLoader] = useState(true);
@@ -38,6 +39,14 @@ const Home: React.FC = () => {
           {/* Main Content */}
           <main>
             <Hero />
+
+            {/* Hero / Skills divider */}
+            <div className="px-4">
+              <div className="relative h-px max-w-5xl mx-auto">
+                <GlowLine orientation="horizontal" position="0" color="purple" />
+              </div>
+            </div>
+
             <Skills />
             <Projects />
             <About />

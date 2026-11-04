@@ -1,21 +1,41 @@
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { Moon, Sun, Menu, X, Globe, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence, Variants } from "motion/react";
+import { Moon, Sun, Menu, X, Globe, ChevronDown, Home, User, Code2, FolderGit2, Mail } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { useLanguage } from "../contexts/LanguageContext";
 import { Button } from "./ui/button";
+
+// 3D flip on hover/keyboard focus: the front face rolls back while an
+// identical back face rolls in from below
+const frontFaceVariants: Variants = {
+  initial: { rotateX: 0, opacity: 1 },
+  hover: { rotateX: -90, opacity: 0 },
+};
+
+const backFaceVariants: Variants = {
+  initial: { rotateX: 90, opacity: 0 },
+  hover: { rotateX: 0, opacity: 1 },
+};
+
+const glowVariants: Variants = {
+  initial: { opacity: 0, scale: 0.8 },
+  hover: { opacity: 1, scale: 1.6 },
+};
+
+const flipTransition = { type: "spring" as const, stiffness: 100, damping: 20 };
 
 const Navbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage, t } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Colors follow the brand gradient (cyan -> purple -> pink)
   const navItems = [
-    { key: "nav.home", href: "#home" },
-    { key: "nav.about", href: "#about" },
-    { key: "nav.skills", href: "#skills" },
-    { key: "nav.projects", href: "#projects" },
-    { key: "nav.contact", href: "#contact" },
+    { key: "nav.home", href: "#home", icon: Home, iconColor: "group-hover:text-cyan-400", activeColor: "text-cyan-400", glow: "rgba(34,211,238,0.18)" },
+    { key: "nav.about", href: "#about", icon: User, iconColor: "group-hover:text-blue-400", activeColor: "text-blue-400", glow: "rgba(96,165,250,0.18)" },
+    { key: "nav.skills", href: "#skills", icon: Code2, iconColor: "group-hover:text-violet-400", activeColor: "text-violet-400", glow: "rgba(167,139,250,0.18)" },
+    { key: "nav.projects", href: "#projects", icon: FolderGit2, iconColor: "group-hover:text-purple-400", activeColor: "text-purple-400", glow: "rgba(192,132,252,0.18)" },
+    { key: "nav.contact", href: "#contact", icon: Mail, iconColor: "group-hover:text-pink-400", activeColor: "text-pink-400", glow: "rgba(244,114,182,0.18)" },
   ];
 
   const [activeSection, setActiveSection] = useState("home");
@@ -79,24 +99,64 @@ const Navbar: React.FC = () => {
               </motion.div>
 
               {/* Desktop Navigation */}
-              <div className="items-center hidden gap-6 md:flex">
+              <div className="items-center hidden gap-0.5 lg:gap-1 md:flex">
                 {navItems.map((item) => {
                   const isActive = activeSection === item.href.slice(1);
+                  const Icon = item.icon;
+                  const face = (
+                    <>
+                      <Icon
+                        className={`hidden lg:block w-4 h-4 transition-colors duration-300 ${isActive ? item.activeColor : item.iconColor}`}
+                      />
+                      {t(item.key)}
+                    </>
+                  );
                   return (
                     <motion.button
                       key={item.key}
                       onClick={() => scrollToSection(item.href)}
-                      whileHover={{ scale: 1.05 }}
+                      initial="initial"
+                      whileHover="hover"
+                      whileFocus="hover"
                       whileTap={{ scale: 0.95 }}
-                      className={`relative text-sm font-medium transition-colors duration-200 whitespace-nowrap ${isActive ? 'text-white' : 'text-gray-300 hover:text-white'
+                      className={`group relative px-1.5 lg:px-3 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 whitespace-nowrap focus:outline-none ${isActive ? 'text-white' : 'text-gray-300 hover:text-white'
                         }`}
+                      style={{ perspective: "600px" }}
                       data-cursor-hover
                     >
-                      {t(item.key)}
+                      {/* Radial glow */}
+                      <motion.span
+                        variants={glowVariants}
+                        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                        className="absolute inset-0 rounded-full pointer-events-none"
+                        style={{ background: `radial-gradient(circle, ${item.glow} 0%, transparent 70%)` }}
+                      />
+
+                      {/* Front face */}
+                      <motion.span
+                        variants={frontFaceVariants}
+                        transition={flipTransition}
+                        className="relative z-10 flex items-center gap-1.5"
+                        style={{ transformStyle: "preserve-3d", transformOrigin: "center bottom" }}
+                      >
+                        {face}
+                      </motion.span>
+
+                      {/* Back face — visual duplicate only */}
+                      <motion.span
+                        aria-hidden="true"
+                        variants={backFaceVariants}
+                        transition={flipTransition}
+                        className="absolute inset-0 z-10 flex items-center justify-center gap-1.5"
+                        style={{ transformStyle: "preserve-3d", transformOrigin: "center top" }}
+                      >
+                        {face}
+                      </motion.span>
+
                       {isActive && (
                         <motion.span
                           layoutId="navbar-active-indicator"
-                          className="absolute left-0 right-0 -bottom-1.5 h-[2px] rounded-full"
+                          className="absolute bottom-0 h-[2px] rounded-full left-1.5 right-1.5 lg:left-3 lg:right-3"
                           style={{ background: 'linear-gradient(90deg, #22d3ee, #a855f7)' }}
                           transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                         />
