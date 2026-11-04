@@ -6,6 +6,7 @@ import { motion, AnimatePresence, useInView } from "motion/react";
 import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "../contexts/LanguageContext";
+import Experience from "./Experience";
 import { useState } from "react";
 import aboutImage from "@/imgs/about.png";
 import cristinaAvatar from "@/imgs/testimonials/cristina.jpg";
@@ -14,7 +15,7 @@ import skinightAvatar from "@/imgs/testimonials/skinight.jpg";
 import agenciaRegalosAvatar from "@/imgs/testimonials/agencia-regalos.jpg";
 
 const About: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const wordRevealRef = useRef<HTMLParagraphElement>(null);
@@ -136,7 +137,7 @@ const About: React.FC = () => {
             >
               <div className="p-4 text-center border backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl border-white/20">
                 <div className="text-2xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text">
-                  5+
+                  {new Date().getFullYear() - 2016}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">
                   {t("about.experience")}
@@ -144,7 +145,7 @@ const About: React.FC = () => {
               </div>
               <div className="p-4 text-center border backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-xl border-white/20">
                 <div className="text-2xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text">
-                  24/7
+                  {language === "es" ? "Remoto" : "Remote"}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">
                   {t("about.availability")}
@@ -214,6 +215,12 @@ const About: React.FC = () => {
           </motion.div>
         </div>
 
+      </div>
+
+      {/* Full-width pinned timeline */}
+      <Experience />
+
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Testimonials Section */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}

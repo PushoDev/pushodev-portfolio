@@ -69,7 +69,7 @@ const translations = {
 
     // About
     "about.title": "Acerca de Mí",
-    "about.experience": "Años de Experiencia",
+    "about.experience": "Años como Desarrollador",
     "about.availability": "Disponibilidad",
     "about.approach": "Mi Enfoque",
     "about.cleanCode": "✨ Código limpio y mantenible",
@@ -79,10 +79,10 @@ const translations = {
     "about.clientsSays": "Lo Que Dicen Mis Clientes",
     "about.intro1": "¡Hola! Mi nombre es",
     "about.intro2": ", y soy desarrollador Full-Stack apasionado por crear soluciones digitales que marquen la diferencia.",
-    "about.journey1": "Mi viaje en el mundo de la programación comenzó como autodidacta, impulsado por una curiosidad insaciable por entender cómo funcionan las cosas. Desde entonces, he desarrollado habilidades en múltiples tecnologías y he fundado",
+    "about.journey1": "Mi viaje en la programación comenzó como autodidacta, creando software educativo con Macromedia para mis primeros clientes. Desde entonces he ampliado mi stack a Laravel, React, Django y .NET, y he fundado",
     "about.journey2": ", el ecommerce más grande de Granma.",
     "about.education1": "Como graduado en Informática en el antiguo",
-    "about.education2": ", en el 2008 donde he adquirido una sólida base teórica sobre la ingeniería de software. Sin embargo, combino conocimientos académicos y autodidactas para ofrecer soluciones sólidas con experiencia en práctica real. Me especializo en crear aplicaciones web modernas, APIs robustas y soluciones que no solo funcionan, sino que brindan experiencias excepcionales a los usuarios.",
+    "about.education2": ", en 2008, y estudié Ingeniería en la Universidad de Granma (2018–2022). Combino esa base teórica con aprendizaje autodidacta y práctica real. Me especializo en crear aplicaciones web modernas, APIs robustas y apps móviles que no solo funcionan, sino que ofrecen buenas experiencias a los usuarios.",
 
     // Contact
     "contact.title": "Contacto",
@@ -151,7 +151,7 @@ const translations = {
 
     // About
     "about.title": "About Me",
-    "about.experience": "Years of Experience",
+    "about.experience": "Years as a Developer",
     "about.availability": "Availability",
     "about.approach": "My Approach",
     "about.cleanCode": "✨ Clean and maintainable code",
@@ -161,10 +161,10 @@ const translations = {
     "about.clientsSays": "What My Clients Say",
     "about.intro1": "Hello! My name is",
     "about.intro2": ", and I'm a Full-Stack developer passionate about creating digital solutions that make a difference.",
-    "about.journey1": "My journey in the world of programming began as a self-taught learner, driven by an insatiable curiosity to understand how things work. Since then, I have developed skills in multiple technologies and founded",
+    "about.journey1": "My programming journey began as a self-taught learner, building educational software with Macromedia for my first clients. Since then I have expanded my stack to Laravel, React, Django and .NET, and founded",
     "about.journey2": ", the largest e-commerce in Granma.",
     "about.education1": "As a graduate in Computer Science from the former",
-    "about.education2": "in 2008, I acquired a solid theoretical foundation in software engineering. However, I combine academic and self-taught knowledge to offer solid solutions with real practical experience. I specialize in creating modern web applications, robust APIs and solutions that not only work, but provide exceptional user experiences.",
+    "about.education2": "in 2008, and studied Engineering at the University of Granma (2018–2022). I combine that theoretical foundation with self-taught learning and real-world practice. I specialize in building modern web applications, robust APIs and mobile apps that not only work, but deliver great user experiences.",
 
     // Contact
     "contact.title": "Contact",
