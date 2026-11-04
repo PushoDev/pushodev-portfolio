@@ -41,7 +41,9 @@ const translations = {
       "La web es como un lienzo, y el código es la pintura. Crea tu obra maestra.",
     "skills.frontend": "Frontend",
     "skills.backend": "Backend",
-    "skills.tools": "Herramientas",
+    "skills.tools": "Datos y herramientas",
+    "skills.mobile": "Móvil y escritorio",
+    "skills.blockchain": "Blockchain",
 
     // Projects
     "projects.title": "Proyectos",
@@ -115,7 +117,9 @@ const translations = {
       "The web is like a canvas, and code is the paint. Create your masterpiece.",
     "skills.frontend": "Frontend",
     "skills.backend": "Backend",
-    "skills.tools": "Tools",
+    "skills.tools": "Data & tools",
+    "skills.mobile": "Mobile & desktop",
+    "skills.blockchain": "Blockchain",
 
     // Projects
     "projects.title": "Projects",

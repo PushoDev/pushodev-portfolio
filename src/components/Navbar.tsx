@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence, Variants } from "motion/react";
-import { Moon, Sun, Menu, X, Globe, ChevronDown, Home, User, Code2, FolderGit2, Mail } from "lucide-react";
-import { useTheme } from "../contexts/ThemeContext";
+import { Menu, X, Globe, ChevronDown, Home, User, Code2, FolderGit2, Mail } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 import { useLanguage } from "../contexts/LanguageContext";
 import { Button } from "./ui/button";
 
@@ -25,7 +25,6 @@ const glowVariants: Variants = {
 const flipTransition = { type: "spring" as const, stiffness: 100, damping: 20 };
 
 const Navbar: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage, t } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -168,23 +167,7 @@ const Navbar: React.FC = () => {
 
               {/* Theme and Language toggles */}
               <div className="flex items-center gap-2">
-                {/* Sun/Moon separate icons */}
-                <div className="hidden sm:flex items-center gap-1 rounded-full border border-white/15 px-1 py-1" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                  <button
-                    onClick={() => theme === 'dark' && toggleTheme()}
-                    className={`p-1.5 rounded-full transition-all duration-200 ${theme === 'light' ? 'bg-white/20 text-yellow-300' : 'text-gray-500 hover:text-gray-300'}`}
-                    data-cursor-hover
-                  >
-                    <Sun className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    onClick={() => theme === 'light' && toggleTheme()}
-                    className={`p-1.5 rounded-full transition-all duration-200 ${theme === 'dark' ? 'bg-white/20 text-purple-300' : 'text-gray-500 hover:text-gray-300'}`}
-                    data-cursor-hover
-                  >
-                    <Moon className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                <ThemeToggle />
 
                 {/* Language */}
                 <button

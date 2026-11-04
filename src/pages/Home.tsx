@@ -14,6 +14,7 @@ import WhatsAppButton from '../components/WhatsAppButton';
 import ScrollToTop from '../components/ScrollToTop';
 import LoadingScreen from '../components/ui/LoadingScreen';
 import GlowLine from '../components/GlowLine';
+import ThemeTransition from '../components/ThemeTransition';
 
 const Home: React.FC = () => {
   const [showLoader, setShowLoader] = useState(true);
@@ -29,6 +30,8 @@ const Home: React.FC = () => {
               <LoadingScreen onComplete={() => setShowLoader(false)} />
             )}
           </AnimatePresence>
+
+          <ThemeTransition />
 
           {/* Background Effects */}
           <AuroraBackground />

@@ -1,0 +1,22 @@
+/* ── GlitchVault: sliced, colour-split copies near the cursor ───────────── */
+@keyframes gv-slice-a{0%{clip-path:inset(8% 0 72% 0)}20%{clip-path:inset(58% 0 14% 0)}40%{clip-path:inset(32% 0 44% 0)}60%{clip-path:inset(82% 0 4% 0)}80%{clip-path:inset(4% 0 86% 0)}100%{clip-path:inset(46% 0 34% 0)}}
+@keyframes gv-slice-b{0%{clip-path:inset(66% 0 10% 0)}25%{clip-path:inset(12% 0 68% 0)}50%{clip-path:inset(48% 0 30% 0)}75%{clip-path:inset(22% 0 60% 0)}100%{clip-path:inset(76% 0 8% 0)}}
+.gv-a{animation:gv-slice-a .7s steps(1) infinite}
+.gv-b{animation:gv-slice-b .9s steps(1) infinite}
+
+/* ── Animated gradient border (cyan → violet → pink) ────────────────────── */
+@property --gb-angle{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes gb-spin{to{--gb-angle:360deg}}
+.gb::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;z-index:30;
+  background:conic-gradient(from var(--gb-angle),transparent 0 55%,#22d3ee 70%,#a855f7 85%,#ec4899 95%,transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:gb-spin 4.5s linear infinite;opacity:.55;transition:opacity .3s;
+}
+.gb:hover::before,.gb:focus-within::before{opacity:1}
+
+@media (prefers-reduced-motion:reduce){
+  .gv-a,.gv-b{animation:none;clip-path:inset(0 0 0 0)}
+  .gb::before{animation:none}
+}

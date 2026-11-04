@@ -6,14 +6,47 @@ import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import * as simpleIcons from "simple-icons";
+import GlitchVault from "./GlitchVault";
+
+interface Skill {
+  name: string;
+  color: string;
+  /** simple-icons key; omit and use `abbr` when the brand has no icon there */
+  iconKey?: string;
+  abbr?: string;
+  /** Still being learned: shown with a badge */
+  learning?: boolean;
+}
+
+const SkillIcon: React.FC<{ skill: Skill; size: "sm" | "lg" }> = ({ skill, size }) => {
+  const iconData = skill.iconKey
+    ? (simpleIcons[skill.iconKey as keyof typeof simpleIcons] as any)
+    : null;
+  const box = size === "lg" ? "w-8 h-8" : "w-6 h-6";
+  if (iconData?.path) {
+    return (
+      <svg className={box} role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d={iconData.path} fill={skill.color} />
+      </svg>
+    );
+  }
+  return (
+    <span
+      className={`${box} flex items-center justify-center font-black leading-none ${size === "lg" ? "text-sm" : "text-[9px]"}`}
+      style={{ color: skill.color }}
+    >
+      {skill.abbr ?? skill.name.slice(0, 2)}
+    </span>
+  );
+};
 
 const Skills: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [activeCategory, setActiveCategory] = useState("frontend");
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const skillCategories = {
+  const skillCategories: Record<string, { title: string; skills: Skill[] }> = {
     frontend: {
       title: t("skills.frontend"),
       skills: [
@@ -22,39 +55,70 @@ const Skills: React.FC = () => {
         { name: "JavaScript", color: "#F7DF1E", iconKey: "siJavascript" },
         { name: "TypeScript", color: "#3178C6", iconKey: "siTypescript" },
         { name: "React", color: "#61DAFB", iconKey: "siReact" },
+        { name: "Next.js", color: "#808080", iconKey: "siNextdotjs" },
         { name: "Vue.js", color: "#4FC08D", iconKey: "siVuedotjs" },
+        { name: "Inertia.js", color: "#9553E9", iconKey: "siInertia" },
+        { name: "Vite", color: "#646CFF", iconKey: "siVite" },
         { name: "Tailwind CSS", color: "#06B6D4", iconKey: "siTailwindcss" },
-        { name: "Flutter", color: "#02569B", iconKey: "siFlutter" },
+        { name: "MUI", color: "#007FFF", iconKey: "siMui" },
       ],
     },
     backend: {
       title: t("skills.backend"),
       skills: [
         { name: "PHP", color: "#777BB4", iconKey: "siPhp" },
-        { name: "Python", color: "#3776AB", iconKey: "siPython" },
         { name: "Laravel", color: "#FF2D20", iconKey: "siLaravel" },
+        { name: "Python", color: "#3776AB", iconKey: "siPython" },
+        { name: "Django", color: "#44B78B", iconKey: "siDjango" },
+        { name: "FastAPI", color: "#009688", iconKey: "siFastapi" },
+        { name: "Node.js", color: "#339933", iconKey: "siNodedotjs" },
+        { name: "NestJS", color: "#E0234E", iconKey: "siNestjs" },
+        { name: ".NET", color: "#512BD4", iconKey: "siDotnet" },
+        { name: "C#", color: "#9B4F96", abbr: "C#" },
+        { name: "Telegram Bots", color: "#26A5E4", iconKey: "siTelegram" },
         { name: "Odoo", color: "#714B67", iconKey: "siOdoo" },
         { name: "WordPress", color: "#21759B", iconKey: "siWordpress" },
-        { name: "Django", color: "#092E20", iconKey: "siDjango" },
-        { name: "FastAPI", color: "#009688", iconKey: "siFastapi" },
-        { name: "NestJS", color: "#E0234E", iconKey: "siNestjs" },
-        { name: "Dart", color: "#0175C2", iconKey: "siDart" },
-        { name: "Firebase", color: "#FFA000", iconKey: "siFirebase" },
-        { name: "Node.js", color: "#339933", iconKey: "siNodedotjs" },
       ],
     },
     tools: {
       title: t("skills.tools"),
       skills: [
+        { name: "PostgreSQL", color: "#4169E1", iconKey: "siPostgresql" },
+        { name: "MySQL", color: "#4479A1", iconKey: "siMysql" },
+        { name: "MariaDB", color: "#4479A1", iconKey: "siMariadb" },
+        { name: "SQL Server", color: "#CC2927", abbr: "SQL" },
+        { name: "SQLite", color: "#0F80CC", iconKey: "siSqlite" },
+        { name: "Redis", color: "#FF4438", iconKey: "siRedis" },
+        { name: "MongoDB", color: "#13AA52", iconKey: "siMongodb" },
         { name: "Docker", color: "#2496ED", iconKey: "siDocker" },
         { name: "Kubernetes", color: "#326CE5", iconKey: "siKubernetes" },
+        { name: "Linux", color: "#FCC624", iconKey: "siLinux" },
         { name: "Git", color: "#F05032", iconKey: "siGit" },
-        { name: "GitHub", color: "#181717", iconKey: "siGithub" },
+        { name: "GitHub", color: "#8b949e", iconKey: "siGithub" },
         { name: "GitHub Actions", color: "#2088FF", iconKey: "siGithubactions" },
         { name: "Postman", color: "#FF6C37", iconKey: "siPostman" },
-        { name: "MySQL", color: "#4479A1", iconKey: "siMysql" },
-        { name: "PostgreSQL", color: "#336791", iconKey: "siPostgresql" },
-        { name: "MongoDB", color: "#13AA52", iconKey: "siMongodb" },
+      ],
+    },
+    mobile: {
+      title: t("skills.mobile"),
+      skills: [
+        { name: "React Native", color: "#61DAFB", iconKey: "siReact" },
+        { name: "Expo", color: "#a78bfa", iconKey: "siExpo" },
+        { name: "TanStack Query", color: "#FF4154", iconKey: "siReactquery" },
+        { name: "Firebase", color: "#FFA000", iconKey: "siFirebase" },
+        { name: "Flutter", color: "#02569B", iconKey: "siFlutter" },
+        { name: "Dart", color: "#0175C2", iconKey: "siDart" },
+        { name: "Tauri", color: "#FFC131", iconKey: "siTauri", learning: true },
+        { name: "Rust", color: "#CE422B", iconKey: "siRust", learning: true },
+      ],
+    },
+    blockchain: {
+      title: t("skills.blockchain"),
+      skills: [
+        { name: "Solidity", color: "#8a92b2", iconKey: "siSolidity", learning: true },
+        { name: "Foundry", color: "#F59E0B", abbr: "FDY", learning: true },
+        { name: "OpenZeppelin", color: "#4E5EE4", iconKey: "siOpenzeppelin", learning: true },
+        { name: "Ethereum", color: "#8c9be8", iconKey: "siEthereum", learning: true },
       ],
     },
   };
@@ -96,14 +160,14 @@ const Skills: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="flex justify-center mb-12"
         >
-          <div className="p-2 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20">
+          <div className="flex flex-wrap justify-center gap-1 p-2 border shadow-lg backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20">
             {Object.entries(skillCategories).map(([key, category]) => (
               <motion.button
                 key={key}
                 onClick={() => setActiveCategory(key)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 mx-1 ${
+                className={`px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl font-semibold transition-all duration-300 ${
                   activeCategory === key
                     ? "bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow-lg"
                     : "text-gray-700 dark:text-gray-300 hover:bg-white/10"
@@ -124,9 +188,7 @@ const Skills: React.FC = () => {
           transition={{ duration: 0.5 }}
           className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4"
         >
-          {skillCategories[
-            activeCategory as keyof typeof skillCategories
-          ].skills.map((skill, index) => (
+          {skillCategories[activeCategory].skills.map((skill, index) => (
             <motion.div
               key={skill.name}
               initial={{ opacity: 0, y: 30 }}
@@ -140,46 +202,39 @@ const Skills: React.FC = () => {
               className="relative group"
               style={{ "--skill-color": skill.color } as React.CSSProperties}
             >
-              <div
-                className="p-6 transition-all duration-300 border shadow-lg cursor-pointer backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20 hover:shadow-2xl hover:border-white/40"
-                data-cursor-hover
+              <GlitchVault
+                className="transition-all duration-300 border shadow-lg cursor-pointer backdrop-blur-xl bg-white/10 dark:bg-gray-900/30 rounded-2xl border-white/20 hover:shadow-2xl hover:border-white/40"
+                contentClassName="p-6 text-center"
+                glitchColor={skill.color}
+                glitchRadius={90}
+                animatedBorder
+                overlay={
+                  <>
+                    {/* Gradient overlay on hover */}
+                    <div
+                      className="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-10 rounded-2xl"
+                      style={{ backgroundColor: "var(--skill-color)" }}
+                    />
+                    {/* Glow effect */}
+                    <div
+                      className="absolute inset-0 transition-all duration-500 opacity-0 group-hover:opacity-20 blur-xl rounded-2xl -z-10"
+                      style={{ backgroundColor: "var(--skill-color)" }}
+                    />
+                  </>
+                }
               >
-                {/* Gradient overlay on hover */}
-                <div
-                  className="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-10 rounded-2xl"
-                  style={{ backgroundColor: "var(--skill-color)" }}
-                />
-
-                {/* Content */}
-                <div className="relative z-10 text-center">
-                  <div className="flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
-                    {(() => {
-                      const iconData = simpleIcons[
-                        skill.iconKey as keyof typeof simpleIcons
-                      ] as any;
-                      return iconData && iconData.path ? (
-                        <svg
-                          className="w-8 h-8"
-                          role="img"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d={iconData.path} fill={skill.color} />
-                        </svg>
-                      ) : null;
-                    })()}
-                  </div>
-                  <h3 className="font-semibold text-gray-800 transition-all duration-300 dark:text-gray-200 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-purple-500 group-hover:bg-clip-text">
-                    {skill.name}
-                  </h3>
+                <div className="flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
+                  <SkillIcon skill={skill} size="lg" />
                 </div>
-
-                {/* Glow effect */}
-                <div
-                  className="absolute inset-0 transition-all duration-500 opacity-0 group-hover:opacity-20 blur-xl rounded-2xl -z-10"
-                  style={{ backgroundColor: "var(--skill-color)" }}
-                />
-              </div>
+                <h3 className="font-semibold text-gray-800 transition-all duration-300 dark:text-gray-200 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-purple-500 group-hover:bg-clip-text">
+                  {skill.name}
+                </h3>
+                {skill.learning && (
+                  <span className="inline-block px-2 py-0.5 mt-2 text-[10px] font-semibold tracking-wider uppercase border border-dashed rounded-full border-purple-400/70 text-purple-400">
+                    {language === "es" ? "Aprendiendo" : "Learning"}
+                  </span>
+                )}
+              </GlitchVault>
             </motion.div>
           ))}
         </motion.div>
@@ -202,25 +257,15 @@ const Skills: React.FC = () => {
             {[...Object.values(skillCategories).flatMap(c => c.skills),
               ...Object.values(skillCategories).flatMap(c => c.skills)].map(
               (skill, index) => {
-                const iconData = simpleIcons[skill.iconKey as keyof typeof simpleIcons] as any;
                 return (
                   <div
                     key={`marquee-${index}`}
                     className="flex flex-col items-center gap-2 flex-shrink-0"
                     title={skill.name}
                   >
-                    {iconData?.path && (
-                      <div className="p-2 border rounded-xl bg-white/5 dark:bg-gray-800/30 border-white/10">
-                        <svg
-                          className="w-6 h-6"
-                          role="img"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d={iconData.path} fill={skill.color} />
-                        </svg>
-                      </div>
-                    )}
+                    <div className="p-2 border rounded-xl bg-white/5 dark:bg-gray-800/30 border-white/10">
+                      <SkillIcon skill={skill} size="sm" />
+                    </div>
                     <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
                       {skill.name}
                     </span>
