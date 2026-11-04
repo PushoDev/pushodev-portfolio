@@ -1,0 +1,13 @@
+{
+  "name": "Luis Guisado (PushoDev) | Desarrollador Fullstack",
+  "short_name": "PushoDev",
+  "description": "Portfolio de Luis Guisado, desarrollador Fullstack.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0a16",
+  "theme_color": "#0b0a16",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

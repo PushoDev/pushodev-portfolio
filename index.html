@@ -14,7 +14,7 @@
   <meta name="keywords"
     content="desarrollador fullstack, Laravel, React, TypeScript, Django, .NET, Expo, Tauri, Solidity, blockchain, trabajo remoto, Cuba, portfolio, luis guisado, pushodev">
   <meta name="description"
-    content="Luis Guisado (PushoDev), desarrollador Fullstack con Laravel, React, TypeScript, Django y .NET. Sistemas en producción, apps con Expo y rumbo a Blockchain. Disponible para trabajo remoto.">
+    content="Luis Guisado (PushoDev): desarrollador Fullstack con Laravel, React, Django y .NET. Sistemas en producción y apps con Expo. Disponible para trabajo remoto.">
   <title>Luis Guisado (PushoDev) | Desarrollador Fullstack</title>
 
   <!-- Open Graph / Facebook -->
@@ -42,21 +42,43 @@
   <meta name="google-site-verification" content="Lqs1FTATx9ELaN8Y-rKOJ_WwKKPpKHqcXIzjikww91c" />
 
   <!-- Theme Color -->
-  <meta name="theme-color" content="#2563eb">
+  <meta name="theme-color" content="#0b0a16" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f6f5fb" media="(prefers-color-scheme: light)">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Luis Alberto Guisado Lavañino",
+    "alternateName": ["Luis Guisado", "PushoDev"],
+    "url": "https://pushodev.vercel.app/",
+    "image": "https://pushodev.vercel.app/og-image.png",
+    "jobTitle": "Desarrollador Fullstack",
+    "description": "Desarrollador Fullstack con Laravel, React, Django y .NET. Sistemas en producción y apps con Expo.",
+    "address": { "@type": "PostalAddress", "addressLocality": "Manzanillo", "addressRegion": "Granma", "addressCountry": "CU" },
+    "knowsAbout": ["Laravel", "React", "TypeScript", "Django", ".NET", "PostgreSQL", "Expo", "Solidity"],
+    "sameAs": [
+      "https://github.com/PushoDev",
+      "https://www.linkedin.com/in/luis-alberto-pushodev/"
+    ]
+  }
+  </script>
 
   <link href="main.css" rel="stylesheet">
   <!-- Meta Verificated -->
   <meta name="facebook-domain-verification" content="1en73vzwboj33cmxsvzxq5j29uj7yb" />
 </head>
-<script>
-  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-    new EventSource('/esbuild').addEventListener('change', () => location.reload())
-  }
-</script>
 
 <body>
   <div id="app"></div>
   <script src="main.js"></script>
+  <script>
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    new EventSource('/esbuild').addEventListener('change', () => location.reload())
+  }
+</script>
 </body>
 
 </html>

@@ -1,7 +1,7 @@
 /**
  * Context for managing language (ES/EN) across the application
  */
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface LanguageContextType {
   language: "es" | "en";
@@ -184,6 +184,23 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [language, setLanguage] = useState<"es" | "en">("es");
+
+  // Keep <html lang>, the tab title and the meta description in the active language
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.title =
+      language === "es"
+        ? "Luis Guisado (PushoDev) | Desarrollador Fullstack"
+        : "Luis Guisado (PushoDev) | Fullstack Developer";
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute(
+        "content",
+        language === "es"
+          ? "Luis Guisado (PushoDev): desarrollador Fullstack con Laravel, React, Django y .NET. Sistemas en producción y apps con Expo. Disponible para trabajo remoto."
+          : "Luis Guisado (PushoDev): Fullstack developer with Laravel, React, Django and .NET. Production systems and Expo apps. Open to remote work."
+      );
+  }, [language]);
 
   const toggleLanguage = () => {
     setLanguage((prev) => (prev === "es" ? "en" : "es"));
