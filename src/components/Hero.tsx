@@ -3,6 +3,7 @@ import { motion, useInView } from 'motion/react';
 import { Github, Linkedin, Twitter, Download, ArrowRight, Calendar, Rocket, Globe2 } from 'lucide-react';
 import TypewriterEffect from './TypewriterEffect';
 import CountUp from './CountUp';
+import SocialDock, { type DockItemData } from './SocialDock';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 import * as simpleIcons from 'simple-icons';
@@ -26,27 +27,36 @@ const TECH = [
   { name: 'TypeScript', key: 'siTypescript', color: '#3178C6' },
   { name: '.NET',       key: 'siDotnet',     color: '#512BD4' },
   { name: 'Tailwind',   key: 'siTailwindcss',color: '#06B6D4' },
+  { name: 'Django',     key: 'siDjango',     color: '#44B78B' },
+  { name: 'PostgreSQL', key: 'siPostgresql', color: '#4169E1' },
+  { name: 'Docker',     key: 'siDocker',     color: '#2496ED' },
+  { name: 'Expo',       key: 'siExpo',       color: '#a78bfa' },
+  { name: 'Tauri',      key: 'siTauri',      color: '#FFC131' },
+  { name: 'Solidity',   key: 'siSolidity',   color: '#8a92b2' },
   { name: 'GitHub',     key: 'siGithub',     color: '#e2e8f0' },
 ];
 
+// Experience counted from my first full-time developer role (2016, per LinkedIn).
+const YEARS_IN_IT = new Date().getFullYear() - 2016;
+
 const STATS = [
-  { value: 40,  suffix: '+', labelEs: 'Proyectos Completados', labelEn: 'Completed Projects',  icon: '</>' },
-  { value: 20,  suffix: '+', labelEs: 'Clientes Felices',      labelEn: 'Happy Clients',        icon: '◎'  },
-  { value: 80,  suffix: '+', labelEs: 'Invitaciones de Café',  labelEn: 'Coffee Invitations',   icon: '☕' },
-  { value: 100, suffix: '%', labelEs: 'Pasión por lo que hago',labelEn: 'Passion for my work',  icon: '★'  },
+  { value: YEARS_IN_IT, suffix: '',  labelEs: 'Años como Desarrollador',    labelEn: 'Years as a Developer',           icon: '</>' },
+  { value: 3,           suffix: '',  labelEs: 'Sistemas en Producción',     labelEn: 'Systems in Production',  icon: '◎'  },
+  { value: 20,          suffix: '+', labelEs: 'Clientes Felices',           labelEn: 'Happy Clients',          icon: '◎'  },
+  { value: 100,         suffix: '%', labelEs: 'Pasión por lo que hago',     labelEn: 'Passion for my work',    icon: '★'  },
 ];
 
 const CARDS = [
-  { labelEs: 'DISPONIBLE PARA', subEs: 'FREELANCE',     labelEn: 'AVAILABLE FOR',  subEn: 'FREELANCE',  dot: '#22d3ee', icon: null,    top: '4%',  right: '2%'  },
-  { labelEs: 'EXPERIENCIA',     subEs: '5+ AÑOS',        labelEn: 'EXPERIENCE',     subEn: '5+ YEARS',   dot: '#a78bfa', icon: 'cal',   top: '21%', right: '-2%' },
-  { labelEs: 'PROYECTOS',       subEs: '40+ COMPLETADOS',labelEn: 'PROJECTS',       subEn: '40+ DONE',   dot: '#f472b6', icon: 'rocket',top: '38%', right: '-2%' },
-  { labelEs: 'TRABAJANDO',      subEs: 'GLOBALMENTE',    labelEn: 'WORKING',        subEn: 'GLOBALLY',   dot: '#34d399', icon: 'globe', top: '55%', right: '2%'  },
+  { labelEs: 'DISPONIBLE PARA', subEs: 'TRABAJO REMOTO', labelEn: 'OPEN TO',        subEn: 'REMOTE WORK', dot: '#22d3ee', icon: null,    top: '4%',  right: '2%'  },
+  { labelEs: 'EXPERIENCIA',     subEs: 'DESDE 2016',      labelEn: 'EXPERIENCE',     subEn: 'SINCE 2016',  dot: '#a78bfa', icon: 'cal',   top: '21%', right: '-2%' },
+  { labelEs: 'EN PRODUCCIÓN',   subEs: '3 SISTEMAS',     labelEn: 'IN PRODUCTION',  subEn: '3 SYSTEMS',   dot: '#f472b6', icon: 'rocket',top: '38%', right: '-2%' },
+  { labelEs: 'TRABAJANDO',      subEs: 'GLOBALMENTE',    labelEn: 'WORKING',        subEn: 'GLOBALLY',    dot: '#34d399', icon: 'globe', top: '55%', right: '2%'  },
 ];
 
-const SOCIAL = [
-  { icon: Github,   href: 'https://github.com/PushoDev',                   label: 'GitHub'   },
-  { icon: Linkedin, href: 'https://www.linkedin.com/in/luis-alberto-pushodev/', label: 'LinkedIn' },
-  { icon: Twitter,  href: 'https://x.com/luisguisado1990',                                              label: 'Twitter'  },
+const SOCIAL: DockItemData[] = [
+  { icon: Github,   url: 'https://github.com/PushoDev',                        name: 'GitHub',   hoverColor: 'text-gray-900 dark:text-white' },
+  { icon: Linkedin, url: 'https://www.linkedin.com/in/luis-alberto-pushodev/', name: 'LinkedIn', hoverColor: 'text-blue-400' },
+  { icon: Twitter,  url: 'https://x.com/luisguisado1990',                      name: 'X',        hoverColor: 'text-cyan-400' },
 ];
 
 /* ─── component ───────────────────────────────────────────────────────── */
@@ -74,8 +84,8 @@ const Hero: React.FC = () => {
   };
 
   const roles = language === 'es'
-    ? ['Full Stack Developer', 'Laravel Specialist', 'React Developer', 'Backend Architect', 'Software Engineer']
-    : ['Full Stack Developer', 'Laravel Specialist', 'React Developer', 'Backend Architect', 'Software Engineer'];
+    ? ['Full Stack Developer', 'Laravel & React', 'Apps móviles con Expo', 'Backend Architect', 'Rumbo a Blockchain']
+    : ['Full Stack Developer', 'Laravel & React', 'Mobile apps with Expo', 'Backend Architect', 'Heading to Blockchain'];
 
   return (
     <section
@@ -167,7 +177,7 @@ const Hero: React.FC = () => {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500" />
                 </span>
                 <span className="text-xs font-bold tracking-[0.2em] text-pink-400 uppercase">
-                  {language === 'es' ? 'Disponible para Freelance' : 'Available for Freelance'}
+                  {language === 'es' ? 'Disponible para trabajo remoto' : 'Open to remote work'}
                 </span>
               </motion.div>
 
@@ -211,11 +221,11 @@ const Hero: React.FC = () => {
                 className={`leading-relaxed max-w-lg text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}
               >
                 {language === 'es'
-                  ? <>Desarrollo aplicaciones web modernas y escalables utilizando Laravel, React, TypeScript y .NET. Transformo ideas en productos digitales{' '}
+                  ? <>Construyo sistemas completos con Laravel, React, TypeScript, Django y .NET, y los mantengo en producción. Ahora sumo apps móviles con Expo, escritorio con Tauri y contratos inteligentes con Solidity. Productos digitales{' '}
                       <span className="text-cyan-400 font-medium">rápidos</span>,{' '}
                       <span className="text-purple-400 font-medium">seguros</span>{' '}
                       y <span className="text-pink-400 font-medium">atractivos</span>.</>
-                  : <>I build modern and scalable web applications using Laravel, React, TypeScript and .NET. I transform ideas into digital products that are{' '}
+                  : <>I build complete systems with Laravel, React, TypeScript, Django and .NET, and keep them running in production. Now I'm adding mobile apps with Expo, desktop with Tauri and smart contracts with Solidity. Digital products that are{' '}
                       <span className="text-cyan-400 font-medium">fast</span>,{' '}
                       <span className="text-purple-400 font-medium">secure</span>{' '}
                       and <span className="text-pink-400 font-medium">attractive</span>.</>
@@ -432,22 +442,7 @@ const Hero: React.FC = () => {
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.9, duration: 0.5 }}
               >
-                {SOCIAL.map(({ icon: Icon, href, label }) => (
-                  <motion.a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    whileHover={{ scale: 1.15, boxShadow: '0 0 16px rgba(139,92,246,0.6)' }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`flex items-center justify-center w-9 h-9 rounded-full transition-colors ${isDark ? 'border border-white/10 text-gray-400 hover:text-white' : 'border border-black/10 text-gray-500 hover:text-gray-800'}`}
-                    style={{ background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' }}
-                    data-cursor-hover
-                  >
-                    <Icon className="w-4 h-4" />
-                  </motion.a>
-                ))}
+                <SocialDock items={SOCIAL} baseSize={38} maxSize={54} />
               </motion.div>
             </motion.div>
           </div>

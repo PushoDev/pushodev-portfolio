@@ -5,30 +5,31 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Github, Linkedin, ExternalLink, Heart, Coffee } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import SocialDock, { type DockItemData } from './SocialDock';
 
 const Footer: React.FC = () => {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
   const isAvailable = true; // Cambia esto según tu disponibilidad
 
-  const socialLinks = [
+  const socialLinks: DockItemData[] = [
     {
       name: 'GitHub',
       url: 'https://github.com/PushoDev',
       icon: Github,
-      color: 'hover:text-gray-400'
+      hoverColor: 'text-gray-900 dark:text-white'
     },
     {
       name: 'LinkedIn',
       url: 'https://www.linkedin.com/in/luis-alberto-pushodev/',
       icon: Linkedin,
-      color: 'hover:text-blue-400'
+      hoverColor: 'text-blue-400'
     },
     {
       name: 'Blog',
       url: 'https://puschoft.blogspot.com/',
       icon: ExternalLink,
-      color: 'hover:text-orange-400'
+      hoverColor: 'text-orange-400'
     }
   ];
 
@@ -73,22 +74,7 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
               Conectemos
             </h3>
-            <div className="flex justify-center space-x-6">
-              {socialLinks.map((social) => (
-                <motion.a
-                  key={social.name}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.2, y: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`w-12 h-12 rounded-full bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-gray-600 dark:text-gray-300 ${social.color} transition-all duration-300 shadow-lg hover:shadow-xl hover:border-white/40`}
-                  data-cursor-hover
-                >
-                  <social.icon className="w-5 h-5" />
-                </motion.a>
-              ))}
-            </div>
+            <SocialDock items={socialLinks} className="mx-auto w-fit" />
           </motion.div>
 
           {/* Right - Fun Stats or Quote */}
