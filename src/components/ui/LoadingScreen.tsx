@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
+import badge from '@/imgs/pusho-badge-sm.png';
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -28,12 +29,28 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
         style={{ background: 'radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%)' }}
       />
 
+      {/* Brand badge */}
+      <motion.img
+        src={badge}
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+        initial={{ opacity: 0, scale: 0.8, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+        transition={{
+          opacity: { duration: 0.5 },
+          scale: { duration: 0.5, ease: 'easeOut' },
+          y: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' },
+        }}
+        className="relative w-28 h-28 mb-6 select-none sm:w-32 sm:h-32"
+      />
+
       {/* Logo */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="relative mb-12 font-mono font-black text-transparent bg-gradient-to-r from-purple-500 via-cyan-400 to-purple-500 bg-clip-text select-none"
+        className="relative mb-10 font-mono font-black text-transparent bg-gradient-to-r from-purple-500 via-cyan-400 to-purple-500 bg-clip-text select-none"
         style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)' }}
       >
         &lt;Pushodev /&gt;

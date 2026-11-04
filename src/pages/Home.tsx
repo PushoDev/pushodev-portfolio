@@ -6,6 +6,7 @@ import AuroraBackground from '../components/AuroraBackground';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import Skills from '../components/Skills';
+import OwnProducts from '../components/OwnProducts';
 import Projects from '../components/Projects';
 import About from '../components/About';
 import Blockchain from '../components/Blockchain';
@@ -52,6 +53,7 @@ const Home: React.FC = () => {
             </div>
 
             <Skills />
+            <OwnProducts />
             <Projects />
             <About />
             <Blockchain />

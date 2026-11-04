@@ -7,6 +7,7 @@ import { motion } from 'motion/react';
 import { ArrowRight, Coffee, ExternalLink, Github, Heart, Linkedin, Mail } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import SocialDock, { type DockItemData } from './SocialDock';
+import badge from '@/imgs/pusho-badge-sm.png';
 
 const CONTACT_EMAIL = 'bethocubans1990@gmail.com';
 
@@ -50,8 +51,19 @@ const Footer: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="text-center md:text-left"
           >
-            <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent mb-4">
-              &lt;Pusho.dev /&gt;
+            <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
+              <img
+                src={badge}
+                alt="PushoDev"
+                width={56}
+                height={56}
+                loading="lazy"
+                draggable={false}
+                className="w-14 h-14 select-none"
+              />
+              <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+                &lt;Pusho.dev /&gt;
+              </div>
             </div>
 
             <div className="flex items-center justify-center md:justify-start space-x-2 mb-4">
