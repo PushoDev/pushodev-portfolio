@@ -170,7 +170,7 @@ const Hero: React.FC = () => {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500" />
                 </span>
                 <span className="text-xs font-bold tracking-[0.2em] text-pink-400 uppercase">
-                  {language === 'es' ? 'Disponible para trabajo remoto' : 'Open to remote work'}
+                  {language === 'es' ? 'Disponible para trabajo remoto · zona horaria a negociar' : 'Open to remote work · time zone negotiable'}
                 </span>
               </motion.div>
 

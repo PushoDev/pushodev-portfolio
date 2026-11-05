@@ -6,6 +6,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Coffee, ExternalLink, Github, Heart, Linkedin, Mail } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import VisitCounter from './VisitCounter';
 import SocialDock, { type DockItemData } from './SocialDock';
 import badge from '@/imgs/pusho-badge-sm.png';
 
@@ -160,6 +161,7 @@ const Footer: React.FC = () => {
             <span>© {currentYear} Luis Alberto Guisado - Pusho.dev.</span>
             <span>{t('footer.rights')}</span>
             <Heart className="w-4 h-4 text-red-400 animate-pulse" />
+            <VisitCounter />
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-gray-500 dark:text-gray-400">

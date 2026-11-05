@@ -126,7 +126,7 @@ const Projects: React.FC = () => {
       category: "web",
       status: "production",
       glow: "#F5A623",
-      demo: "https://golfitoshop.com",
+      demo: "https://golfitoshop.posglorietashop.com",
       featured: true,
       isPublic: false,
     },

@@ -67,8 +67,8 @@ const Contact: React.FC = () => {
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">
             {es
-              ? "¿Tienes un proyecto o una oportunidad en mente? Escríbeme con el formulario, por correo o por WhatsApp. Estoy disponible para trabajo remoto y respondo rápido."
-              : "Have a project or an opportunity in mind? Use the form, or message me by email or WhatsApp. I'm open to remote work and reply quickly."}
+              ? "¿Tienes un proyecto o una oportunidad en mente? Escríbeme con el formulario, por correo o por WhatsApp. Estoy disponible para trabajo remoto y me adapto al horario de tu equipo. Respondo rápido."
+              : "Have a project or an opportunity in mind? Use the form, or message me by email or WhatsApp. I'm open to remote work and happy to adapt to your team's time zone. I reply quickly."}
           </p>
         </motion.div>
 
@@ -115,7 +115,7 @@ const Contact: React.FC = () => {
                   icon: MapPin,
                   grad: "from-pink-500 to-orange-500",
                   label: es ? "Ubicación" : "Location",
-                  value: es ? "Granma, Cuba · Trabajo remoto" : "Granma, Cuba · Remote work",
+                  value: es ? "Granma, Cuba · Remoto · Zona horaria a negociar (UTC-5)" : "Granma, Cuba · Remote · Time zone negotiable (UTC-5)",
                   href: undefined,
                 },
               ].map(({ icon: Icon, grad, label, value, href }) => {

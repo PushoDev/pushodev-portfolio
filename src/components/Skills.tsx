@@ -91,6 +91,7 @@ const Skills: React.FC = () => {
         { name: "Redis", color: "#FF4438", iconKey: "siRedis" },
         { name: "MongoDB", color: "#13AA52", iconKey: "siMongodb" },
         { name: "Docker", color: "#2496ED", iconKey: "siDocker" },
+        { name: "Podman", color: "#892CA0", iconKey: "siPodman" },
         { name: "Kubernetes", color: "#326CE5", iconKey: "siKubernetes" },
         { name: "Linux", color: "#FCC624", iconKey: "siLinux" },
         { name: "Git", color: "#F05032", iconKey: "siGit" },

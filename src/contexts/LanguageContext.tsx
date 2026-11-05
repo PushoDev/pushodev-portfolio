@@ -183,11 +183,27 @@ const translations = {
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [language, setLanguage] = useState<"es" | "en">("es");
+  const [language, setLanguage] = useState<"es" | "en">(() => {
+    try {
+      const saved = localStorage.getItem("lang");
+      if (saved === "es" || saved === "en") return saved;
+    } catch {
+      /* storage unavailable */
+    }
+    // First visit: Spanish only if the browser prefers it, English otherwise
+    return (navigator.language || "en").toLowerCase().startsWith("es")
+      ? "es"
+      : "en";
+  });
 
   // Keep <html lang>, the tab title and the meta description in the active language
   useEffect(() => {
     document.documentElement.lang = language;
+    try {
+      localStorage.setItem("lang", language);
+    } catch {
+      /* storage unavailable */
+    }
     document.title =
       language === "es"
         ? "Luis Guisado (PushoDev) | Desarrollador Fullstack"
