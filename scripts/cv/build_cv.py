@@ -47,12 +47,12 @@ DATA = {
           ('IA y automatización', 'Bots de Telegram, chatbots, IA generativa'),
           ('Web3 (en aprendizaje)', 'Solidity, Foundry, OpenZeppelin')],
   exp=[
-   ('GIAvantech Softwares', 'Programador full stack', 'Sep 2026 – Presente', 'Joinville, Brasil · Remoto', [
+   ('GIAvantech Softwares', 'Programador full stack (tiempo parcial)', 'Desde Sep 2026', 'Joinville, Brasil · Remoto', [
      'Desarrollo frontend y backend con React, Node.js, Django y PostgreSQL.',
      'Diseño e integración de APIs REST y servicios orientados a microservicios.',
      'Integración de IA generativa y automatización de flujos con agentes y bots de Telegram.',
      'Mantenimiento y evolución de aplicaciones web en producción, con foco en rendimiento y seguridad.']),
-   ('Innovasoft Colombia', 'Programador full stack', 'Feb 2026 – Mar 2026', 'Remoto', [
+   ('Innovasoft Colombia', 'Programador full stack','Feb 2026 – Mar 2026', 'Remoto', [
      'Componentes React integrados con la API y soporte de servicios .NET 5 con lógica de negocio en procedimientos almacenados de SQL Server (T-SQL).',
      'Trabajo con un equipo distribuido en Latinoamérica.']),
    ('Hospital Celia Sánchez Manduley', 'Ingeniero de software', 'Feb 2024 – Oct 2026', 'Manzanillo, Cuba', [
@@ -64,9 +64,10 @@ DATA = {
      'Sistemas completos para clientes privados: ERP/POS multi-almacén y marketplace en producción con Laravel y React, y tienda en línea con Next.js.',
      'Apps móviles con React Native y Expo (en desarrollo) y proyectos con Django y WordPress.',
      'Asesoría técnica y académica a estudiantes de tesis y maestría.']),
-   ('Sistemas de Infraestructura Institucional', 'Desarrollador de software', 'Ago 2016 – Mar 2024', 'Manzanillo, Cuba', [
-     'Refactorización de plataformas monolíticas heredadas hacia sistemas web mantenibles.',
-     'Desarrollo de backend escalable con soporte seguro de alta concurrencia.'])],
+   ('Ministerio de Salud · Policlínico', 'Desarrollador de software', 'Nov 2016 – Ene 2024', 'Cuba', [
+     'Desarrollo y mantenimiento de sistemas internos para el sector salud, incluido software educativo a medida.',
+     'Durante la COVID, análisis de datos en Excel automatizado con macros y VBA.',
+     'Participación en la modernización de plataformas institucionales y sistemas de datos.'])],
   prev=[('Ministerio de Educación', 'Instructor de informática', '2011 – 2014', 'Informática, Microsoft Office y Visual Basic; formación de estudiantes avanzados.'),
         ('Ministerio de Salud', 'Desarrollador de software (prácticas)', '2008 – 2010', 'Prácticas laborales tras graduarme del IPI Rubén Bravo Álvarez.')],
   proj=[('GolfitoShop (fundador)', 'Marketplace local en producción: panel de proveedor y administración, anuncios por zona, membresías, bot de Telegram y API v1 para apps móviles. Laravel, React, Inertia, PostgreSQL.'),
@@ -90,12 +91,12 @@ DATA = {
           ('AI & automation', 'Telegram bots, chatbots, generative AI'),
           ('Web3 (learning)', 'Solidity, Foundry, OpenZeppelin')],
   exp=[
-   ('GIAvantech Softwares', 'Full stack developer', 'Sep 2026 – Present', 'Joinville, Brazil · Remote', [
+   ('GIAvantech Softwares', 'Full stack developer (part-time)', 'Since Sep 2026', 'Joinville, Brazil · Remote', [
      'Frontend and backend development with React, Node.js, Django and PostgreSQL.',
      'Design and integration of REST APIs and microservice-oriented services.',
      'Integration of generative AI and workflow automation through agents and Telegram bots.',
      'Maintenance and evolution of production web applications, focused on performance and security.']),
-   ('Innovasoft Colombia', 'Full stack developer', 'Feb 2026 – Mar 2026', 'Remote', [
+   ('Innovasoft Colombia', 'Full stack developer','Feb 2026 – Mar 2026', 'Remote', [
      'React components integrated with the API, and support for .NET 5 services with business logic in SQL Server stored procedures (T-SQL).',
      'Worked with a team distributed across Latin America.']),
    ('Hospital Celia Sánchez Manduley', 'Software engineer', 'Feb 2024 – Oct 2026', 'Manzanillo, Cuba', [
@@ -107,9 +108,10 @@ DATA = {
      'End-to-end systems for private clients: a multi-warehouse ERP/POS and a marketplace in production with Laravel and React, plus an online store with Next.js.',
      'Mobile apps with React Native and Expo (in development) and projects with Django and WordPress.',
      'Technical and academic advising for thesis and master\'s students.']),
-   ('Sistemas de Infraestructura Institucional', 'Software developer', 'Aug 2016 – Mar 2024', 'Manzanillo, Cuba', [
-     'Refactored legacy monolithic platforms into maintainable web systems.',
-     'Developed scalable backend solutions with safe support for high concurrency.'])],
+   ('Ministry of Health · Polyclinic', 'Software developer', 'Nov 2016 – Jan 2024', 'Cuba', [
+     'Developed and maintained internal systems for the health sector, including custom educational software.',
+     'During the COVID period, built Excel-based data analysis automated with macros and VBA.',
+     'Took part in the modernization of institutional platforms and data systems.'])],
   prev=[('Ministry of Education', 'IT instructor', '2011 – 2014', 'Computer science, Microsoft Office and Visual Basic; trained advanced students.'),
         ('Ministry of Health', 'Software developer (internship)', '2008 – 2010', 'Work placement after graduating from IPI Rubén Bravo Álvarez.')],
   proj=[('GolfitoShop (founder)', 'Local marketplace in production: provider and admin panel, zone-based ads, memberships, Telegram bot and an API v1 for mobile apps. Laravel, React, Inertia, PostgreSQL.'),
