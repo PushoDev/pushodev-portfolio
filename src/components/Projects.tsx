@@ -18,6 +18,7 @@ import gestoremImg from "@/imgs/projects/gestorem.jpg";
 import droneMedImg from "@/imgs/projects/drone-med.jpg";
 import blogCulturalImg from "@/imgs/projects/blog-cultural.jpg";
 import reReImg from "@/imgs/projects/re-re-remesas.jpg";
+import gestorTareasImg from "@/imgs/projects/gestor-tareas.jpg";
 import golfitoshopAppsImg from "@/imgs/projects/golfitoshop-apps.jpg";
 import dayclosureImg from "@/imgs/projects/dayclosure.jpg";
 import {
@@ -175,6 +176,23 @@ const Projects: React.FC = () => {
       glow: "#FFC131",
       featured: true,
       isPublic: false,
+    },
+    {
+      id: 14,
+      title: "Gestor de Tareas — React + Express (TypeScript)",
+      description:
+        "Prueba técnica entregada y aprobada: gestor de tareas con API REST en Express y SQLite, y frontend en React con TypeScript. Validación en cliente y servidor con Zod, errores con formato único, filtro por estado, notificaciones y colores por estado. 73 tests verificados con pruebas de mutación, y se levanta con un solo comando con Podman o Docker Compose. La demo en línea usa datos de ejemplo que se reinician; la imagen de portada es una ilustración conceptual.",
+      descriptionEn:
+        "Delivered and approved technical test: task manager with a REST API on Express and SQLite, and a React + TypeScript frontend. Client- and server-side validation with Zod, a single error format, status filtering, notifications and status colours. 73 tests verified with mutation testing, and it starts with a single command using Podman or Docker Compose. The live demo uses sample data that resets; the cover image is a conceptual illustration.",
+      image: gestorTareasImg,
+      technologies: ["Express", "Node.js", "React", "TypeScript", "SQLite", "Zod", "Vitest", "Podman"],
+      category: "web",
+      status: "completed",
+      glow: "#61DAFB",
+      github: "https://github.com/PushoDev/qabit-tareas",
+      demo: "https://qabit-tareas.vercel.app/",
+      featured: true,
+      isPublic: true,
     },
     {
       id: 11,

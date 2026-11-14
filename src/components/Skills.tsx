@@ -72,6 +72,7 @@ const Skills: React.FC = () => {
         { name: "Django", color: "#44B78B", iconKey: "siDjango" },
         { name: "FastAPI", color: "#009688", iconKey: "siFastapi" },
         { name: "Node.js", color: "#339933", iconKey: "siNodedotjs" },
+        { name: "Express", color: "#808080", iconKey: "siExpress" },
         { name: "NestJS", color: "#E0234E", iconKey: "siNestjs" },
         { name: ".NET", color: "#512BD4", iconKey: "siDotnet" },
         { name: "C#", color: "#9B4F96", abbr: "C#" },
